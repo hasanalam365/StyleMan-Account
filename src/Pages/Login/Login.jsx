@@ -1,8 +1,29 @@
 import { MdOutlineMailOutline } from "react-icons/md";
 import { RiLockPasswordLine } from "react-icons/ri";
 import { Link } from "react-router-dom";
+import useAuth from "../../Hooks/useAuth";
 
 const Login = () => {
+
+    const { signInUser } = useAuth()
+
+    const handleLogin = (e) => {
+        e.preventDefault()
+        const form = e.target
+        const email = form.email.value
+        const password = form.password.value
+
+        // console.log(email, password)
+
+        signInUser(email, password)
+            .then(result => {
+                console.log(result.user)
+            })
+            .catch(err => {
+                console.log(err.message)
+            })
+    }
+
     return (
         <div className=" min-h-screen bg-base-200">
             <div className=" flex-col ">
@@ -11,13 +32,13 @@ const Login = () => {
 
                 </div>
                 <div className="card shrink-0   shadow-2xl bg-base-100 h-max w-[400px] mx-auto">
-                    <form className="card-body">
+                    <form onSubmit={handleLogin} className="card-body">
                         <div className="form-control">
                             <span className="mb-2">Email</span>
                             <label className="input input-bordered flex items-center gap-2 ">
                                 <MdOutlineMailOutline className="text-xl " />
 
-                                <input type="text" className="grow" placeholder="email" />
+                                <input type="text" className="grow" name="email" placeholder="email" />
                             </label>
                         </div>
                         <div className="form-control">
@@ -25,7 +46,8 @@ const Login = () => {
                             <label className="input input-bordered flex items-center gap-2 ">
                                 <RiLockPasswordLine className="text-xl" />
 
-                                <input type="text" className="grow" placeholder="password" />
+                                <input type="password" className="grow"
+                                    name="password" placeholder="password" />
                             </label>
                             <label className="label">
                                 <a href="#" className="label-text-alt link link-hover">Forgot password?</a>

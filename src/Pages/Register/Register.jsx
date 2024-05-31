@@ -67,7 +67,7 @@ const Register = () => {
         //signUp User
         signUpUser(email, password)
             .then(result => {
-                console.log(result.user)
+                // console.log(result.user)
                 if (result.user) {
                     alert('regis done')
                 }
