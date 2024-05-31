@@ -2,19 +2,24 @@ import { Link } from "react-router-dom";
 import { Field, Label, Select } from '@headlessui/react'
 import { FaAngleDown } from "react-icons/fa6";
 import clsx from 'clsx'
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
+import useAuth from "../../Hooks/useAuth";
+// import axios from "axios";
+// import useAxiosPublic from "../../Hooks/useAxiosPublic";
 
 
-
+// const image_hosting_key = import.meta.env.VITE_IMAGE_HOST_KEY
+// const image_hosting_api = `https://api.imgbb.com/1/upload?key=${image_hosting_key}`
 
 
 const Register = () => {
 
+    const { signUpUser } = useAuth()
+
     const [districts = [], setDistricts] = useState()
     const [upazilas = [], setUpazilas] = useState()
     const [errorText, setErrorText] = useState()
-
-
+    // const axiosPublic = useAxiosPublic()
 
     // fetch Districts data
     useEffect(() => {
@@ -42,12 +47,12 @@ const Register = () => {
     // console.log(upazilas)
 
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault()
         const form = e.target
         const name = form.name.value;
         const email = form.email.value;
-        const photo = form.photo.value;
+        const photo = form.photo.files;
         const bloodGroup = form.bloodGroup.value;
         const district = form.district.value;
         const upazila = form.upazila.value;
@@ -59,8 +64,36 @@ const Register = () => {
 
         }
 
+        //signUp User
+        signUpUser(email, password)
+            .then(result => {
+                console.log(result.user)
+                if (result.user) {
+                    alert('regis done')
+                }
+            })
+            .catch(err => {
+                console.log(err.message)
+            })
+
+
+        //image upload
+        // const imageFile = { image: photo[0] }
+        // const res = await axios.post(image_hosting_api, imageFile, {
+        //     headers: {
+        //         'content-type': 'multipart/form-data'
+        //     }
+        // })
+        // console.log(res.data)
+
+
+
+        // console.log('imagefFIle', photo[0].name)
+
+
+
         const submitForm = { name, email, photo, bloodGroup, district, upazila, password }
-        console.table(submitForm)
+        console.log(submitForm)
 
     }
 
