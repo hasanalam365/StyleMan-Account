@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Field, Label, Select } from '@headlessui/react'
 import { FaAngleDown } from "react-icons/fa6";
 import clsx from 'clsx'
@@ -14,11 +14,12 @@ import useAuth from "../../Hooks/useAuth";
 
 const Register = () => {
 
-    const { signUpUser } = useAuth()
+    const { signUpUser, updateUser } = useAuth()
 
     const [districts = [], setDistricts] = useState()
     const [upazilas = [], setUpazilas] = useState()
     const [errorText, setErrorText] = useState()
+    const navigate = useNavigate()
     // const axiosPublic = useAxiosPublic()
 
     // fetch Districts data
@@ -52,7 +53,8 @@ const Register = () => {
         const form = e.target
         const name = form.name.value;
         const email = form.email.value;
-        const photo = form.photo.files;
+        // const photo = form.photo.files;
+        const photo = form.photo.value;
         const bloodGroup = form.bloodGroup.value;
         const district = form.district.value;
         const upazila = form.upazila.value;
@@ -67,13 +69,20 @@ const Register = () => {
         //signUp User
         signUpUser(email, password)
             .then(result => {
-                // console.log(result.user)
                 if (result.user) {
-                    alert('regis done')
+                    // toast("Registration Successfully!")
                 }
+
+                updateUser(name, photo)
+                    .then(() => {
+
+
+                        navigate('/login')
+                    })
+
             })
-            .catch(err => {
-                console.log(err.message)
+            .catch(error => {
+                console.log(error.message)
             })
 
 
@@ -123,7 +132,7 @@ const Register = () => {
                             <label className="label">
                                 <span className="label-text">Photo</span>
                             </label>
-                            <input type="file" placeholder="Photo" name='photo' className="" required />
+                            <input type="text" placeholder="Photo" name='photo' className="" required />
 
                         </div>
                         {/* blood group */}

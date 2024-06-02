@@ -1,6 +1,10 @@
 import { NavLink } from "react-router-dom";
+import useAuth from "../../../Hooks/useAuth";
 
 const Navbar = () => {
+
+    const { user } = useAuth()
+
 
     const navLinks = <>
         <NavLink>Donation Requests</NavLink>
@@ -29,6 +33,7 @@ const Navbar = () => {
                     <ul tabIndex={0} className="mt-3 z-[1] p-2 shadow menu menu-sm dropdown-content bg-base-100 rounded-box w-52">
 
                         <li><a>Dashboard</a></li>
+                        <li><a>{user?.displayName}</a></li>
                         <li><a>Logout</a></li>
                     </ul>
                 </div>
