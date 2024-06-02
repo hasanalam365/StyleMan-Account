@@ -7,6 +7,7 @@ import useAuth from "../../Hooks/useAuth";
 // import axios from "axios";
 import useAxiosPublic from "../../Hooks/useAxiosPublic";
 import { toast } from "react-toastify";
+import { Result } from "postcss";
 
 
 const image_hosting_key = import.meta.env.VITE_IMAGE_HOST_KEY
@@ -15,7 +16,7 @@ const image_hosting_api = `https://api.imgbb.com/1/upload?key=${image_hosting_ke
 
 const Register = () => {
 
-    const { signUpUser, updateUser } = useAuth()
+    const { signUpUser, updateUser, signOutUser } = useAuth()
 
     const [districts = [], setDistricts] = useState()
     const [upazilas = [], setUpazilas] = useState()
@@ -78,15 +79,15 @@ const Register = () => {
 
         //signUp User
         signUpUser(email, password)
-            .then(result => {
-                if (result.user) {
+            .then((result) => {
+
+                if (result) {
                     toast.success("Registration Successfully!")
                 }
-
                 updateUser(name, res.data.data.display_url)
                     .then(() => {
 
-
+                        signOutUser()
                         navigate('/login')
                     })
 

@@ -1,9 +1,10 @@
 import { NavLink } from "react-router-dom";
 import useAuth from "../../../Hooks/useAuth";
 
+
 const Navbar = () => {
 
-    const { user, loading } = useAuth()
+    const { user, signOutUser } = useAuth()
     // console.log(user)
 
     const navLinks = <>
@@ -14,10 +15,11 @@ const Navbar = () => {
 
     </>
 
-    if (loading) {
-        return <span>Loading......</span>
-    }
 
+
+    const handleLogOut = () => {
+        signOutUser()
+    }
     return (
         <div className="navbar justify-between bg-base-100 ">
             <div className="">
@@ -31,14 +33,20 @@ const Navbar = () => {
                 <div className="dropdown dropdown-end">
                     <div tabIndex={0} role="button" className="btn btn-ghost btn-circle avatar">
                         <div className="w-10 rounded-full">
-                            <img alt="Tailwind CSS Navbar component" src={user?.photoURL} />
+                            {user ? <img alt="Tailwind CSS Navbar component" src={user?.photoURL} />
+                                :
+                                <img alt="Tailwind CSS Navbar component" src="https://i.ibb.co/SrnSbVj/user-profile-login-avatar-heroes-user-blue-icons-circle-symbol-logo-thumbnail.png" />
+                            }
+
                         </div>
                     </div>
                     <ul tabIndex={0} className="mt-3 z-[1] p-2 shadow menu menu-sm dropdown-content bg-base-100 rounded-box w-52">
 
                         <li><a>Dashboard</a></li>
                         <li><a>{user?.displayName}</a></li>
-                        <li><a>Logout</a></li>
+                        <li>
+                            <button onClick={handleLogOut}><a>Logout</a></button>
+                        </li>
                     </ul>
                 </div>
             </div>
