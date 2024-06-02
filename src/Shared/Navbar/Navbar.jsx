@@ -1,5 +1,5 @@
-import { NavLink } from "react-router-dom";
-import useAuth from "../../../Hooks/useAuth";
+import { Link, NavLink } from "react-router-dom";
+import useAuth from "../../Hooks/useAuth";
 
 
 const Navbar = () => {
@@ -8,10 +8,14 @@ const Navbar = () => {
     // console.log(user)
 
     const navLinks = <>
+        <NavLink to="/">Home</NavLink>
         <NavLink>Donation Requests</NavLink>
         <NavLink>Blog</NavLink>
         <NavLink to="/login">Login</NavLink>
-        <NavLink to="/register">Register</NavLink>
+        {
+            user && <NavLink to="/">Fundings</NavLink>
+
+        }
 
     </>
 
@@ -22,9 +26,9 @@ const Navbar = () => {
     }
     return (
         <div className="navbar justify-between bg-base-100 ">
-            <div className="">
-                <a className="text-xl font-semibold">Red<span className="text-red-600">Drop</span></a>
-            </div>
+            <Link to='/'>
+                <a className="text-3xl font-semibold">Red<span className="text-red-600">Drop</span></a>
+            </Link>
             <div className="flex gap-5 font-semibold">
                 {navLinks}
             </div>
@@ -43,7 +47,7 @@ const Navbar = () => {
                     <ul tabIndex={0} className="mt-3 z-[1] p-2 shadow menu menu-sm dropdown-content bg-base-100 rounded-box w-52">
 
                         <li><a>Dashboard</a></li>
-                        <li><a>{user?.displayName}</a></li>
+
                         <li>
                             <button onClick={handleLogOut}><a>Logout</a></button>
                         </li>
