@@ -5,11 +5,12 @@ import clsx from 'clsx'
 import { useContext, useEffect, useState } from "react";
 import useAuth from "../../Hooks/useAuth";
 // import axios from "axios";
-// import useAxiosPublic from "../../Hooks/useAxiosPublic";
+import useAxiosPublic from "../../Hooks/useAxiosPublic";
+import { toast } from "react-toastify";
 
 
-// const image_hosting_key = import.meta.env.VITE_IMAGE_HOST_KEY
-// const image_hosting_api = `https://api.imgbb.com/1/upload?key=${image_hosting_key}`
+const image_hosting_key = import.meta.env.VITE_IMAGE_HOST_KEY
+const image_hosting_api = `https://api.imgbb.com/1/upload?key=${image_hosting_key}`
 
 
 const Register = () => {
@@ -20,7 +21,7 @@ const Register = () => {
     const [upazilas = [], setUpazilas] = useState()
     const [errorText, setErrorText] = useState()
     const navigate = useNavigate()
-    // const axiosPublic = useAxiosPublic()
+    const axiosPublic = useAxiosPublic()
 
     // fetch Districts data
     useEffect(() => {
@@ -53,8 +54,7 @@ const Register = () => {
         const form = e.target
         const name = form.name.value;
         const email = form.email.value;
-        // const photo = form.photo.files;
-        const photo = form.photo.value;
+        const photo = form.photo.files;
         const bloodGroup = form.bloodGroup.value;
         const district = form.district.value;
         const upazila = form.upazila.value;
@@ -66,14 +66,24 @@ const Register = () => {
 
         }
 
+        //image upload
+        const imageFile = { image: photo[0] }
+        const res = await axiosPublic.post(image_hosting_api, imageFile, {
+            headers: {
+                'content-type': 'multipart/form-data'
+            }
+        })
+        console.log(res.data)
+        console.log(imageFile)
+
         //signUp User
         signUpUser(email, password)
             .then(result => {
                 if (result.user) {
-                    // toast("Registration Successfully!")
+                    toast.success("Registration Successfully!")
                 }
 
-                updateUser(name, photo)
+                updateUser(name, res.data.data.display_url)
                     .then(() => {
 
 
@@ -86,14 +96,7 @@ const Register = () => {
             })
 
 
-        //image upload
-        // const imageFile = { image: photo[0] }
-        // const res = await axios.post(image_hosting_api, imageFile, {
-        //     headers: {
-        //         'content-type': 'multipart/form-data'
-        //     }
-        // })
-        // console.log(res.data)
+
 
 
 
@@ -101,8 +104,8 @@ const Register = () => {
 
 
 
-        const submitForm = { name, email, photo, bloodGroup, district, upazila, password }
-        console.log(submitForm)
+        // const submitForm = { name, email, photo, bloodGroup, district, upazila, password }
+        // console.log(submitForm)
 
     }
 
@@ -132,7 +135,7 @@ const Register = () => {
                             <label className="label">
                                 <span className="label-text">Photo</span>
                             </label>
-                            <input type="text" placeholder="Photo" name='photo' className="" required />
+                            <input type="file" placeholder="Photo" name='photo' className="" required />
 
                         </div>
                         {/* blood group */}
@@ -240,7 +243,7 @@ const Register = () => {
                         </div>
 
                         <div className="form-control mt-6">
-                            <button className="btn btn-primary">Login</button>
+                            <button className="btn btn-primary">Register</button>
                         </div>
 
                         <div>
