@@ -4,13 +4,14 @@ import { CgProfile } from "react-icons/cg";
 import { GrLogout } from "react-icons/gr";
 import useAuth from "../../../Hooks/useAuth";
 import { HashLoader } from "react-spinners";
+import { FaHome } from "react-icons/fa";
 
 const Sidebar = () => {
 
     const { user } = useAuth()
 
     return (
-        <div className="h-full p-3 space-y-2 w-60 dark:bg-gray-50 dark:text-gray-800">
+        <div className="h-full p-3 space-y-2 w-72 dark:bg-gray-50 dark:text-gray-800">
             <div className="flex items-center p-2 space-x-4">
                 {
                     !user ? <HashLoader color="#36d7b7" /> : <> <img src={user?.photoURL} alt="" className="w-12 h-12 rounded-full dark:bg-gray-500" />
@@ -24,6 +25,15 @@ const Sidebar = () => {
                 }
             </div>
             <div className="divide-y dark:divide-gray-300">
+                <ul className="pt-2 pb-4 space-y-1 text-sm">
+                    <li className="dark:bg-gray-100 dark:text-gray-900">
+                        <a className="flex items-center p-2 space-x-3 rounded-md">
+                            <FaHome className="text-xl"></FaHome>
+                            <Link to="/"> <span>Home</span></Link>
+                        </a>
+                    </li>
+
+                </ul>
                 <ul className="pt-2 pb-4 space-y-1 text-sm">
                     <li className="dark:bg-gray-100 dark:text-gray-900">
                         <a className="flex items-center p-2 space-x-3 rounded-md">

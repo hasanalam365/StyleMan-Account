@@ -10,7 +10,7 @@ const Login = () => {
     const { signInUser } = useAuth()
     const location = useLocation()
     const navigate = useNavigate()
-    console.log(location)
+    // console.log(location)
 
     const handleLogin = (e) => {
         e.preventDefault()
@@ -23,10 +23,11 @@ const Login = () => {
         signInUser(email, password)
             .then((result) => {
 
-                if (result.user) {
+                if (result?.user) {
                     toast("Login Successfully!")
+                    navigate(location?.state || '/')
                 }
-                navigate(location?.state || '/')
+
             })
             .catch(() => {
                 toast.error('invalid email or password')

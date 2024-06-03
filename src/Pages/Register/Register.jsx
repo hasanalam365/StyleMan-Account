@@ -1,4 +1,4 @@
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Field, Label, Select } from '@headlessui/react'
 import { FaAngleDown } from "react-icons/fa6";
 import clsx from 'clsx'
@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 import useAuth from "../../Hooks/useAuth";
 // import axios from "axios";
 import useAxiosPublic from "../../Hooks/useAxiosPublic";
-import { toast } from "react-toastify";
+import { ToastContainer, toast } from "react-toastify";
 
 
 
@@ -23,7 +23,7 @@ const Register = () => {
     const [errorText, setErrorText] = useState()
     const navigate = useNavigate()
     const axiosPublic = useAxiosPublic()
-    const location = useLocation()
+
 
 
     // fetch Districts data
@@ -63,7 +63,7 @@ const Register = () => {
         const upazila = form.upazila.value;
         const password = form.password.value;
         const confirmPassword = form.confirmPassword.value
-
+        const status = "active"
         if (password !== confirmPassword) {
             return setErrorText('Incorrect password')
 
@@ -77,19 +77,29 @@ const Register = () => {
             }
         })
 
+        const photoURL = res.data.data.display_url
+        const submitForm = { name, email, photoURL, bloodGroup, district, upazila, status }
+
 
         //signUp User
         signUpUser(email, password)
-            .then((result) => {
+            .then(() => {
 
-                if (result.user) {
-                    toast.success("Registration Successfully!")
-                }
-                updateUser(name, res.data.data.display_url)
-                    .then(() => {
 
-                        signOutUser()
-                        navigate('/login')
+                updateUser(name, photoURL)
+                    .then(async () => {
+
+                        const res = await axiosPublic.post('/users', submitForm)
+                        console.log(res.data)
+
+                        if (res.data.insertedId) {
+                            toast.success('Registration Successfully')
+                            signOutUser()
+                            navigate('/login')
+                        }
+
+
+
                     })
 
             })
@@ -106,8 +116,7 @@ const Register = () => {
 
 
 
-        // const submitForm = { name, email, photo, bloodGroup, district, upazila, password }
-        // console.log(submitForm)
+
 
     }
 
@@ -252,6 +261,7 @@ const Register = () => {
                             <h1>Already have an Account? Please <Link to="/login" className="text-green-600 font-semibold">Login</Link></h1>
                         </div>
                     </form>
+                    <ToastContainer />
                 </div>
             </div>
         </div>
