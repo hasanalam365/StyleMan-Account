@@ -1,11 +1,16 @@
 import { MdOutlineMailOutline } from "react-icons/md";
 import { RiLockPasswordLine } from "react-icons/ri";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import useAuth from "../../Hooks/useAuth";
+import { ToastContainer, toast } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 
 const Login = () => {
 
     const { signInUser } = useAuth()
+    const location = useLocation()
+    const navigate = useNavigate()
+    console.log(location)
 
     const handleLogin = (e) => {
         e.preventDefault()
@@ -16,11 +21,15 @@ const Login = () => {
         // console.log(email, password)
 
         signInUser(email, password)
-            .then(result => {
-                console.log(result.user)
+            .then((result) => {
+
+                if (result.user) {
+                    toast("Login Successfully!")
+                }
+                navigate(location?.state || '/')
             })
-            .catch(err => {
-                console.log(err.message)
+            .catch(() => {
+                toast.error('invalid email or password')
             })
     }
 
@@ -60,6 +69,7 @@ const Login = () => {
                             <h1>Don't have an Account? Please <Link to="/register" className="text-green-600 font-semibold">Register</Link></h1>
                         </div>
                     </form>
+                    <ToastContainer />
                 </div>
             </div>
         </div>

@@ -1,13 +1,13 @@
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Field, Label, Select } from '@headlessui/react'
 import { FaAngleDown } from "react-icons/fa6";
 import clsx from 'clsx'
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import useAuth from "../../Hooks/useAuth";
 // import axios from "axios";
 import useAxiosPublic from "../../Hooks/useAxiosPublic";
 import { toast } from "react-toastify";
-import { Result } from "postcss";
+
 
 
 const image_hosting_key = import.meta.env.VITE_IMAGE_HOST_KEY
@@ -23,6 +23,8 @@ const Register = () => {
     const [errorText, setErrorText] = useState()
     const navigate = useNavigate()
     const axiosPublic = useAxiosPublic()
+    const location = useLocation()
+
 
     // fetch Districts data
     useEffect(() => {
@@ -74,14 +76,13 @@ const Register = () => {
                 'content-type': 'multipart/form-data'
             }
         })
-        console.log(res.data)
-        console.log(imageFile)
+
 
         //signUp User
         signUpUser(email, password)
             .then((result) => {
 
-                if (result) {
+                if (result.user) {
                     toast.success("Registration Successfully!")
                 }
                 updateUser(name, res.data.data.display_url)
