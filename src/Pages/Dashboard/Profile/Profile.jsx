@@ -73,8 +73,8 @@ const Profile = () => {
 
                                 <input type="text"
                                     {...register('name', { required: true })}
+                                    {...(enableEditBtn ? { placeholder: data?.name } : { defaultValue: data?.name })}
 
-                                    placeholder={enableEditBtn && data?.name}
 
                                     name="name" className="input input-bordered" required />
                             </div>
