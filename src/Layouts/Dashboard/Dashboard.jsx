@@ -7,7 +7,7 @@ const Dashboard = () => {
             <div className="bg-gray-100 min-h-screen">
                 <Sidebar></Sidebar>
             </div>
-            <div className="my-8">
+            <div className="my-8 flex-1">
                 <Outlet></Outlet>
             </div>
 

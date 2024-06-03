@@ -5,12 +5,16 @@ import { createContext, useEffect, useState } from "react";
 
 const auth = getAuth(app);
 
+//Provider
+
+
+
 export const AuthContext = createContext(null)
 
 const AuthProvider = ({ children }) => {
 
     const [user, setUser] = useState()
-    const [loading, setLoading] = useState(false)
+    const [loading, setLoading] = useState(true)
 
 
     //sign up user
@@ -18,6 +22,8 @@ const AuthProvider = ({ children }) => {
         setLoading(true)
         return createUserWithEmailAndPassword(auth, email, password)
     }
+
+
 
     //sign in user
     const signInUser = (email, password) => {
@@ -44,9 +50,10 @@ const AuthProvider = ({ children }) => {
         const unSubscribe = onAuthStateChanged(auth, currentUser => {
             if (currentUser) {
                 console.log(currentUser)
+                setUser(currentUser)
+                setLoading(false)
             }
-            setUser(currentUser)
-            setLoading(false)
+
         })
         return () => unSubscribe()
     }, [])
