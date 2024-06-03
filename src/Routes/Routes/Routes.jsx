@@ -6,6 +6,9 @@ import Register from "../../Pages/Register/Register";
 import SearchDonors from "../../Pages/SearchDonors/SearchDonors";
 import Fundings from "../../Pages/Fundings/Fundings/Fundings";
 import PrivateRoute from "../PrivateRoute/PrivateRoute";
+import Dashboard from "../../Layouts/Dashboard/Dashboard";
+import Profile from "../../Pages/Dashboard/Profile/Profile";
+
 
 
 
@@ -38,4 +41,15 @@ export const router = createBrowserRouter([
             },
         ]
     },
+    {
+        path: '/dashboard',
+        element: <Dashboard></Dashboard>,
+        children: [
+            {
+                path: 'profile',
+                element: <Profile></Profile>
+            }
+        ]
+
+    }
 ]);
