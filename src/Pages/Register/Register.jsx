@@ -7,7 +7,7 @@ import useAuth from "../../Hooks/useAuth";
 // import axios from "axios";
 import useAxiosPublic from "../../Hooks/useAxiosPublic";
 import { ToastContainer, toast } from "react-toastify";
-
+import 'react-toastify/dist/ReactToastify.css';
 
 
 const image_hosting_key = import.meta.env.VITE_IMAGE_HOST_KEY
@@ -89,13 +89,15 @@ const Register = () => {
                 updateUser(name, photoURL)
                     .then(async () => {
 
+                        signOutUser()
+                        navigate('/login')
+
                         const res = await axiosPublic.post('/users', submitForm)
                         console.log(res.data)
 
                         if (res.data.insertedId) {
                             toast.success('Registration Successfully')
-                            signOutUser()
-                            navigate('/login')
+
                         }
 
 
@@ -261,8 +263,9 @@ const Register = () => {
                             <h1>Already have an Account? Please <Link to="/login" className="text-green-600 font-semibold">Login</Link></h1>
                         </div>
                     </form>
-                    <ToastContainer />
+
                 </div>
+                <ToastContainer />
             </div>
         </div>
     );
