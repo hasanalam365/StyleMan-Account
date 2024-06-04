@@ -5,6 +5,8 @@ import { useState } from 'react';
 import DatePicker from "react-datepicker";
 
 import "react-datepicker/dist/react-datepicker.css";
+import useAxiosPublic from "../../../Hooks/useAxiosPublic";
+import { toast } from "react-toastify";
 
 const CreateDonationRequest = () => {
 
@@ -12,24 +14,40 @@ const CreateDonationRequest = () => {
     const [districts, upazilas] = useDataLoad()
     const [startDate, setStartDate] = useState(new Date());
     const [time, setStartTime] = useState(new Date());
+    const axiosPublic = useAxiosPublic()
 
-
-    const handleDonateRequest = (e) => {
+    const handleDonateRequest = async (e) => {
         e.preventDefault()
         const form = e.target;
-        // const recipientName = form.recipientName.value;
-        // const hospitalName = form.hospitalName.value;
-        // const requesterName = user.displayName
-        // const requesterEmail = user.email
-        // const district = form.district.value;
-        // const upazila = form.upazila.value;
-        // const bloodGroup = form.bloodGroup.value;
+        const recipientName = form.recipientName.value;
+        const hospitalName = form.hospitalName.value;
+        const requesterName = user.displayName
+        const requesterEmail = user.email
+        const district = form.district.value;
+        const upazila = form.upazila.value;
+        const bloodGroup = form.bloodGroup.value;
         const donatDate = startDate.toLocaleString().split(",")[0]
         const donateTime = time.toLocaleString().split(",")[1]
-        // const description = form.description.value
-        // const fullAddress = form.fullAddress.value
-        // console.table(recipientName, hospitalName, district, upazila, bloodGroup, description, fullAddress, "donateDate:", donatDate, "donateTime:", donateTime, requesterName, requesterEmail)
-        console.log("donateDate:", donatDate, "donateTime:", donateTime)
+        const requestMessage = form.requestMessage.value
+        const fullAddress = form.fullAddress.value
+        const status = "pending"
+
+        const donationDetails = { recipientName, hospitalName, district, upazila, bloodGroup, requestMessage, fullAddress, donatDate, donateTime, requesterName, requesterEmail, status }
+
+        // console.table(requestAllInFo)
+
+
+        try {
+            const res = await axiosPublic.post('/create-donation-request', donationDetails)
+            console.log(res.data)
+            if (res.data.insertedId) {
+                toast.success('Your request succussfully done')
+            }
+        } catch (err) {
+            toast.err('something is wrong please try again later')
+        }
+
+
     }
 
     return (
@@ -106,22 +124,24 @@ Medical College Hospital" className="w-full rounded-md focus:ring focus:ring-opa
                                     p-2 focus:ring focus:ring-opacity-75 dark:text-gray-50 focus:dark:ring-default-600 dark:border-gray-300" />
                             </div>
                             <div className="col-span-full">
-                                <label htmlFor="description" className="text-lg">Description Message</label>
-                                <textarea id="description" name="description" placeholder="why you need blood?" className="w-full rounded-md focus:ring focus:ring-opacity-75 dark:text-gray-50 focus:dark:ring-default-600 dark:border-gray-300 p-2"></textarea>
+                                <label htmlFor="Request Message" className="text-lg">Request Message</label>
+                                <textarea id="requestMessage" name="requestMessage" placeholder="why you need blood?" className="w-full rounded-md focus:ring focus:ring-opacity-75 dark:text-gray-50 focus:dark:ring-default-600 dark:border-gray-300 p-2"></textarea>
                             </div>
                             <div className="col-span-3 flex flex-col">
-                                <label htmlFor="Select Date" className="text-lg">Select Date</label>
+                                <label htmlFor="Select Date" className="text-lg">Donation Date</label>
                                 <DatePicker
                                     showIcon
                                     selected={startDate}
                                     onSelect={(date) => setStartDate(date)}
+
                                 />
                             </div>
                             <div className="col-span-3 flex flex-col">
-                                <label htmlFor="Select Date" className="text-lg">Select Time</label>
+                                <label htmlFor="Select Date" className="text-lg">Donation Time</label>
                                 <DatePicker
                                     selected={startDate}
                                     onChange={(time) => setStartTime(time)}
+                                    className="p-2 rounded-lg"
                                     showTimeSelect
                                     showTimeSelectOnly
                                     timeIntervals={15}
