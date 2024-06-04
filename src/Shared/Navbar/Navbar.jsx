@@ -45,7 +45,7 @@ const Navbar = () => {
             <div className="dropdown dropdown-end">
                 <div tabIndex={0} role="button" className="btn btn-ghost btn-circle avatar">
                     <div className="w-10 rounded-full">
-                        {user ? <img alt="" src={user?.photoURL} />
+                        {user ? <img alt="" src={user.photoURL} />
                             :
                             <img src="https://i.ibb.co/SrnSbVj/user-profile-login-avatar-heroes-user-blue-icons-circle-symbol-logo-thumbnail.png" />
                         }

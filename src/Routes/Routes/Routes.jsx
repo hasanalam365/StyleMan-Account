@@ -8,6 +8,7 @@ import Fundings from "../../Pages/Fundings/Fundings/Fundings";
 import PrivateRoute from "../PrivateRoute/PrivateRoute";
 import Dashboard from "../../Layouts/Dashboard/Dashboard";
 import Profile from "../../Pages/Dashboard/Profile/Profile";
+import DonorDashboard from "../../Pages/Dashboard/DonorDashboard/DonorDashboard/DonorDashboard";
 
 
 
@@ -48,9 +49,14 @@ export const router = createBrowserRouter([
         </PrivateRoute>,
         children: [
             {
+
+                index: true,
+                element: <DonorDashboard></DonorDashboard>
+            },
+            {
                 path: 'profile',
                 element: <Profile></Profile>
-            }
+            },
         ]
 
     }

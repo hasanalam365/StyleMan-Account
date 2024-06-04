@@ -1,5 +1,5 @@
 import { LuLayoutDashboard } from "react-icons/lu";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { CgProfile } from "react-icons/cg";
 import { GrLogout } from "react-icons/gr";
 import useAuth from "../../../Hooks/useAuth";
@@ -11,8 +11,8 @@ import { FaHome } from "react-icons/fa";
 const Sidebar = () => {
 
     // const axiosPublic = useAxiosPublic()
-    const { user } = useAuth()
-
+    const { user, signOutUser } = useAuth()
+    const navigate = useNavigate()
     // const { data = [] } = useQuery({
     //     queryKey: ['users'],
     //     queryFn: async () => {
@@ -21,6 +21,11 @@ const Sidebar = () => {
     //     }
     // })
     // console.log(data)
+
+    const handleLogOut = () => {
+        signOutUser()
+        navigate("/")
+    }
 
     return (
         <div className="h-full p-3 space-y-2 w-72 dark:bg-gray-50 dark:text-gray-800">
@@ -65,10 +70,10 @@ const Sidebar = () => {
                         </a>
                     </li>
                     <li>
-                        <a rel="noopener noreferrer" href="#" className="flex items-center p-2 space-x-3 rounded-md">
+                        <button onClick={handleLogOut} className="flex items-center p-2 space-x-3 rounded-md">
                             <GrLogout className="text-xl"></GrLogout>
                             <span>Logout</span>
-                        </a>
+                        </button>
                     </li>
                 </ul>
             </div>
