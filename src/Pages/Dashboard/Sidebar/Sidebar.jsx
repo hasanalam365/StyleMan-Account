@@ -5,10 +5,22 @@ import { GrLogout } from "react-icons/gr";
 import useAuth from "../../../Hooks/useAuth";
 import { HashLoader } from "react-spinners";
 import { FaHome } from "react-icons/fa";
+// import useAxiosPublic from "../../../Hooks/useAxiosPublic";
+// import { useQuery } from "@tanstack/react-query";
 
 const Sidebar = () => {
 
+    // const axiosPublic = useAxiosPublic()
     const { user } = useAuth()
+
+    // const { data = [] } = useQuery({
+    //     queryKey: ['users'],
+    //     queryFn: async () => {
+    //         const { data: userData } = await axiosPublic.get(`/user/${user?.email}`)
+    //         return userData
+    //     }
+    // })
+    // console.log(data)
 
     return (
         <div className="h-full p-3 space-y-2 w-72 dark:bg-gray-50 dark:text-gray-800">

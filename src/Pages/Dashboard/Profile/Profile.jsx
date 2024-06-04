@@ -3,6 +3,12 @@ import { useQuery } from '@tanstack/react-query';
 import useAxiosPublic from '../../../Hooks/useAxiosPublic';
 import useAuth from '../../../Hooks/useAuth';
 import { useState } from 'react';
+import { toast } from "react-toastify";
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
+const image_hosting_key = import.meta.env.VITE_IMAGE_HOST_KEY
+const image_hosting_api = `https://api.imgbb.com/1/upload?key=${image_hosting_key}`
 
 
 
@@ -12,16 +18,52 @@ const Profile = () => {
     const [enableEditBtn, setEnableEditBtn] = useState(true)
     const axiosPublic = useAxiosPublic()
 
-    const {
-        register,
-        handleSubmit,
-    } = useForm()
+    // const {
+    //     register,
+    //     handleSubmit,
+    // } = useForm()
 
-    const onSubmit = (data) => {
+    // const onSubmit = async (dataInput) => {
+
+    //     const { name, email, bloodGroup, district, upazila, photoURL } = dataInput
+
+    //     const imageFile = { image: photoURL[0] }
 
 
-        console.log(data)
-    }
+    //     const resImg = await axiosPublic.post(image_hosting_api, imageFile, {
+    //         headers: {
+    //             'content-type': 'multipart/form-data'
+    //         }
+    //     })
+
+    //     console.log('post image', resImg)
+
+    //     const photo = resImg.data.data.display_url
+    //     if (resImg.data.success) {
+    //         const updatedInfo =
+    //         {
+    //             name: name,
+    //             email: email,
+    //             bloodGroup: bloodGroup,
+    //             district: district,
+    //             upazila: upazila,
+    //             photoURL: photo,
+    //             id: data._id
+    //         }
+
+
+    //         const res = await axiosPublic.patch(`/users/${data._id}`, updatedInfo)
+
+
+    //         if (res.data.modifiedCount > 0) {
+    //             toast.success('updated successfully')
+
+
+    //         }
+    //     }
+
+
+    // }
 
     const { data = [] } = useQuery({
         queryKey: ['users'],
@@ -31,24 +73,25 @@ const Profile = () => {
         }
     })
 
-    // console.log(data)
-    // districts data fetch
-    const { data: districts = [] } = useQuery({
-        queryKey: ['districts'],
-        queryFn: async () => {
-            const { data } = await axiosPublic.get('/districts')
-            return data
-        }
-    })
 
-    //upazilas fetch data
-    const { data: upazilas = [] } = useQuery({
-        queryKey: ['upazilas'],
-        queryFn: async () => {
-            const { data } = await axiosPublic.get("/upazilas")
-            return data
-        }
-    })
+    // console.log(data)
+    // // districts data fetch
+    // const { data: districts = [] } = useQuery({
+    //     queryKey: ['districts'],
+    //     queryFn: async () => {
+    //         const { data } = await axiosPublic.get('/districts')
+    //         return data
+    //     }
+    // })
+
+    // //upazilas fetch data
+    // const { data: upazilas = [] } = useQuery({
+    //     queryKey: ['upazilas'],
+    //     queryFn: async () => {
+    //         const { data } = await axiosPublic.get("/upazilas")
+    //         return data
+    //     }
+    // })
 
 
 
@@ -64,7 +107,7 @@ const Profile = () => {
                     <div className='flex justify-end'>
                         <button onClick={() => { setEnableEditBtn(!enableEditBtn) }} className="btn btn-primary">Edit</button>
                     </div>
-                    <form onSubmit={handleSubmit(onSubmit)} className="card-body">
+                    <form className="card-body">
                         <div className="flex gap-5">
                             <div className="form-control flex-1">
                                 <label className="label">
@@ -72,20 +115,20 @@ const Profile = () => {
                                 </label>
 
                                 <input type="text"
-                                    {...register('name', { required: true })}
-                                    {...(enableEditBtn ? { placeholder: data?.name } : { defaultValue: data?.name })}
+                                    {...(enableEditBtn && { value: data.name })}
+                                    defaultValue={data.name}
+                                    // {...register('name')}
 
-
-                                    name="name" className="input input-bordered" required />
+                                    name="name" className="input input-bordered" />
                             </div>
                             <div className="form-control flex-1">
                                 <label className="label">
                                     <span className="label-text">Email</span>
                                 </label>
-                                <input type="email" placeholder="email"
-                                    name="email"
-                                    {...register('email', { required: true })}
-                                    value={data?.email} className="input input-bordered" required />
+                                <input type="email"  {...(enableEditBtn && { value: data.email })}
+                                    defaultValue={data.email}
+                                    // {...register('email')}
+                                    className="input input-bordered" required />
 
                             </div>
                         </div>
@@ -98,17 +141,23 @@ const Profile = () => {
 
                                     </div>
                                     <select
-                                        {...register('bloodGroup', { required: true })}
-                                        className="select select-bordered w-full ">
-                                        <option selected>{data?.bloodGroup}</option>
-                                        <option value="A+">A+</option>
-                                        <option value="A-">A-</option>
-                                        <option value="B+">B+</option>
-                                        <option value="B-">B-</option>
-                                        <option value="AB+">AB+</option>
-                                        <option value="AB-">AB-</option>
-                                        <option value="O+">O+</option>
-                                        <option value="O-">O-</option>
+                                        // {...register('bloodGroup')}
+                                        className="select select-bordered w-full " required>
+                                        <option
+
+                                        >{data.bloodGroup}</option>
+                                        {
+                                            !enableEditBtn && <>
+                                                <option value="A+">A+</option>
+                                                <option value="A-">A-</option>
+                                                <option value="B+">B+</option>
+                                                <option value="B-">B-</option>
+                                                <option value="AB+">AB+</option>
+                                                <option value="AB-">AB-</option>
+                                                <option value="O+">O+</option>
+                                                <option value="O-">O-</option>
+                                            </>
+                                        }
 
                                     </select>
 
@@ -122,12 +171,13 @@ const Profile = () => {
 
                                     </div>
                                     <select
-                                        {...register('district', { required: true })}
-                                        className="select select-bordered w-full ">
-                                        <option selected >{data?.district}</option>
+                                        // {...register('district')}
+                                        className="select select-bordered w-full " required>
+                                        <option>{data.district}</option>
+                                        {/* 
                                         {
-                                            districts.map(district => <option selected key={district.id} value={district.name}>{district.name}</option>)
-                                        }
+                                            districts.map(district => <option selected key={district.id} >{district.name}</option>)
+                                        } */}
 
 
                                     </select>
@@ -142,13 +192,13 @@ const Profile = () => {
 
                                     </div>
                                     <select
-                                        {...register('upazila', { required: true })}
-                                        className="select select-bordered w-full ">
-                                        <option selected >{data?.upazila}</option>
-                                        {
-                                            upazilas.map(upazila => <option selected key={upazila.id} value={upazila.name}>{upazila.name}</option>)
+                                        // {...register('upazila')}
+                                        className="select select-bordered w-full " required>
+                                        <option>{data.upazila}</option>
+                                        {/* {
+                                            upazilas.map(upazila => <option selected key={upazila.id}>{upazila.name}</option>)
                                         }
-
+ */}
 
                                     </select>
 
@@ -161,7 +211,9 @@ const Profile = () => {
 
 
                         </div>
-                        <input type="file" name="photo" id=""  {...register('photoURL', { required: true })} />
+                        <input type="file" name="photoURL" id=""
+                            // {...register('photoURL')} 
+                            required />
                         <div className="form-control mt-6">
                             {
                                 !enableEditBtn && <button className="btn btn-secondary">Updated</button>
@@ -170,6 +222,7 @@ const Profile = () => {
                     </form>
 
                 </div>
+                <ToastContainer></ToastContainer>
             </div>
         </div>
 

@@ -8,8 +8,6 @@ import useAuth from "../../Hooks/useAuth";
 import useAxiosPublic from "../../Hooks/useAxiosPublic";
 import { ToastContainer, toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
-import { useQuery } from "@tanstack/react-query";
-
 
 
 const image_hosting_key = import.meta.env.VITE_IMAGE_HOST_KEY
@@ -20,30 +18,38 @@ const Register = () => {
 
     const { signUpUser, updateUser, signOutUser } = useAuth()
 
-
+    const [districts = [], setDistricts] = useState()
+    const [upazilas = [], setUpazilas] = useState()
     const [errorText, setErrorText] = useState()
     const navigate = useNavigate()
     const axiosPublic = useAxiosPublic()
 
 
 
+    // fetch Districts data
+    useEffect(() => {
+        fetch('districts.json')
+            .then(res => res.json())
+            .then(data => {
+                setDistricts(data)
+                // console.log(data)
 
-    // // fetch districts data
-    const { data: districts = [] } = useQuery({
-        queryKey: ['districts'],
-        queryFn: async () => {
-            const { data } = await axiosPublic.get('/districts')
-            return data
-        }
-    })
-    //fetch upazilas data
-    const { data: upazilas = [] } = useQuery({
-        queryKey: ['upazilas'],
-        queryFn: async () => {
-            const { data } = await axiosPublic.get('/upazilas')
-            return data
-        }
-    })
+            })
+    }, [])
+
+
+    // fetch Upazilas data
+    useEffect(() => {
+        fetch('upazilas.json')
+            .then(res => res.json())
+            .then(data => {
+                setUpazilas(data)
+                // console.log(data)
+
+            })
+    }, [])
+
+    // console.log(upazilas)
 
 
     const handleSubmit = async (e) => {
@@ -102,6 +108,16 @@ const Register = () => {
             .catch(error => {
                 console.log(error.message)
             })
+
+
+
+
+
+
+        // console.log('imagefFIle', photo[0].name)
+
+
+
 
 
     }
