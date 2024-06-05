@@ -4,6 +4,7 @@ import useAxiosPublic from "../../../Hooks/useAxiosPublic";
 import { FaEdit } from "react-icons/fa";
 import { MdDeleteForever } from "react-icons/md";
 import { Link } from "react-router-dom";
+import Swal from "sweetalert2";
 
 const MyDonationRequest = () => {
 
@@ -11,7 +12,7 @@ const MyDonationRequest = () => {
     const axiosPublic = useAxiosPublic()
 
 
-    const { data = [] } = useQuery({
+    const { data = [], refetch } = useQuery({
         queryKey: ['my-donation-request'],
         queryFn: async () => {
             const { data } = await axiosPublic.get(`/create-donation-request/${user.email}`)
@@ -19,6 +20,33 @@ const MyDonationRequest = () => {
         }
     })
 
+    const handleDelete = (id) => {
+
+        Swal.fire({
+            title: "Are you sure?",
+            text: "You want to delete this!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Yes, delete it!"
+        }).then(async (result) => {
+            if (result.isConfirmed) {
+
+                const res = await axiosPublic.delete(`/donation-request-delete/${id}`)
+                console.log(res.deletedCount)
+                if (res.data.deletedCount > 0) {
+                    Swal.fire({
+                        title: "Deleted!",
+                        text: "Your request has been deleted.",
+                        icon: "success"
+                    });
+                    refetch()
+                }
+
+            }
+        });
+    }
 
     return (
         <div>
@@ -72,7 +100,7 @@ const MyDonationRequest = () => {
                                     </Link>
 
                                 </td>
-                                <td>
+                                <td onClick={() => handleDelete(singleData._id)}>
                                     <MdDeleteForever className="text-2xl text-red-600 hover:scale-110"></MdDeleteForever>
                                 </td>
 

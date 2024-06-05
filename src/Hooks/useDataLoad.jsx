@@ -5,6 +5,7 @@ const useDataLoad = () => {
 
     const axiosPublic = useAxiosPublic()
 
+    //donation Request data load
     const { data: donationRequests = [] } = useQuery({
         queryKey: ['donationRequests'],
         queryFn: async () => {
@@ -14,8 +15,7 @@ const useDataLoad = () => {
     })
 
 
-
-
+    //district data load
     const { data: districts = [] } = useQuery({
         queryKey: ['districts'],
         queryFn: async () => {
@@ -23,6 +23,8 @@ const useDataLoad = () => {
             return data
         }
     })
+
+    //upazila data load
     const { data: upazilas = [] } = useQuery({
         queryKey: ['upazilas'],
         queryFn: async () => {
@@ -30,6 +32,9 @@ const useDataLoad = () => {
             return data
         }
     })
+
+
+
 
 
     return [donationRequests, districts, upazilas]
