@@ -10,17 +10,10 @@ import { FaHome } from "react-icons/fa";
 import { LuHelpingHand } from "react-icons/lu";
 const Sidebar = () => {
 
-    // const axiosPublic = useAxiosPublic()
+
     const { user, signOutUser } = useAuth()
     const navigate = useNavigate()
-    // const { data = [] } = useQuery({
-    //     queryKey: ['users'],
-    //     queryFn: async () => {
-    //         const { data: userData } = await axiosPublic.get(`/user/${user?.email}`)
-    //         return userData
-    //     }
-    // })
-    // console.log(data)
+
 
     const handleLogOut = () => {
         signOutUser()

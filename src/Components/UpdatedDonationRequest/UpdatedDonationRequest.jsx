@@ -62,7 +62,7 @@ const UpdatedDonationRequest = () => {
                 <form onSubmit={handleUpdated} noValidate="" action="" className="container flex flex-col mx-auto space-y-12">
                     <fieldset className="grid grid-cols-4 gap-6 p-6 rounded-md shadow-sm dark:bg-gray-50">
                         <div className="space-y-2 col-span-full lg:col-span-1">
-                            <p className=" ">Donation Request Information</p>
+                            <p className=" ">Updated Donation Request Information</p>
 
                         </div>
                         <div className="grid grid-cols-6  gap-4 col-span-full lg:col-span-3">

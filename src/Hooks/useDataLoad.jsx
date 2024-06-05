@@ -5,6 +5,17 @@ const useDataLoad = () => {
 
     const axiosPublic = useAxiosPublic()
 
+    const { data: donationRequests = [] } = useQuery({
+        queryKey: ['donationRequests'],
+        queryFn: async () => {
+            const { data } = await axiosPublic.get("/create-donation-request")
+            return data
+        }
+    })
+
+
+
+
     const { data: districts = [] } = useQuery({
         queryKey: ['districts'],
         queryFn: async () => {
@@ -21,7 +32,7 @@ const useDataLoad = () => {
     })
 
 
-    return [districts, upazilas]
+    return [donationRequests, districts, upazilas]
 };
 
 export default useDataLoad;
