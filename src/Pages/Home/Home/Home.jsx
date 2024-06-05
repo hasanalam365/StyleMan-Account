@@ -1,4 +1,4 @@
-import TestimonialRight from "../../../Components/TestimonialRight/TestimonialRight";
+
 import Banner from "../Banner/Banner/Banner";
 import Contact from "../Contact/Contact";
 import Features from "../Features/Features";
@@ -12,7 +12,6 @@ const Home = () => {
             <ServiceCard></ServiceCard>
             <Features></Features>
             <Testimonial></Testimonial>
-            <TestimonialRight></TestimonialRight>
             <Contact></Contact>
         </div>
     );
