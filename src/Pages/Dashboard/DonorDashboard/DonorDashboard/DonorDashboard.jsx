@@ -4,12 +4,13 @@ import useAxiosPublic from "../../../../Hooks/useAxiosPublic";
 import { Link } from "react-router-dom";
 import { FaEdit } from "react-icons/fa";
 import { MdDeleteForever } from "react-icons/md";
+import Swal from "sweetalert2";
 
 const DonorDashboard = () => {
     const { user } = useAuth()
     const axiosPublic = useAxiosPublic()
 
-    const { data = [] } = useQuery({
+    const { data = [], refetch } = useQuery({
         queryKey: ['my-donation-request'],
         queryFn: async () => {
             const { data } = await axiosPublic.get(`/recentThreeData/${user.email}`)
@@ -18,6 +19,33 @@ const DonorDashboard = () => {
     })
 
 
+    const handleDelete = (id) => {
+
+        Swal.fire({
+            title: "Are you sure?",
+            text: "You want to delete this!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Yes, delete it!"
+        }).then(async (result) => {
+            if (result.isConfirmed) {
+
+                const res = await axiosPublic.delete(`/donation-request-delete/${id}`)
+                console.log(res.deletedCount)
+                if (res.data.deletedCount > 0) {
+                    Swal.fire({
+                        title: "Deleted!",
+                        text: "Your request has been deleted.",
+                        icon: "success"
+                    });
+                    refetch()
+                }
+
+            }
+        });
+    }
 
     return (
         <div>
@@ -63,7 +91,7 @@ const DonorDashboard = () => {
                                             </Link>
 
                                         </td>
-                                        <td>
+                                        <td onClick={() => handleDelete(singleData._id)}>
                                             <MdDeleteForever className="text-2xl text-red-600 hover:scale-110"></MdDeleteForever>
                                         </td>
 
@@ -80,7 +108,7 @@ const DonorDashboard = () => {
             }
             <div>
                 <Link to="/dashboard/my-donation-requests">
-                    <button className="btn text-white bg-orange-500 hover:btn-ghost">View my all</button>
+                    <button className="btn text-white bg-orange-500 hover:btn-ghost mt-5">View my all</button>
                 </Link>
             </div>
         </div>
