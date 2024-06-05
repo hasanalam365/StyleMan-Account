@@ -3,7 +3,6 @@ import useAuth from "../../../Hooks/useAuth";
 import useAxiosPublic from "../../../Hooks/useAxiosPublic";
 import { FaEdit } from "react-icons/fa";
 import { MdDeleteForever } from "react-icons/md";
-import { GiArmoredBoomerang } from "react-icons/gi";
 import { Link } from "react-router-dom";
 
 const MyDonationRequest = () => {
@@ -13,12 +12,13 @@ const MyDonationRequest = () => {
 
 
     const { data = [] } = useQuery({
-        queryKey: ['districts'],
+        queryKey: ['my-donation-request'],
         queryFn: async () => {
             const { data } = await axiosPublic.get(`/create-donation-request/${user.email}`)
             return data
         }
     })
+
 
     return (
         <div>
@@ -65,7 +65,9 @@ const MyDonationRequest = () => {
                                 <td>{singleData.donateTime}</td>
                                 <td>{singleData.status}</td>
                                 <td>
-                                    <FaEdit className="text-xl text-green-600 hover:scale-110"></FaEdit>
+                                    <Link to={`/dashboard/updated-donation-request/${singleData._id}`}>
+                                        <FaEdit className="text-xl text-green-600 hover:scale-110"></FaEdit>
+                                    </Link>
 
                                 </td>
                                 <td>

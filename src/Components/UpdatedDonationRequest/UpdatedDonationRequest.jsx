@@ -1,14 +1,13 @@
-import useAuth from "../../../Hooks/useAuth";
-import useDataLoad from "../../../Hooks/useDataLoad";
-import { useState } from 'react';
-
+import { useState } from "react";
+import useAuth from "../../Hooks/useAuth";
+import useDataLoad from "../../Hooks/useDataLoad";
+import useAxiosPublic from "../../Hooks/useAxiosPublic";
+import { toast } from "react-toastify";
 import DatePicker from "react-datepicker";
 
 import "react-datepicker/dist/react-datepicker.css";
-import useAxiosPublic from "../../../Hooks/useAxiosPublic";
-import { toast } from "react-toastify";
 
-const CreateDonationRequest = () => {
+const UpdatedDonationRequest = () => {
 
     const { user } = useAuth()
     const [districts, upazilas] = useDataLoad()
@@ -16,7 +15,7 @@ const CreateDonationRequest = () => {
     const [time, setStartTime] = useState(new Date());
     const axiosPublic = useAxiosPublic()
 
-    const handleDonateRequest = async (e) => {
+    const handleUpdated = async (e) => {
         e.preventDefault()
         const form = e.target;
         const recipientName = form.recipientName.value;
@@ -32,20 +31,20 @@ const CreateDonationRequest = () => {
         const fullAddress = form.fullAddress.value
         const status = "pending"
 
-        const donationDetails = { recipientName, hospitalName, district, upazila, bloodGroup, requestMessage, fullAddress, donateDate, donateTime, requesterName, requesterEmail, status }
+        const donationUpdatedDetails = { recipientName, hospitalName, district, upazila, bloodGroup, requestMessage, fullAddress, donateDate, donateTime, requesterName, requesterEmail, status }
+
+        console.table(donationUpdatedDetails)
 
 
-
-
-        try {
-            const res = await axiosPublic.post('/create-donation-request', donationDetails)
-            console.log(res.data)
-            if (res.data.insertedId) {
-                toast.success('Your request succussfully done')
-            }
-        } catch (err) {
-            toast.err('something is wrong please try again later')
-        }
+        // try {
+        //     const res = await axiosPublic.post('/create-donation-request', donationUpdatedDetails)
+        //     console.log(res.data)
+        //     if (res.data.insertedId) {
+        //         toast.success('Your request has been updated')
+        //     }
+        // } catch (err) {
+        //     toast.err('something is wrong please try again later')
+        // }
 
 
     }
@@ -53,7 +52,7 @@ const CreateDonationRequest = () => {
     return (
         <div>
             <section className="p-6 bg-gray-100 dark:text-gray-900">
-                <form onSubmit={handleDonateRequest} noValidate="" action="" className="container flex flex-col mx-auto space-y-12">
+                <form onSubmit={handleUpdated} noValidate="" action="" className="container flex flex-col mx-auto space-y-12">
                     <fieldset className="grid grid-cols-4 gap-6 p-6 rounded-md shadow-sm dark:bg-gray-50">
                         <div className="space-y-2 col-span-full lg:col-span-1">
                             <p className=" ">Donation Request Information</p>
@@ -172,4 +171,4 @@ Medical College Hospital" className="w-full rounded-md focus:ring focus:ring-opa
     );
 };
 
-export default CreateDonationRequest;
+export default UpdatedDonationRequest;

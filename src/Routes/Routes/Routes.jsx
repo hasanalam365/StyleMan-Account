@@ -11,6 +11,8 @@ import Profile from "../../Pages/Dashboard/Profile/Profile";
 import DonorDashboard from "../../Pages/Dashboard/DonorDashboard/DonorDashboard/DonorDashboard";
 import CreateDonationRequest from "../../Pages/Dashboard/CreateDonationRequest/CreateDonationRequest";
 import MyDonationRequest from "../../Pages/Dashboard/MyDonationRequest/MyDonationRequest";
+import UpdatedDonationRequest from "../../Components/UpdatedDonationRequest/UpdatedDonationRequest";
+
 
 
 
@@ -66,9 +68,16 @@ export const router = createBrowserRouter([
                 element: <MyDonationRequest></MyDonationRequest>
             },
             {
+
+                path: 'updated-donation-request/:id',
+                element: <UpdatedDonationRequest></UpdatedDonationRequest>,
+                loader: ({ params }) => fetch(`http://localhost:5000/updated-donation-request/${params.id}`)
+            },
+            {
                 path: 'profile',
                 element: <Profile></Profile>
             },
+
         ]
 
     }
