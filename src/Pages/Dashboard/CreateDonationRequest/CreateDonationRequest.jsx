@@ -26,13 +26,13 @@ const CreateDonationRequest = () => {
         const district = form.district.value;
         const upazila = form.upazila.value;
         const bloodGroup = form.bloodGroup.value;
-        const donatDate = startDate.toLocaleString().split(",")[0]
+        const donateDate = startDate.toLocaleString().split(",")[0]
         const donateTime = time.toLocaleString().split(",")[1]
         const requestMessage = form.requestMessage.value
         const fullAddress = form.fullAddress.value
         const status = "pending"
 
-        const donationDetails = { recipientName, hospitalName, district, upazila, bloodGroup, requestMessage, fullAddress, donatDate, donateTime, requesterName, requesterEmail, status }
+        const donationDetails = { recipientName, hospitalName, district, upazila, bloodGroup, requestMessage, fullAddress, donateDate, donateTime, requesterName, requesterEmail, status }
 
         // console.table(requestAllInFo)
 
