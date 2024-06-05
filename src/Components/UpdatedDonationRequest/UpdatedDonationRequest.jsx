@@ -13,12 +13,15 @@ const UpdatedDonationRequest = () => {
     const { user } = useAuth()
     const [districts, upazilas] = useDataLoad()
     const loadUpdateData = useLoaderData()
-    console.log(loadUpdateData)
-    const [startDate, setStartDate] = useState(new Date());
-    const [time, setStartTime] = useState(new Date());
 
-    console.log('time check', time)
+    const [startDate, setStartDate] = useState(new Date(loadUpdateData.donateDate));
+
+    const [time, setStartTime] = useState(new Date(loadUpdateData.donateTime));
+
+
     const axiosPublic = useAxiosPublic()
+
+
 
     const handleUpdated = async (e) => {
         e.preventDefault()
@@ -141,7 +144,8 @@ Medical College Hospital" className="w-full rounded-md focus:ring focus:ring-opa
                                 <label htmlFor="Select Date" className="text-lg">Donation Date</label>
                                 <DatePicker
                                     showIcon
-                                    selected={loadUpdateData.donateDate}
+
+                                    selected={startDate}
                                     onSelect={(date) => setStartDate(date)}
 
                                 />
