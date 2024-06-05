@@ -171,7 +171,7 @@ Medical College Hospital" className="w-full rounded-md focus:ring focus:ring-opa
                                 p-2 dark:border-gray-300" />
                             </div>
                             <div className="form-control col-span-full mt-6">
-                                <button className="btn btn-primary">Request</button>
+                                <button className="btn btn-primary">Updated</button>
                             </div>
                         </div>
                     </fieldset>

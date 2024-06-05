@@ -26,8 +26,8 @@ const CreateDonationRequest = () => {
         const district = form.district.value;
         const upazila = form.upazila.value;
         const bloodGroup = form.bloodGroup.value;
-        const donateDate = startDate.toLocaleString().split(",")[0]
-        const donateTime = time.toLocaleString().split(",")[1]
+        const donateDate = startDate.toLocaleString()
+        const donateTime = time.toLocaleString()
         const requestMessage = form.requestMessage.value
         const fullAddress = form.fullAddress.value
         const status = "pending"

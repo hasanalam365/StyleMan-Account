@@ -31,6 +31,8 @@ const MyDonationRequest = () => {
                     <option>Canceled</option>
 
                 </select>
+
+
             </div>
             <div className="overflow-x-auto">
 
@@ -61,8 +63,8 @@ const MyDonationRequest = () => {
                                     <span>{singleData.upazila}</span>
                                 </td>
                                 <td>{singleData.bloodGroup}</td>
-                                <td>{singleData.donateDate}</td>
-                                <td>{singleData.donateTime}</td>
+                                <td>{singleData.donateDate.split(',')[0]}</td>
+                                <td>{singleData.donateTime.split(',')[1]}</td>
                                 <td>{singleData.status}</td>
                                 <td>
                                     <Link to={`/dashboard/updated-donation-request/${singleData._id}`}>
