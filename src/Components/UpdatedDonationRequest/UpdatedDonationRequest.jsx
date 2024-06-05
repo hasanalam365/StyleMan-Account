@@ -6,13 +6,18 @@ import { toast } from "react-toastify";
 import DatePicker from "react-datepicker";
 
 import "react-datepicker/dist/react-datepicker.css";
+import { useLoaderData } from "react-router-dom";
 
 const UpdatedDonationRequest = () => {
 
     const { user } = useAuth()
     const [districts, upazilas] = useDataLoad()
+    const loadUpdateData = useLoaderData()
+    console.log(loadUpdateData)
     const [startDate, setStartDate] = useState(new Date());
     const [time, setStartTime] = useState(new Date());
+
+    console.log('time check', time)
     const axiosPublic = useAxiosPublic()
 
     const handleUpdated = async (e) => {
@@ -27,6 +32,7 @@ const UpdatedDonationRequest = () => {
         const bloodGroup = form.bloodGroup.value;
         const donateDate = startDate.toLocaleString().split(",")[0]
         const donateTime = time.toLocaleString().split(",")[1]
+
         const requestMessage = form.requestMessage.value
         const fullAddress = form.fullAddress.value
         const status = "pending"
@@ -36,15 +42,15 @@ const UpdatedDonationRequest = () => {
         console.table(donationUpdatedDetails)
 
 
-        // try {
-        //     const res = await axiosPublic.post('/create-donation-request', donationUpdatedDetails)
-        //     console.log(res.data)
-        //     if (res.data.insertedId) {
-        //         toast.success('Your request has been updated')
-        //     }
-        // } catch (err) {
-        //     toast.err('something is wrong please try again later')
-        // }
+        try {
+            const res = await axiosPublic.patch(`/updated-donation-request/${loadUpdateData._id}`, donationUpdatedDetails)
+            console.log(res.data)
+            if (res.data.modifiedCount > 0) {
+                toast.success('Your request has been updated')
+            }
+        } catch (err) {
+            toast.err(err.message)
+        }
 
 
     }
@@ -62,12 +68,14 @@ const UpdatedDonationRequest = () => {
                             <div className="col-span-full sm:col-span-3">
                                 <label className="text-lg  ">Recipient Name</label>
                                 <input id="Recipient Name" type="text" placeholder="Recipient Name"
+                                    defaultValue={loadUpdateData.recipientName}
                                     name="recipientName" className="w-full rounded-md
                                     p-2 focus:ring focus:ring-opacity-75 dark:text-gray-50 focus:dark:ring-default-600 dark:border-gray-300" />
                             </div>
                             <div className="col-span-full sm:col-span-3">
                                 <label htmlFor="hospitalName" className="text-lg  ">Hospital Name</label>
-                                <input id="lastname" type="text" name="hospitalName" placeholder="exp: Dhaka 
+                                <input id="lastname" type="text" name="hospitalName"
+                                    defaultValue={loadUpdateData.hospitalName} placeholder="exp: Dhaka 
 Medical College Hospital" className="w-full rounded-md focus:ring focus:ring-opacity-75 dark:text-gray-50 focus:dark:ring-default-600
                                 p-2 dark:border-gray-300" />
                             </div>
@@ -77,6 +85,7 @@ Medical College Hospital" className="w-full rounded-md focus:ring focus:ring-opa
                                     <label className="text-lg  " htmlFor="">Select Blood Group</label>
                                     <select name="bloodGroup" className="select select-success">
 
+                                        <option value={loadUpdateData.bloodGroup}>{loadUpdateData.bloodGroup}</option>
                                         <option value="A+">A+</option>
                                         <option value="A-">A-</option>
                                         <option value="B+">B+</option>
@@ -91,7 +100,7 @@ Medical College Hospital" className="w-full rounded-md focus:ring focus:ring-opa
                                 <div className="flex flex-col sm:col-span-2">
                                     <label className="text-lg  " htmlFor="">Select District</label>
                                     <select name="district" className="select select-success">
-
+                                        <option value={loadUpdateData.district}>{loadUpdateData.district}</option>
                                         {/* districts map */}
                                         {
                                             districts.map(district => <option key={district.id}>
@@ -104,7 +113,7 @@ Medical College Hospital" className="w-full rounded-md focus:ring focus:ring-opa
                                 <div className="flex flex-col sm:col-span-2">
                                     <label className="text-lg  " htmlFor="">Select Upazila</label>
                                     <select name="upazila" className="select select-success">
-
+                                        <option value={loadUpdateData.upazila}>{loadUpdateData.upazila}</option>
                                         {/* districts map */}
                                         {
                                             upazilas.map(upazila => <option key={upazila.id}>
@@ -119,18 +128,20 @@ Medical College Hospital" className="w-full rounded-md focus:ring focus:ring-opa
                             <div className="col-span-full sm:col-span-6">
                                 <label className="text-lg  ">Full Address</label>
                                 <input id="Recipient Name" type="text" placeholder="exp: Zahir Raihan Rd, Dhaka"
+                                    defaultValue={loadUpdateData.fullAddress}
                                     name="fullAddress" className="w-full rounded-md
                                     p-2 focus:ring focus:ring-opacity-75 dark:text-gray-50 focus:dark:ring-default-600 dark:border-gray-300" />
                             </div>
                             <div className="col-span-full">
                                 <label htmlFor="Request Message" className="text-lg">Request Message</label>
-                                <textarea id="requestMessage" name="requestMessage" placeholder="why you need blood?" className="w-full rounded-md focus:ring focus:ring-opacity-75 dark:text-gray-50 focus:dark:ring-default-600 dark:border-gray-300 p-2"></textarea>
+                                <textarea id="requestMessage" name="requestMessage" placeholder="why you need blood?"
+                                    defaultValue={loadUpdateData.requestMessage} className="w-full rounded-md focus:ring focus:ring-opacity-75 dark:text-gray-50 focus:dark:ring-default-600 dark:border-gray-300 p-2"></textarea>
                             </div>
                             <div className="col-span-3 flex flex-col">
                                 <label htmlFor="Select Date" className="text-lg">Donation Date</label>
                                 <DatePicker
                                     showIcon
-                                    selected={startDate}
+                                    selected={loadUpdateData.donateDate}
                                     onSelect={(date) => setStartDate(date)}
 
                                 />
@@ -138,7 +149,7 @@ Medical College Hospital" className="w-full rounded-md focus:ring focus:ring-opa
                             <div className="col-span-3 flex flex-col">
                                 <label htmlFor="Select Date" className="text-lg">Donation Time</label>
                                 <DatePicker
-                                    selected={startDate}
+                                    selected={time}
                                     onChange={(time) => setStartTime(time)}
                                     className="p-2 rounded-lg"
                                     showTimeSelect

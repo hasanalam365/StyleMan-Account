@@ -139,9 +139,9 @@ Medical College Hospital" className="w-full rounded-md focus:ring focus:ring-opa
                             <div className="col-span-3 flex flex-col">
                                 <label htmlFor="Select Date" className="text-lg">Donation Time</label>
                                 <DatePicker
-                                    selected={startDate}
+                                    selected={time}
                                     onChange={(time) => setStartTime(time)}
-                                    className="p-2 rounded-lg"
+                                    className="p-1"
                                     showTimeSelect
                                     showTimeSelectOnly
                                     timeIntervals={15}
