@@ -7,6 +7,7 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import useAxiosPublic from "../../../Hooks/useAxiosPublic";
 import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
 const CreateDonationRequest = () => {
 
@@ -15,6 +16,7 @@ const CreateDonationRequest = () => {
     const [startDate, setStartDate] = useState(new Date());
     const [time, setStartTime] = useState(new Date());
     const axiosPublic = useAxiosPublic()
+    const navigate = useNavigate()
 
     const handleDonateRequest = async (e) => {
         e.preventDefault()
@@ -42,6 +44,7 @@ const CreateDonationRequest = () => {
             console.log(res.data)
             if (res.data.insertedId) {
                 toast.success('Your request succussfully done')
+                navigate('/dashboard/my-donation-requests')
             }
         } catch (err) {
             toast.err('something is wrong please try again later')

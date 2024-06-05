@@ -6,21 +6,19 @@ import { toast } from "react-toastify";
 import DatePicker from "react-datepicker";
 
 import "react-datepicker/dist/react-datepicker.css";
-import { useLoaderData } from "react-router-dom";
+import { useLoaderData, useNavigate } from "react-router-dom";
 
 const UpdatedDonationRequest = () => {
 
     const { user } = useAuth()
     const [districts, upazilas] = useDataLoad()
+
     const loadUpdateData = useLoaderData()
-
     const [startDate, setStartDate] = useState(new Date(loadUpdateData.donateDate));
-
     const [time, setStartTime] = useState(new Date(loadUpdateData.donateTime));
 
-
     const axiosPublic = useAxiosPublic()
-
+    const navigate = useNavigate()
 
 
     const handleUpdated = async (e) => {
@@ -33,8 +31,8 @@ const UpdatedDonationRequest = () => {
         const district = form.district.value;
         const upazila = form.upazila.value;
         const bloodGroup = form.bloodGroup.value;
-        const donateDate = startDate.toLocaleString().split(",")[0]
-        const donateTime = time.toLocaleString().split(",")[1]
+        const donateDate = startDate.toLocaleString()
+        const donateTime = time.toLocaleString()
 
         const requestMessage = form.requestMessage.value
         const fullAddress = form.fullAddress.value
@@ -42,14 +40,14 @@ const UpdatedDonationRequest = () => {
 
         const donationUpdatedDetails = { recipientName, hospitalName, district, upazila, bloodGroup, requestMessage, fullAddress, donateDate, donateTime, requesterName, requesterEmail, status }
 
-        console.table(donationUpdatedDetails)
-
 
         try {
             const res = await axiosPublic.patch(`/updated-donation-request/${loadUpdateData._id}`, donationUpdatedDetails)
             console.log(res.data)
             if (res.data.modifiedCount > 0) {
                 toast.success('Your request has been updated')
+                navigate('/dashboard/my-donation-requests')
+
             }
         } catch (err) {
             toast.err(err.message)
@@ -79,8 +77,7 @@ const UpdatedDonationRequest = () => {
                                 <label htmlFor="hospitalName" className="text-lg  ">Hospital Name</label>
                                 <input id="lastname" type="text" name="hospitalName"
                                     defaultValue={loadUpdateData.hospitalName} placeholder="exp: Dhaka 
-Medical College Hospital" className="w-full rounded-md focus:ring focus:ring-opacity-75 dark:text-gray-50 focus:dark:ring-default-600
-                                p-2 dark:border-gray-300" />
+Medical College Hospital" className="w-full rounded-md focus:ring focus:ring-opacity-75 dark:text-gray-50 focus:dark:ring-default-600  p-2 dark:border-gray-300" />
                             </div>
 
                             <div className="flex flex-col  sm:col-span-6 lg:flex-row  gap-5 ">
@@ -144,10 +141,8 @@ Medical College Hospital" className="w-full rounded-md focus:ring focus:ring-opa
                                 <label htmlFor="Select Date" className="text-lg">Donation Date</label>
                                 <DatePicker
                                     showIcon
-
                                     selected={startDate}
                                     onSelect={(date) => setStartDate(date)}
-
                                 />
                             </div>
                             <div className="col-span-3 flex flex-col">
