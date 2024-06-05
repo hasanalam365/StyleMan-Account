@@ -13,6 +13,7 @@ import CreateDonationRequest from "../../Pages/Dashboard/CreateDonationRequest/C
 import MyDonationRequest from "../../Pages/Dashboard/MyDonationRequest/MyDonationRequest";
 import UpdatedDonationRequest from "../../Components/UpdatedDonationRequest/UpdatedDonationRequest";
 import DashboardRole from "../../Pages/Dashboard/DashboardRole/DashboardRole/DashboardRole";
+import ErrorPage from "../../Components/ErrorPage/ErrorPage";
 
 
 
@@ -22,6 +23,7 @@ export const router = createBrowserRouter([
     {
         path: "/",
         element: <MainLayout></MainLayout>,
+        errorElement: <ErrorPage></ErrorPage>,
         children: [
             {
                 path: '/',

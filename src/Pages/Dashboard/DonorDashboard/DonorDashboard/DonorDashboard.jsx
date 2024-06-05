@@ -78,6 +78,11 @@ const DonorDashboard = () => {
                     </div>
                 </div>
             }
+            <div>
+                <Link to="/dashboard/my-donation-requests">
+                    <button className="btn text-white bg-orange-500 hover:btn-ghost">View my all</button>
+                </Link>
+            </div>
         </div>
     );
 };
