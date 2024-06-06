@@ -55,7 +55,9 @@ export const router = createBrowserRouter([
             },
             {
                 path: '/donarRequestDetails/:id',
-                element: <BloodDonationDetails></BloodDonationDetails>,
+                element: <PrivateRoute>
+                    <BloodDonationDetails></BloodDonationDetails>
+                </PrivateRoute>,
                 loader: ({ params }) => fetch(`http://localhost:5000/donation-request/${params.id}`)
             },
         ]

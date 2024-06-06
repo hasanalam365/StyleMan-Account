@@ -14,7 +14,7 @@ export const AuthContext = createContext(null)
 const AuthProvider = ({ children }) => {
 
     const [user, setUser] = useState()
-    const [loading, setLoading] = useState(true)
+    const [loading, setLoading] = useState(false)
 
 
     //sign up user
@@ -33,14 +33,18 @@ const AuthProvider = ({ children }) => {
 
     //update a user
     const updateUser = (name, photo) => {
+        setLoading(true)
         return updateProfile(auth.currentUser, {
+
             displayName: name,
             photoURL: photo
         })
+
     }
 
     //signOut user
     const signOutUser = () => {
+        setLoading(true)
         return signOut(auth)
     }
 
