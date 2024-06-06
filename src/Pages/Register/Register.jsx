@@ -65,6 +65,7 @@ const Register = () => {
         const confirmPassword = form.confirmPassword.value
         const status = "active"
         const role = "donor"
+
         if (password !== confirmPassword) {
             return setErrorText('Incorrect password')
 
@@ -93,7 +94,7 @@ const Register = () => {
                         signOutUser()
                         navigate('/login')
 
-                        const res = await axiosPublic.post('/users', submitForm)
+                        const res = await axiosPublic.put('/users', submitForm)
                         console.log(res.data)
 
                         if (res.data.insertedId) {

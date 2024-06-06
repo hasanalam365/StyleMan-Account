@@ -71,22 +71,31 @@ export const router = createBrowserRouter([
             {
 
                 path: '/dashboard',
-                element: <DashboardRole></DashboardRole>
+                element: <PrivateRoute>
+                    <DashboardRole></DashboardRole>
+                </PrivateRoute>
+
             },
             {
 
                 path: 'create-donation-request',
-                element: <CreateDonationRequest></CreateDonationRequest>
+                element: <PrivateRoute>
+                    <CreateDonationRequest></CreateDonationRequest>
+                </PrivateRoute>
+
             },
             {
 
                 path: 'my-donation-requests',
-                element: <MyDonationRequest></MyDonationRequest>
+                element: <PrivateRoute>
+                    <MyDonationRequest></MyDonationRequest>
+                </PrivateRoute>
+
             },
             {
 
                 path: 'updated-donation-request/:id',
-                element: <UpdatedDonationRequest></UpdatedDonationRequest>,
+                element: <PrivateRoute> <UpdatedDonationRequest></UpdatedDonationRequest></PrivateRoute>,
                 loader: ({ params }) => fetch(`http://localhost:5000/donation-request/${params.id}`)
             },
             {

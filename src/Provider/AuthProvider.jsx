@@ -33,7 +33,7 @@ const AuthProvider = ({ children }) => {
 
     //update a user
     const updateUser = (name, photo) => {
-        setLoading(true)
+
         return updateProfile(auth.currentUser, {
 
             displayName: name,
@@ -52,10 +52,11 @@ const AuthProvider = ({ children }) => {
     //on Auth user State Change
     useEffect(() => {
         const unSubscribe = onAuthStateChanged(auth, currentUser => {
+            setLoading(false)
             if (currentUser) {
                 console.log(currentUser)
                 setUser(currentUser)
-                setLoading(false)
+
             }
 
         })

@@ -1,11 +1,11 @@
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import useAuth from "../../Hooks/useAuth";
 
 
 const Navbar = () => {
 
     const { user, signOutUser } = useAuth()
-    // console.log(user)
+    const navigate = useNavigate()
 
     const navLinks = <>
         <NavLink to="/">Home</NavLink>
@@ -23,6 +23,7 @@ const Navbar = () => {
 
     const handleLogOut = () => {
         signOutUser()
+        navigate('/')
     }
     return (
         <div className=" bg-base-100 flex justify-between p-2 items-center">
@@ -59,9 +60,15 @@ const Navbar = () => {
                             <a>Dashboard</a></Link>
                     </li>
 
-                    <li>
-                        <button onClick={handleLogOut}><a>Logout</a></button>
-                    </li>
+                    {
+                        user ? <li>
+                            <button onClick={handleLogOut}><a>Logout</a></button>
+                        </li> : <li>
+                            <Link to="/login">
+                                <button><a>Log In</a></button>
+                            </Link>
+                        </li>
+                    }
                 </ul>
             </div>
         </div>
