@@ -15,6 +15,7 @@ import UpdatedDonationRequest from "../../Components/UpdatedDonationRequest/Upda
 import DashboardRole from "../../Pages/Dashboard/DashboardRole/DashboardRole/DashboardRole";
 import ErrorPage from "../../Components/ErrorPage/ErrorPage";
 import DonarRequest from "../../Pages/DonarRequest/DonarRequest";
+import BloodDonationDetails from "../../Components/BloodDonationDetails/BloodDonationDetails";
 
 
 
@@ -52,6 +53,11 @@ export const router = createBrowserRouter([
                 path: '/searchDonors',
                 element: <SearchDonors></SearchDonors>
             },
+            {
+                path: '/donarRequestDetails/:id',
+                element: <BloodDonationDetails></BloodDonationDetails>,
+                loader: ({ params }) => fetch(`http://localhost:5000/donation-request/${params.id}`)
+            },
         ]
     },
     {
@@ -79,7 +85,7 @@ export const router = createBrowserRouter([
 
                 path: 'updated-donation-request/:id',
                 element: <UpdatedDonationRequest></UpdatedDonationRequest>,
-                loader: ({ params }) => fetch(`http://localhost:5000/updated-donation-request/${params.id}`)
+                loader: ({ params }) => fetch(`http://localhost:5000/donation-request/${params.id}`)
             },
             {
                 path: 'profile',

@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import useDataLoad from "../../Hooks/useDataLoad";
 
 const DonarRequest = () => {
@@ -15,7 +16,9 @@ const DonarRequest = () => {
                         <p>Donation Time: {donar.donateTime}</p>
                         <p>Donation Date: {donar.donateDate}</p>
                         <div className="card-actions justify-end">
-                            <button className="btn btn-primary">View Details</button>
+                            <Link to={`/donarRequestDetails/${donar._id}`}>
+                                <button className="btn btn-primary">View Details</button>
+                            </Link>
                         </div>
                     </div>
                 </div>)
