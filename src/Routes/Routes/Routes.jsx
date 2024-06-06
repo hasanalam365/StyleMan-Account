@@ -14,6 +14,7 @@ import MyDonationRequest from "../../Pages/Dashboard/MyDonationRequest/MyDonatio
 import UpdatedDonationRequest from "../../Components/UpdatedDonationRequest/UpdatedDonationRequest";
 import DashboardRole from "../../Pages/Dashboard/DashboardRole/DashboardRole/DashboardRole";
 import ErrorPage from "../../Components/ErrorPage/ErrorPage";
+import DonarRequest from "../../Pages/DonarRequest/DonarRequest";
 
 
 
@@ -28,6 +29,10 @@ export const router = createBrowserRouter([
             {
                 path: '/',
                 element: <Home></Home>
+            },
+            {
+                path: '/donarRequests',
+                element: <DonarRequest></DonarRequest>
             },
             {
                 path: '/fundings',

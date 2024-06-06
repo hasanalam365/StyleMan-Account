@@ -12,11 +12,13 @@ import { useNavigate } from "react-router-dom";
 const CreateDonationRequest = () => {
 
     const { user } = useAuth()
-    const [districts, upazilas] = useDataLoad()
+    const [donationRequests, districts, upazilas] = useDataLoad()
     const [startDate, setStartDate] = useState(new Date());
     const [time, setStartTime] = useState(new Date());
     const axiosPublic = useAxiosPublic()
     const navigate = useNavigate()
+
+
 
     const handleDonateRequest = async (e) => {
         e.preventDefault()
@@ -36,7 +38,7 @@ const CreateDonationRequest = () => {
 
         const donationDetails = { recipientName, hospitalName, district, upazila, bloodGroup, requestMessage, fullAddress, donateDate, donateTime, requesterName, requesterEmail, status }
 
-
+        console.table(donationDetails)
 
 
         try {

@@ -24,6 +24,7 @@ const useDataLoad = () => {
         }
     })
 
+
     //upazila data load
     const { data: upazilas = [] } = useQuery({
         queryKey: ['upazilas'],

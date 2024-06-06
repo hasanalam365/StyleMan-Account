@@ -5,6 +5,7 @@ import { FaEdit } from "react-icons/fa";
 import { MdDeleteForever } from "react-icons/md";
 import { Link } from "react-router-dom";
 import Swal from "sweetalert2";
+import { useState } from "react";
 
 const MyDonationRequest = () => {
 
@@ -17,6 +18,21 @@ const MyDonationRequest = () => {
         queryFn: async () => {
             const { data } = await axiosPublic.get(`/create-donation-request/${user.email}`)
             return data
+        }
+    })
+
+
+
+    const [category, setCategory] = useState('');
+    // const [search, setSearch] = useState([]);
+    console.log(category)
+    const { data: seachData = [] } = useQuery({
+        queryKey: ['filter-search'],
+        queryFn: async () => {
+            const res = await axiosPublic.get('/search', {
+                params: { category },
+            })
+            return res.data
         }
     })
 
@@ -48,18 +64,33 @@ const MyDonationRequest = () => {
         });
     }
 
+    const [set, setSet] = useState()
+
+    const handleSearch = async () => {
+        const response = await fetch(`/search?category=${category}`);
+        const data = await response.json();
+        setSet(data);
+    };
+
+    console.log(set)
+    const handleChange = (e) => {
+        setCategory(e.target.value);
+    };
+
     return (
         <div>
             <div>
-                <select className="select select-bordered w-full max-w-xs">
-                    <option disabled selected>Filter Information</option>
-                    <option>Pending</option>
-                    <option>Inprogress</option>
-                    <option>Done</option>
-                    <option>Canceled</option>
+                <select value={category} onChange={handleChange} className="select select-bordered w-full max-w-xs">
+                    <option disabled selected value=''>Filter Information</option>
+                    <option value="pending">Pending</option>
+                    <option value="inprogress">Inprogress</option>
+                    <option value="done">Done</option>
+                    <option value="canceled">Canceled</option>
 
                 </select>
-
+                <button onClick={
+                    handleSearch
+                } className="btn btn-ghost">Search</button>
 
             </div>
             <div className="overflow-x-auto">

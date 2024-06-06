@@ -42,7 +42,7 @@ const UpdatedDonationRequest = () => {
 
 
         try {
-            const res = await axiosPublic.patch(`/updated-donation-request/${loadUpdateData._id}`, donationUpdatedDetails)
+            const res = await axiosPublic.patch(`/updated-request/${loadUpdateData._id}`, donationUpdatedDetails)
             console.log(res.data)
             if (res.data.modifiedCount > 0) {
                 toast.success('Your request has been updated')
