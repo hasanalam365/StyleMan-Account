@@ -64,6 +64,7 @@ const Register = () => {
         const password = form.password.value;
         const confirmPassword = form.confirmPassword.value
         const status = "active"
+        const role = "donor"
         if (password !== confirmPassword) {
             return setErrorText('Incorrect password')
 
@@ -78,7 +79,7 @@ const Register = () => {
         })
 
         const photoURL = res.data.data.display_url
-        const submitForm = { name, email, photoURL, bloodGroup, district, upazila, status }
+        const submitForm = { name, email, photoURL, bloodGroup, district, upazila, status, role }
 
 
         //signUp User

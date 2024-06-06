@@ -84,7 +84,7 @@ const DonorDashboard = () => {
                                         <td>{singleData.bloodGroup}</td>
                                         <td>{singleData.donateDate.split(',')[0]}</td>
                                         <td>{singleData.donateTime.split(',')[1]}</td>
-                                        <td>{singleData.status}</td>
+                                        <td className={` ${singleData.status === 'pending' && 'text-[#FF5733]' || singleData.status === 'inprogress' && 'text-[#3498DB]' || singleData.status === 'done' && 'text-green-600' || singleData.status === 'canceled' && 'text-red-900'} text-lg `}>{singleData.status}</td>
                                         <td>
                                             <Link to={`/dashboard/updated-donation-request/${singleData._id}`}>
                                                 <FaEdit className="text-xl text-green-600 hover:scale-110"></FaEdit>

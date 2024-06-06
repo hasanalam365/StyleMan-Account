@@ -66,6 +66,21 @@ const Profile = () => {
 
     // }
 
+    const handleUpdatedProfile = (e) => {
+        e.preventDefault()
+        const form = e.target;
+        const name = form.name.value;
+        const email = form.email.value;
+        const bloodGroup = form.bloodGroup.value;
+        const district = form.district.value;
+        const upazila = form.upazila.value;
+        const photoURL = form.photo.files;
+
+        const allinfo = { name, email, bloodGroup, district, upazila, photoURL }
+        console.table(allinfo)
+
+    }
+
     const { data = [] } = useQuery({
         queryKey: ['users'],
         queryFn: async () => {
@@ -73,27 +88,6 @@ const Profile = () => {
             return userData
         }
     })
-
-
-    // console.log(data)
-    // // districts data fetch
-    // const { data: districts = [] } = useQuery({
-    //     queryKey: ['districts'],
-    //     queryFn: async () => {
-    //         const { data } = await axiosPublic.get('/districts')
-    //         return data
-    //     }
-    // })
-
-    // //upazilas fetch data
-    // const { data: upazilas = [] } = useQuery({
-    //     queryKey: ['upazilas'],
-    //     queryFn: async () => {
-    //         const { data } = await axiosPublic.get("/upazilas")
-    //         return data
-    //     }
-    // })
-
 
 
     return (
@@ -128,14 +122,14 @@ const Profile = () => {
                             Admin
                         </p>
 
-                        <div className='w-full p-2 mt-4 rounded-lg'>
-                            <div className='flex flex-col items-center justify-between text-sm text-gray-600 '>
+                        <form onSubmit={handleUpdatedProfile} className='w-full p-2 mt-4 rounded-lg'>
+                            <div className='flex flex-col text-sm text-gray-600 '>
                                 <div className="flex gap-5">
                                     <label className='flex flex-col'>
                                         Name:
                                         <input type="text"
-                                            {...(enableEditBtn && { value: user.displayName })}
-                                            defaultValue={data.displayName}
+                                            {...(enableEditBtn && { value: data.name })}
+                                            defaultValue={data.name}
                                             name="name" className="input bg-gray-50 font-medium text-black p-2" />
 
 
@@ -143,10 +137,10 @@ const Profile = () => {
 
                                     <label className='flex flex-col'>
                                         Email:
-                                        <input type="text"
-                                            {...(enableEditBtn && { value: user.email })}
+                                        <input type="email"
+                                            {...(enableEditBtn && { value: data.email })}
                                             defaultValue={data.email}
-                                            name="name" className="input bg-gray-50 font-medium text-black p-2" />
+                                            name="email" className="input bg-gray-50 font-medium text-black p-2" />
                                     </label>
                                 </div>
 
@@ -160,7 +154,7 @@ const Profile = () => {
 
                                             </div>
                                             <select
-                                                // {...register('bloodGroup')}
+                                                name="bloodGroup"
                                                 className="select select-bordered w-full " required>
                                                 <option
 
@@ -190,7 +184,7 @@ const Profile = () => {
 
                                             </div>
                                             <select
-                                                // {...register('district')}
+                                                name="district"
                                                 className="select select-bordered w-full " required>
                                                 <option>{data.district}</option>
 
@@ -211,7 +205,7 @@ const Profile = () => {
 
                                             </div>
                                             <select
-                                                // {...register('upazila')}
+                                                name="upazila"
                                                 className="select select-bordered w-full " required>
                                                 <option>{data.upazila}</option>
                                                 {
@@ -225,14 +219,34 @@ const Profile = () => {
                                     </div>
 
                                 </div>
-                                <div>
-                                    <button className='bg-[#F43F5E] px-10 py-1 rounded-lg text-white cursor-pointer hover:bg-[#af4053] block mb-1'>
-                                        Update Profile
-                                    </button>
+                                {/* image upload */}
+                                <div className='flex flex-col w-max  text-center mb-5 border-2 p-2'>
+                                    <label>
+                                        <input
+                                            className='text-sm cursor-pointer w-36 hidden'
+                                            type='file'
+                                            name='photo'
+                                            id='image'
+                                            accept='image/*'
+                                            hidden
+                                        />
+                                        <div className='bg-rose-500 text-white border border-gray-300 rounded font-medium cursor-pointer p-1 px-3 hover:bg-rose-500'>
+                                            Update Image
+                                        </div>
+                                    </label>
+                                </div>
+                                <div className="flex justify-end">
+                                    {
+                                        !enableEditBtn && <button className='bg-[#F43F5E] px-10 py-1 rounded-lg text-white cursor-pointer hover:bg-[#af4053] block mb-1'>
+                                            Update Profile
+                                        </button>
+                                    }
 
                                 </div>
+
                             </div>
-                        </div>
+                        </form>
+                        {/* uporer ta div silo */}
                     </div>
                 </div>
             </div>

@@ -115,15 +115,15 @@ const MyDonationRequest = () => {
 
                         {
                             data.map((singleData, idx) => <tr key={singleData._id}>
-                                <th className="text-lg">{idx + 1}</th>
-                                <td className="text-lg">{singleData.recipientName}</td>
-                                <td className="flex flex-col text-lg">
+                                <th>{idx + 1}</th>
+                                <td>{singleData.recipientName}</td>
+                                <td className="flex flex-col">
                                     <span>{singleData.district}</span>
                                     <span>{singleData.upazila}</span>
                                 </td>
-                                <td className="text-lg">{singleData.bloodGroup}</td>
-                                <td className="text-lg">{singleData.donateDate.split(',')[0]}</td>
-                                <td className="text-lg">{singleData.donateTime.split(',')[1]}</td>
+                                <td>{singleData.bloodGroup}</td>
+                                <td>{singleData.donateDate.split(',')[0]}</td>
+                                <td>{singleData.donateTime.split(',')[1]}</td>
 
                                 <td className={` ${singleData.status === 'pending' && 'text-[#FF5733]' || singleData.status === 'inprogress' && 'text-[#3498DB]' || singleData.status === 'done' && 'text-green-600' || singleData.status === 'canceled' && 'text-red-900'} text-lg `}>{singleData.status}</td>
 
@@ -137,7 +137,7 @@ const MyDonationRequest = () => {
                                     <MdDeleteForever className="text-2xl text-red-600 hover:scale-110"></MdDeleteForever>
                                 </td>
 
-                                <td className="text-lg">
+                                <td>
                                     <Link>View</Link>
                                 </td>
                             </tr>)
