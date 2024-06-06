@@ -6,6 +6,7 @@ import { useState } from 'react';
 import { toast } from "react-toastify";
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import useDataLoad from "../../../Hooks/useDataLoad";
 
 const image_hosting_key = import.meta.env.VITE_IMAGE_HOST_KEY
 const image_hosting_api = `https://api.imgbb.com/1/upload?key=${image_hosting_key}`
@@ -17,7 +18,7 @@ const Profile = () => {
     const { user } = useAuth()
     const [enableEditBtn, setEnableEditBtn] = useState(true)
     const axiosPublic = useAxiosPublic()
-
+    const [, districts, upazilas] = useDataLoad()
     // const {
     //     register,
     //     handleSubmit,
@@ -100,131 +101,142 @@ const Profile = () => {
 
         <div className=" min-h-screen bg-base-200 ">
 
+            <div className='flex justify-center items-center h-screen'>
 
-            <div className="w-3/4 mx-auto pt-10">
+                <div className='bg-white shadow-lg rounded-2xl w-3/5 relative'>
+                    <img
+                        alt='profile'
+                        src='https://wallpapercave.com/wp/wp10784415.jpg'
+                        className='w-full mb-4 rounded-t-lg h-36'
+                    />
+                    <div className="absolute top-5 right-5">
+                        <button onClick={() => { setEnableEditBtn(!enableEditBtn) }} className={`bg-[#F43F5E] px-10 py-1 rounded-lg text-white cursor-pointer hover:bg-[#af4053] block mb-1 ${!enableEditBtn && 'hidden'}`}>
+                            Edit
+                        </button>
 
-                <div className="card shrink-0 w-full  shadow-2xl bg-base-100">
-                    <div className='flex justify-end'>
-                        <button onClick={() => { setEnableEditBtn(!enableEditBtn) }} className="btn btn-primary">Edit</button>
                     </div>
-                    <form className="card-body">
-                        <div className="flex gap-5">
-                            <div className="form-control flex-1">
-                                <label className="label">
-                                    <span className="label-text">Name</span>
-                                </label>
+                    <div className='flex flex-col items-center justify-center p-4 -mt-16'>
+                        <a href='#' className='relative block'>
+                            <img
+                                alt='profile'
+                                src={user.photoURL}
+                                className='mx-auto object-cover rounded-full h-24 w-24  border-2 border-white '
+                            />
+                        </a>
 
-                                <input type="text"
-                                    {...(enableEditBtn && { value: data.name })}
-                                    defaultValue={data.name}
-                                    // {...register('name')}
+                        <p className='p-2 px-4 text-xs text-white bg-pink-500 rounded-full'>
+                            Admin
+                        </p>
 
-                                    name="name" className="input input-bordered" />
-                            </div>
-                            <div className="form-control flex-1">
-                                <label className="label">
-                                    <span className="label-text">Email</span>
-                                </label>
-                                <input type="email"  {...(enableEditBtn && { value: data.email })}
-                                    defaultValue={data.email}
-                                    // {...register('email')}
-                                    className="input input-bordered" required />
+                        <div className='w-full p-2 mt-4 rounded-lg'>
+                            <div className='flex flex-col items-center justify-between text-sm text-gray-600 '>
+                                <div className="flex gap-5">
+                                    <label className='flex flex-col'>
+                                        Name:
+                                        <input type="text"
+                                            {...(enableEditBtn && { value: user.displayName })}
+                                            defaultValue={data.displayName}
+                                            name="name" className="input bg-gray-50 font-medium text-black p-2" />
 
-                            </div>
-                        </div>
-                        <div className="flex gap-5">
-                            <div className="form-control">
 
-                                <label className="form-control w-full my-6">
-                                    <div className="label">
-                                        <span className="label-text">Blood Group</span>
+                                    </label>
 
+                                    <label className='flex flex-col'>
+                                        Email:
+                                        <input type="text"
+                                            {...(enableEditBtn && { value: user.email })}
+                                            defaultValue={data.email}
+                                            name="name" className="input bg-gray-50 font-medium text-black p-2" />
+                                    </label>
+                                </div>
+
+
+                                <div className="flex gap-5">
+                                    <div className="form-control">
+
+                                        <label className="form-control w-full my-6">
+                                            <div className="label">
+                                                <span className="label-text">Blood Group</span>
+
+                                            </div>
+                                            <select
+                                                // {...register('bloodGroup')}
+                                                className="select select-bordered w-full " required>
+                                                <option
+
+                                                >{data.bloodGroup}</option>
+                                                {
+                                                    !enableEditBtn && <>
+                                                        <option value="A+">A+</option>
+                                                        <option value="A-">A-</option>
+                                                        <option value="B+">B+</option>
+                                                        <option value="B-">B-</option>
+                                                        <option value="AB+">AB+</option>
+                                                        <option value="AB-">AB-</option>
+                                                        <option value="O+">O+</option>
+                                                        <option value="O-">O-</option>
+                                                    </>
+                                                }
+
+                                            </select>
+
+                                        </label>
                                     </div>
-                                    <select
-                                        // {...register('bloodGroup')}
-                                        className="select select-bordered w-full " required>
-                                        <option
+                                    <div className="form-control">
 
-                                        >{data.bloodGroup}</option>
-                                        {
-                                            !enableEditBtn && <>
-                                                <option value="A+">A+</option>
-                                                <option value="A-">A-</option>
-                                                <option value="B+">B+</option>
-                                                <option value="B-">B-</option>
-                                                <option value="AB+">AB+</option>
-                                                <option value="AB-">AB-</option>
-                                                <option value="O+">O+</option>
-                                                <option value="O-">O-</option>
-                                            </>
-                                        }
+                                        <label className="form-control w-full my-6">
+                                            <div className="label">
+                                                <span className="label-text">District</span>
 
-                                    </select>
+                                            </div>
+                                            <select
+                                                // {...register('district')}
+                                                className="select select-bordered w-full " required>
+                                                <option>{data.district}</option>
 
-                                </label>
-                            </div>
-                            <div className="form-control">
+                                                {
+                                                    !enableEditBtn && districts.map(district => <option selected key={district.id} >{district.name}</option>)
+                                                }
 
-                                <label className="form-control w-full my-6">
-                                    <div className="label">
-                                        <span className="label-text">District</span>
 
+                                            </select>
+
+                                        </label>
                                     </div>
-                                    <select
-                                        // {...register('district')}
-                                        className="select select-bordered w-full " required>
-                                        <option>{data.district}</option>
-                                        {/* 
-                                        {
-                                            districts.map(district => <option selected key={district.id} >{district.name}</option>)
-                                        } */}
+                                    <div className="form-control">
+
+                                        <label className="form-control w-full my-6">
+                                            <div className="label">
+                                                <span className="label-text">Upazila</span>
+
+                                            </div>
+                                            <select
+                                                // {...register('upazila')}
+                                                className="select select-bordered w-full " required>
+                                                <option>{data.upazila}</option>
+                                                {
+                                                    !enableEditBtn && upazilas.map(upazila => <option selected key={upazila.id}>{upazila.name}</option>)
+                                                }
 
 
-                                    </select>
+                                            </select>
 
-                                </label>
-                            </div>
-                            <div className="form-control">
-
-                                <label className="form-control w-full my-6">
-                                    <div className="label">
-                                        <span className="label-text">Upazila</span>
-
+                                        </label>
                                     </div>
-                                    <select
-                                        // {...register('upazila')}
-                                        className="select select-bordered w-full " required>
-                                        <option>{data.upazila}</option>
-                                        {/* {
-                                            upazilas.map(upazila => <option selected key={upazila.id}>{upazila.name}</option>)
-                                        }
- */}
 
-                                    </select>
+                                </div>
+                                <div>
+                                    <button className='bg-[#F43F5E] px-10 py-1 rounded-lg text-white cursor-pointer hover:bg-[#af4053] block mb-1'>
+                                        Update Profile
+                                    </button>
 
-                                </label>
+                                </div>
                             </div>
-
                         </div>
-                        <div className=" form-control p-4 border-2 border-[#E74C3C] flex items-center justify-center w-1/4">
-                            <img className="w-[80px] h-[80px]" src={data?.photoURL} alt="" />
-
-
-                        </div>
-                        <input type="file" name="photoURL" id=""
-                            // {...register('photoURL')} 
-                            required />
-                        <div className="form-control mt-6">
-                            {
-                                !enableEditBtn && <button className="btn btn-secondary">Updated</button>
-                            }
-                        </div>
-                    </form>
-
+                    </div>
                 </div>
-                <ToastContainer></ToastContainer>
             </div>
-        </div>
+        </div >
 
 
     );
