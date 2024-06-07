@@ -4,17 +4,20 @@ import { CgProfile } from "react-icons/cg";
 import { GrLogout, GrUserAdmin } from "react-icons/gr";
 import useAuth from "../../../Hooks/useAuth";
 import { HashLoader } from "react-spinners";
-import { FaHome, FaUser } from "react-icons/fa";
-// import useAxiosPublic from "../../../Hooks/useAxiosPublic";
-// import { useQuery } from "@tanstack/react-query";
+import { FaHome } from "react-icons/fa";
+import { GiGroupedDrops } from "react-icons/gi";
 import { LuHelpingHand } from "react-icons/lu";
-const Sidebar = () => {
+import { FaUsersGear } from "react-icons/fa6";
+// import useAllUsers from "../../../Hooks/useAllUsers";
 
+
+const Sidebar = () => {
 
     const { user, signOutUser } = useAuth()
     const navigate = useNavigate()
 
     const isAdmin = true
+
 
     const handleLogOut = () => {
         signOutUser()
@@ -61,8 +64,8 @@ const Sidebar = () => {
                         <ul className="pt-2 pb-4 space-y-1 text-sm  ">
                             <li className="dark:bg-gray-100 dark:text-gray-900">
                                 <a className="flex items-center p-2 space-x-3 rounded-md">
-                                    <FaUser className="text-xl"></FaUser >
-                                    <Link to="/dashboard/allUsers"> <span>All Users</span></Link>
+                                    <FaUsersGear className="text-xl"></FaUsersGear >
+                                    <Link to="/dashboard/all-users"> <span>All Users</span></Link>
                                 </a>
                             </li>
 
@@ -71,8 +74,8 @@ const Sidebar = () => {
                         <ul className="pt-2 pb-4 space-y-1 text-sm  ">
                             <li className="dark:bg-gray-100 dark:text-gray-900">
                                 <a className="flex items-center p-2 space-x-3 rounded-md">
-                                    <GrUserAdmin className="text-xl"></GrUserAdmin >
-                                    <Link to="/"> <span>Admin</span></Link>
+                                    <GiGroupedDrops className="text-xl"></GiGroupedDrops >
+                                    <Link to="/dashboard/all-blood-donation-request"> <span>All Donation Requests</span></Link>
                                 </a>
                             </li>
                             <div className="divider"></div>

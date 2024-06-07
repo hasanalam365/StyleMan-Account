@@ -8,6 +8,8 @@ import "react-datepicker/dist/react-datepicker.css";
 import useAxiosPublic from "../../../Hooks/useAxiosPublic";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
+import { useQuery } from "@tanstack/react-query";
+import { axiosSecure } from "../../../Hooks/useAxiosSecure";
 
 const CreateDonationRequest = () => {
 
@@ -17,6 +19,17 @@ const CreateDonationRequest = () => {
     const [time, setStartTime] = useState(new Date());
     const axiosPublic = useAxiosPublic()
     const navigate = useNavigate()
+
+    const { data } = useQuery({
+        queryKey: ['user'],
+        queryFn: async () => {
+            const res = await axiosSecure.get(`/user/${user.email}`)
+            console.log(res.data)
+            return res.data
+        }
+    })
+
+    const checkUserStatus = data.status
 
 
 
@@ -40,7 +53,9 @@ const CreateDonationRequest = () => {
 
         console.table(donationDetails)
 
-
+        if (checkUserStatus === 'block') {
+            return toast.error(`Dear ${user.displayName}, you are a block user. cannot create blood request`)
+        }
         try {
             const res = await axiosPublic.post('/create-donation-request', donationDetails)
             console.log(res.data)

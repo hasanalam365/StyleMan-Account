@@ -17,6 +17,7 @@ import ErrorPage from "../../Components/ErrorPage/ErrorPage";
 import DonarRequest from "../../Pages/DonarRequest/DonarRequest";
 import BloodDonationDetails from "../../Components/BloodDonationDetails/BloodDonationDetails";
 import AllUsersPage from "../../Pages/Dashboard/DashboardRole/AdminDashboard/AllUsersPage";
+import AllDonationRequest from "../../Pages/Dashboard/DashboardRole/AdminDashboard/AllDonationRequest";
 
 
 
@@ -78,8 +79,12 @@ export const router = createBrowserRouter([
 
             },
             {
-                path: '/dashboard/allUsers',
+                path: '/dashboard/all-users',
                 element: <AllUsersPage></AllUsersPage>
+            },
+            {
+                path: '/dashboard/all-blood-donation-request',
+                element: <AllDonationRequest></AllDonationRequest>
             },
             {
 

@@ -8,7 +8,7 @@ import { toast } from "react-toastify";
 
 const AllUsersPage = () => {
     const [users, refetch] = useAllUsers()
-    // const usersLength = users.filter(user => user.role === 'donor')
+
     const axiosSecure = useAxiosSecure()
     const [changeRole, setChangeRole] = useState()
 
