@@ -10,6 +10,7 @@ import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { axiosSecure } from "../../../Hooks/useAxiosSecure";
+import useRoleCheckFetch from "../../../Hooks/useRoleCheckFetch";
 
 const CreateDonationRequest = () => {
 
@@ -20,16 +21,9 @@ const CreateDonationRequest = () => {
     const axiosPublic = useAxiosPublic()
     const navigate = useNavigate()
 
-    const { data } = useQuery({
-        queryKey: ['user'],
-        queryFn: async () => {
-            const res = await axiosSecure.get(`/user/${user.email}`)
-            console.log(res.data)
-            return res.data
-        }
-    })
+    const [roleChecked] = useRoleCheckFetch()
 
-    const checkUserStatus = data.status
+    const checkUserStatus = roleChecked.status
 
 
 
