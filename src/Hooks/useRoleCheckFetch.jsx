@@ -6,11 +6,10 @@ const useRoleCheckFetch = () => {
     const { user } = useAuth()
     const axiosSecure = useAxiosSecure()
 
-    const { data: roleChecked } = useQuery({
+    const { data: roleChecked = [] } = useQuery({
         queryKey: ['user'],
         queryFn: async () => {
             const res = await axiosSecure.get(`/user/${user.email}`)
-            console.log(res.data)
             return res.data
         }
     })

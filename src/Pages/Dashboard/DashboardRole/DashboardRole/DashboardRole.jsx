@@ -1,22 +1,29 @@
 
 import useAllUsers from "../../../../Hooks/useAllUsers";
+import useRoleCheckFetch from "../../../../Hooks/useRoleCheckFetch";
 import DonorDashboard from "../../DonorDashboard/DonorDashboard/DonorDashboard";
 import AdminDashboard from "../AdminDashboard/AdminDashboard";
 
 const DashboardRole = () => {
 
     const [users] = useAllUsers()
-    console.log(users)
 
-    const isAdmin = true
+
+    const [roleChecked] = useRoleCheckFetch()
+
+    const isAdmin = roleChecked.role
+    console.log(isAdmin)
 
     return (
         <div>
 
             {
-                isAdmin ? <>
+                isAdmin === 'admin' || isAdmin === 'volunteer' ? <>
                     <AdminDashboard></AdminDashboard>
-                </> : <DonorDashboard></DonorDashboard>
+                </>
+                    :
+                    <DonorDashboard></DonorDashboard>
+
             }
 
 
