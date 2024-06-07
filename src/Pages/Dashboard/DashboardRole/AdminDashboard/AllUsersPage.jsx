@@ -1,30 +1,35 @@
 
 import useAllUsers from "../../../../Hooks/useAllUsers";
-// import { Link } from "react-router-dom";
 import Swal from "sweetalert2";
-// import UserRoleModal from "../../../../Components/Modal/UserRoleModal";
-import { Description, Field, Label, Select } from '@headlessui/react'
-// import { ChevronDownIcon } from '@heroicons/react/20/solid'
-import clsx from 'clsx'
-import { FaSortDown } from 'react-icons/fa';
+import useAxiosSecure from "../../../../Hooks/useAxiosSecure";
+
 
 const AllUsersPage = () => {
-    const [users] = useAllUsers()
+    const [users, refetch] = useAllUsers()
     const usersLength = users.filter(user => user.role === 'donor')
+    const axiosSecure = useAxiosSecure()
 
 
-    const handleStatusChange = (status) => {
+    const handleStatusChange = (user) => {
+
+
         Swal.fire({
             title: ` Do you want to change the Status?`,
 
             showCancelButton: true,
-            confirmButtonText: `${status === 'active' ? 'Block' : 'Active'}`,
+            confirmButtonText: `${user.status === 'active' ? 'Block' : 'Active'}`,
 
-        }).then((result) => {
+        }).then(async (result) => {
             /* Read more about isConfirmed, isDenied below */
             if (result.isConfirmed) {
+                const updatedStatus = `${user.status === 'active' ? 'block' : 'active'}`
 
-                Swal.fire("Saved!", "", "success");
+                const res = await axiosSecure.patch(`/statusUpdate/${user.email}`, { updatedStatus })
+                if (res.data.modifiedCount) {
+                    Swal.fire(`${user.status === 'active' ? 'Blocked' : 'Actived'}`, "", "success");
+                    refetch()
+                }
+
             }
         });
     }
@@ -81,8 +86,8 @@ const AllUsersPage = () => {
                                 </td>
 
 
-                                <td className={` ${user.status === 'active' && 'text-green-600' || user.status === 'block' && 'text-red-600'} text-lg `}>
-                                    <button onClick={() => handleStatusChange(user.status)}>
+                                <td>
+                                    <button onClick={() => handleStatusChange(user)} className={`btn ${user.status === 'active' && 'text-green-600' || user.status === 'block' && 'text-red-600'}`}>
                                         {user.status}
                                     </button>
                                 </td>
@@ -90,27 +95,19 @@ const AllUsersPage = () => {
 
 
                                 <td>
-                                    <div className="w-full max-w-md px-4">
-                                        <Field>
+                                    <div className="w-full max-w-md">
+                                        <div className="">
+                                            <select className="select select-bordered max-w-xs">
+                                                <option disabled selected value=''>{user.role}</option>
+                                                <option value="donor">donor</option>
+                                                <option value="volunteer">volunteer</option>
+                                                <option value="admin">admin</option>
 
-                                            <div className="relative">
-                                                <Select
-                                                    className={clsx(
-                                                        'mt-3 block p-3 appearance-none rounded-lg border-none bg-gray-50  text-sm/6 text-black ',
-                                                        'focus:outline-none data-[focus]:outline-2 data-[focus]:-outline-offset-2 data-[focus]:outline-white/25',
-                                                        // Make the text of each option black on Windows
-                                                        '*:text-black'
-                                                    )}
-                                                >
-                                                    <option selected disabled>{user.role}</option>
-                                                    <option value="donar">donar</option>
-                                                    <option value="volunteer">volunteer</option>
-                                                    <option value="admin">admin</option>
 
-                                                </Select>
+                                            </select>
 
-                                            </div>
-                                        </Field>
+
+                                        </div>
                                     </div>
                                 </td>
                             </tr>)
