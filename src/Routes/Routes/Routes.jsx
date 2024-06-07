@@ -16,6 +16,7 @@ import DashboardRole from "../../Pages/Dashboard/DashboardRole/DashboardRole/Das
 import ErrorPage from "../../Components/ErrorPage/ErrorPage";
 import DonarRequest from "../../Pages/DonarRequest/DonarRequest";
 import BloodDonationDetails from "../../Components/BloodDonationDetails/BloodDonationDetails";
+import AllUsersPage from "../../Pages/Dashboard/DashboardRole/AdminDashboard/AllUsersPage";
 
 
 
@@ -75,6 +76,10 @@ export const router = createBrowserRouter([
                     <DashboardRole></DashboardRole>
                 </PrivateRoute>
 
+            },
+            {
+                path: '/dashboard/allUsers',
+                element: <AllUsersPage></AllUsersPage>
             },
             {
 

@@ -1,10 +1,10 @@
 import { LuLayoutDashboard } from "react-icons/lu";
 import { Link, useNavigate } from "react-router-dom";
 import { CgProfile } from "react-icons/cg";
-import { GrLogout } from "react-icons/gr";
+import { GrLogout, GrUserAdmin } from "react-icons/gr";
 import useAuth from "../../../Hooks/useAuth";
 import { HashLoader } from "react-spinners";
-import { FaHome } from "react-icons/fa";
+import { FaHome, FaUser } from "react-icons/fa";
 // import useAxiosPublic from "../../../Hooks/useAxiosPublic";
 // import { useQuery } from "@tanstack/react-query";
 import { LuHelpingHand } from "react-icons/lu";
@@ -14,6 +14,7 @@ const Sidebar = () => {
     const { user, signOutUser } = useAuth()
     const navigate = useNavigate()
 
+    const isAdmin = true
 
     const handleLogOut = () => {
         signOutUser()
@@ -42,7 +43,6 @@ const Sidebar = () => {
                             <Link to="/"> <span>Home</span></Link>
                         </a>
                     </li>
-                    <div className="divider"></div>
 
                 </ul>
                 <ul className="pt-2 pb-4 space-y-1 text-sm">
@@ -54,6 +54,33 @@ const Sidebar = () => {
                     </li>
 
                 </ul>
+                <div className="divider"></div>
+
+                {
+                    isAdmin && <>
+                        <ul className="pt-2 pb-4 space-y-1 text-sm  ">
+                            <li className="dark:bg-gray-100 dark:text-gray-900">
+                                <a className="flex items-center p-2 space-x-3 rounded-md">
+                                    <FaUser className="text-xl"></FaUser >
+                                    <Link to="/dashboard/allUsers"> <span>All Users</span></Link>
+                                </a>
+                            </li>
+
+
+                        </ul>
+                        <ul className="pt-2 pb-4 space-y-1 text-sm  ">
+                            <li className="dark:bg-gray-100 dark:text-gray-900">
+                                <a className="flex items-center p-2 space-x-3 rounded-md">
+                                    <GrUserAdmin className="text-xl"></GrUserAdmin >
+                                    <Link to="/"> <span>Admin</span></Link>
+                                </a>
+                            </li>
+                            <div className="divider"></div>
+
+                        </ul>
+                    </>
+                }
+
                 <ul className="pt-2 pb-4 space-y-1 text-sm">
                     <li className="dark:bg-gray-100 dark:text-gray-900">
                         <a className="flex items-center p-2 space-x-3 rounded-md">

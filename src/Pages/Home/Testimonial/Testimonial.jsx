@@ -16,7 +16,6 @@ const Testimonial = () => {
         }
     })
 
-    console.log(testimonials)
 
     return (
         <div className="flex gap-10 bg-gray-100 p-16 mb-10">
