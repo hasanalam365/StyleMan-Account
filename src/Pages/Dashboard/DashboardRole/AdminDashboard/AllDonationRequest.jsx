@@ -6,11 +6,16 @@ import Swal from "sweetalert2";
 import { Link } from "react-router-dom";
 import { FaEdit } from "react-icons/fa";
 import { MdDeleteForever } from "react-icons/md";
+import useRoleCheckFetch from "../../../../Hooks/useRoleCheckFetch";
 
 const AllDonationRequest = () => {
 
     const { user } = useAuth()
     const axiosPublic = useAxiosPublic()
+
+    const [roleChecked] = useRoleCheckFetch()
+
+    const isAdmin = roleChecked.role
 
 
     const { data: allRequests = [], refetch } = useQuery({
@@ -76,6 +81,7 @@ const AllDonationRequest = () => {
         setCategory(e.target.value);
     };
 
+
     return (
         <div>
             <div>
@@ -105,8 +111,11 @@ const AllDonationRequest = () => {
                             <th>Donation Date</th>
                             <th>Donation Time</th>
                             <th>Donation Status</th>
-                            <th>Update</th>
-                            <th>Delete</th>
+                            {
+                                isAdmin === 'admin' && <>
+                                    <th>Update</th>
+                                    <th>Delete</th>
+                                </>}
                             <th>Details</th>
                         </tr>
                     </thead>
@@ -126,15 +135,17 @@ const AllDonationRequest = () => {
 
                                 <td className={` ${singleData.status === 'pending' && 'text-[#FF5733]' || singleData.status === 'inprogress' && 'text-[#3498DB]' || singleData.status === 'done' && 'text-green-600' || singleData.status === 'canceled' && 'text-red-900'} text-lg `}>{singleData.status}</td>
 
-                                <td>
-                                    <Link to={`/dashboard/updated-donation-request/${singleData._id}`}>
-                                        <FaEdit className="text-xl text-green-600 hover:scale-110"></FaEdit>
-                                    </Link>
+                                {isAdmin === 'admin' && <>
+                                    <td>
+                                        <Link to={`/dashboard/updated-donation-request/${singleData._id}`}>
+                                            <FaEdit className="text-xl text-green-600 hover:scale-110"></FaEdit>
+                                        </Link>
 
-                                </td>
-                                <td onClick={() => handleDelete(singleData._id)}>
-                                    <MdDeleteForever className="text-2xl text-red-600 hover:scale-110"></MdDeleteForever>
-                                </td>
+                                    </td>
+                                    <td onClick={() => handleDelete(singleData._id)}>
+                                        <MdDeleteForever className="text-2xl text-red-600 hover:scale-110"></MdDeleteForever>
+                                    </td>
+                                </>}
 
                                 <td>
                                     <Link>View</Link>
