@@ -2,17 +2,17 @@
 import useAllUsers from "../../../../Hooks/useAllUsers";
 import Swal from "sweetalert2";
 import useAxiosSecure from "../../../../Hooks/useAxiosSecure";
+import { useState } from "react";
+import { toast } from "react-toastify";
 
 
 const AllUsersPage = () => {
     const [users, refetch] = useAllUsers()
-    const usersLength = users.filter(user => user.role === 'donor')
+    // const usersLength = users.filter(user => user.role === 'donor')
     const axiosSecure = useAxiosSecure()
-
+    const [changeRole, setChangeRole] = useState()
 
     const handleStatusChange = (user) => {
-
-
         Swal.fire({
             title: ` Do you want to change the Status?`,
 
@@ -34,11 +34,26 @@ const AllUsersPage = () => {
         });
     }
 
+    const handleRoleChange = (e) => {
+        setChangeRole(e.target.value)
+
+
+    }
+    const hangleConfirmChange = async (user) => {
+        const updatedRole = changeRole
+        const res = await axiosSecure.patch(`/updatedRole/${user.email}`, { updatedRole })
+        console.log(res.data)
+        if (res.data.modifiedCount) {
+            toast.success('Role Change Successfully Done')
+            refetch()
+        }
+    }
+
     return (
         <div>
             <div className="flex items-center justify-between">
                 <div>
-                    <h2 className="text-3xl font-semibold">Total Users: {usersLength.length}</h2>
+                    <h2 className="text-3xl font-semibold">Total Users: {users.length}</h2>
                 </div>
                 <div className="">
                     <select className="select select-bordered max-w-xs">
@@ -77,7 +92,7 @@ const AllUsersPage = () => {
                                     <img className="w-[45px] h-[45px] rounded-full" src={user.photoURL} alt="" />
                                 </td>
                                 <td>{user.name}</td>
-                                <td className="flex flex-col">
+                                <td>
                                     {user.email}
                                 </td>
                                 <td>
@@ -95,20 +110,27 @@ const AllUsersPage = () => {
 
 
                                 <td>
-                                    <div className="w-full max-w-md">
-                                        <div className="">
-                                            <select className="select select-bordered max-w-xs">
-                                                <option disabled selected value=''>{user.role}</option>
-                                                <option value="donor">donor</option>
-                                                <option value="volunteer">volunteer</option>
-                                                <option value="admin">admin</option>
 
-
-                                            </select>
-
-
+                                    {/* Open the modal using document.getElementById('ID').showModal() method */}
+                                    <button className="btn" onClick={() => document.getElementById('my_modal_1').showModal()}>{user.role}</button>
+                                    <dialog id="my_modal_1" className="modal">
+                                        <div className="modal-box text-center">
+                                            <div className="w-full ">
+                                                <select onChange={handleRoleChange} className="select select-bordered w-1/2">
+                                                    <option disabled selected value=''>{user.role}</option>
+                                                    <option value="donor">donor</option>
+                                                    <option value="volunteer">volunteer</option>
+                                                    <option value="admin">admin</option>
+                                                </select>
+                                            </div>
+                                            <div className="modal-action">
+                                                <form method="dialog">
+                                                    {/* if there is a button in form, it will close the modal */}
+                                                    <button onClick={() => hangleConfirmChange(user)} className="btn bg-orange-600 text-white">confirm</button>
+                                                </form>
+                                            </div>
                                         </div>
-                                    </div>
+                                    </dialog>
                                 </td>
                             </tr>)
                         }
