@@ -18,6 +18,7 @@ const AllDonationRequest = () => {
     const [roleChecked] = useRoleCheckFetch()
 
     const isAdmin = roleChecked.role
+    const isVolunteer = roleChecked.role
 
 
     const { data: allRequests = [], refetch } = useQuery({
@@ -137,14 +138,15 @@ const AllDonationRequest = () => {
                             <th>Donation Status</th>
                             <th>Updated Status</th>
                             {
-                                isAdmin === 'admin' && <>
+                                isAdmin === 'admin' &&
 
-                                    <th>Actions</th>
+                                <th>Actions</th>
 
-                                </>
+
                             }
 
                             <th>Details</th>
+
                         </tr>
                     </thead>
                     <tbody>
@@ -187,12 +189,13 @@ const AllDonationRequest = () => {
                                             </button>
 
                                         </td>
-                                        :
-                                        <td></td>
+                                        : <td></td>
+
                                 }
 
-                                <td >
-                                    {isAdmin === 'admin' &&
+
+                                {isAdmin === 'admin' &&
+                                    <td >
                                         <div className="flex">
                                             <button>
                                                 <Link to={`/dashboard/updated-donation-request/${singleData._id}`}>
@@ -205,9 +208,9 @@ const AllDonationRequest = () => {
                                             </button>
                                         </div>
 
+                                    </td>
+                                }
 
-                                    }
-                                </td>
                                 <td>
                                     <Link to={`/donarRequestDetails/${singleData._id}`}>View</Link>
                                 </td>

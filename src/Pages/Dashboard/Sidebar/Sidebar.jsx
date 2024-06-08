@@ -17,9 +17,10 @@ const Sidebar = () => {
 
     const { user, signOutUser } = useAuth()
     const navigate = useNavigate()
-    // const [roleChecked] = useRoleCheckFetch()
+    const [roleChecked] = useRoleCheckFetch()
 
-    // const isAdmin = roleChecked.role
+    const isVolunteer = roleChecked.role
+
 
     const [isAdmin] = useAdmin()
 
@@ -89,7 +90,24 @@ const Sidebar = () => {
 
                         </ul>
                     </>
+
                 }
+                {
+
+                    isVolunteer === 'volunteer' && <ul className="pt-2 pb-4 space-y-1 text-sm  ">
+                        <li className="dark:bg-gray-100 dark:text-gray-900">
+                            <a className="flex items-center p-2 space-x-3 rounded-md">
+                                <GiGroupedDrops className="text-xl"></GiGroupedDrops >
+                                <Link to="/dashboard/all-blood-donation-request"> <span>All Donation Requests</span></Link>
+                            </a>
+                        </li>
+                        <div className="divider"></div>
+
+                    </ul>
+                }
+
+
+
                 {/* volunteer  */}
                 {
                     isAdmin === 'volunteer' && <ul className="pt-2 pb-4 space-y-1 text-sm  ">
@@ -142,7 +160,7 @@ const Sidebar = () => {
                     </li>
                 </ul>
             </div>
-        </div>
+        </div >
     );
 };
 
