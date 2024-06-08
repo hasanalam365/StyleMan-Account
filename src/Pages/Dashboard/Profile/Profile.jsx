@@ -21,7 +21,7 @@ const Profile = () => {
     const [enableEditBtn, setEnableEditBtn] = useState(true)
     const axiosPublic = useAxiosPublic()
     const [, districts, upazilas] = useDataLoad()
-const navigate=useNavigate()
+    const navigate = useNavigate()
 
     const { data = [] } = useQuery({
         queryKey: ['user'],
@@ -66,7 +66,7 @@ const navigate=useNavigate()
             const updated = await axiosPublic.patch(`/updateProfile/${user.email}`, updatedProfileInfo)
             if (updated.data.modifiedCount > 0) {
                 toast.success('Profile Updated Successfully')
-                navigate('/dashboard')
+                setEnableEditBtn(true)
             }
         }
 
@@ -124,7 +124,7 @@ const navigate=useNavigate()
                                         Email:
                                         <input type="email"
                                             {...(enableEditBtn && { value: data.email })}
-                                            defaultValue={data.email}
+                                            value={data.email}
                                             name="email" className="input bg-gray-50 font-medium text-black p-2" />
                                     </label>
                                 </div>
@@ -174,7 +174,7 @@ const navigate=useNavigate()
                                                 <option>{data.district}</option>
 
                                                 {
-                                                    !enableEditBtn && districts.map(district => <option selected key={district.id} >{district.name}</option>)
+                                                    !enableEditBtn && districts.map(district => <option selected key={district.id} >{data.district}</option>)
                                                 }
 
 
@@ -194,7 +194,7 @@ const navigate=useNavigate()
                                                 className="select select-bordered w-full " required>
                                                 <option>{data.upazila}</option>
                                                 {
-                                                    !enableEditBtn && upazilas.map(upazila => <option selected key={upazila.id}>{upazila.name}</option>)
+                                                    !enableEditBtn && upazilas.map(upazila => <option selected key={upazila.id}>{data.upazila}</option>)
                                                 }
 
 
@@ -205,7 +205,7 @@ const navigate=useNavigate()
 
                                 </div>
                                 {/* image upload */}
-                                {/* <div className='flex flex-col w-max  text-center mb-5 border-2 p-2'>
+                                {enableEditBtn ? <div className='flex flex-col w-max  text-center mb-5 border-2 p-2'>
                                     <label>
                                         <input
                                             className='text-sm cursor-pointer w-36 hidden'
@@ -219,10 +219,12 @@ const navigate=useNavigate()
                                             Update Image
                                         </div>
                                     </label>
-                                </div> */}
-                                <div className="form-control w-1/2">
-                                    <input type="file" className="bg-gray-50 p-2" name='photo' id="" />
-                                </div>
+                                </div> :
+                                    <div className="form-control w-1/2">
+                                        <input type="file" className="bg-gray-50 p-2 " name='photo' id="" required />
+                                    </div>
+                                }
+
                                 <div className="flex justify-end">
                                     {
                                         !enableEditBtn && <button className='bg-[#F43F5E] px-10 py-1 rounded-lg text-white cursor-pointer hover:bg-[#af4053] block mb-1'>
