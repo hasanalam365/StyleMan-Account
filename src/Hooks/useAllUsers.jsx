@@ -1,14 +1,16 @@
 import { useQuery } from "@tanstack/react-query";
-import useAxiosPublic from "./useAxiosPublic";
+
+import useAxiosSecure from "./useAxiosSecure";
 
 const useAllUsers = () => {
 
-    const axiosPublic = useAxiosPublic()
+    // const axiosPublic = useAxiosPublic()
+    const axiosSecure = useAxiosSecure()
 
     const { data: users = [], refetch } = useQuery({
         queryKey: ['users'],
         queryFn: async () => {
-            const { data } = await axiosPublic.get('/users', {
+            const { data } = await axiosSecure.get('/users', {
                 headers: {
                     authorization: `Bearer ${localStorage.getItem('access-token')}`
                 }

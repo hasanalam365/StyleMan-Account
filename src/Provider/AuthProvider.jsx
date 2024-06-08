@@ -74,7 +74,7 @@ const AuthProvider = ({ children }) => {
             setLoading(false)
         })
         return () => unSubscribe()
-    }, [])
+    }, [axiosPublic])
 
 
     const allInfo = {

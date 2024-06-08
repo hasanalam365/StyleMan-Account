@@ -1,10 +1,15 @@
 import axios from "axios"
+import { useNavigate } from "react-router-dom";
+import useAuth from "./useAuth";
 
 export const axiosSecure = axios.create({
     baseURL: 'http://localhost:5000'
 })
 
 const useAxiosSecure = () => {
+
+    const navigate = useNavigate()
+    const { signOutUser } = useAuth()
 
     axiosSecure.interceptors.request.use(function (config) {
         // Do something before request is sent
@@ -23,9 +28,13 @@ const useAxiosSecure = () => {
     axiosSecure.interceptors.response.use(function (response) {
 
         return response;
-    }, (error) => {
+    }, async (error) => {
 
         console.log('error status in the interceptor', error.response.status)
+        if (error.response.status === 401 || error.response.status === 403) {
+            await signOutUser()
+            navigate('/login')
+        }
         return Promise.reject(error);
     });
 
