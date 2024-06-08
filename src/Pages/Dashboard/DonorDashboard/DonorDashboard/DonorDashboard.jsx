@@ -3,8 +3,9 @@ import useAuth from "../../../../Hooks/useAuth";
 import useAxiosPublic from "../../../../Hooks/useAxiosPublic";
 import { Link } from "react-router-dom";
 import { FaEdit } from "react-icons/fa";
-import { MdDeleteForever } from "react-icons/md";
+import { MdDeleteForever, MdOutlineCancel } from "react-icons/md";
 import Swal from "sweetalert2";
+import { IoCheckmarkDoneCircle } from "react-icons/io5";
 
 const DonorDashboard = () => {
     const { user } = useAuth()
@@ -47,6 +48,27 @@ const DonorDashboard = () => {
         });
     }
 
+    const handleCancel = async (data) => {
+
+        const status = data.status === 'canceled' ? 'done' : 'canceled'
+
+        const res = await axiosPublic.patch(`/changeStatus/${data._id}`, { status })
+        if (res.data.modifiedCount > 0) {
+            toast.success(`${data.status === 'done' ? 'Done' : 'Canceled'}`)
+            navigate('/dashboard')
+        }
+    }
+    const handleDone = async (data) => {
+
+        const status = data.status === 'done' ? 'canceled' : 'done'
+
+        const res = await axiosPublic.patch(`/changeStatus/${data._id}`, { status })
+        if (res.data.modifiedCount > 0) {
+            toast.success(`${data.status === 'done' ? 'Canceled' : 'Done'}`)
+            navigate('/dashboard')
+        }
+    }
+
     return (
         <div>
             <h1 className="text-3xl font-semibold mb-8">Welcome to <span className="text-orange-600">{user.displayName}</span></h1>
@@ -54,11 +76,11 @@ const DonorDashboard = () => {
                 !data.length == [] && <>
                     <div>
 
-                        <div className="overflow-x-auto">
+                        <div className="overflow-x-auto mr-5 mt-5 ">
 
-                            <table className="table table-zebra">
+                            <table className="table table-zebra ">
                                 {/* head */}
-                                <thead>
+                                <thead className="bg-orange-600 text-white">
                                     <tr>
                                         <th>#</th>
                                         <th>Recipient Name</th>
@@ -67,8 +89,8 @@ const DonorDashboard = () => {
                                         <th>Donation Date</th>
                                         <th>Donation Time</th>
                                         <th>Donation Status</th>
-                                        <th>Update</th>
-                                        <th>Delete</th>
+                                        <th>Actions</th>
+
                                         <th>Details</th>
                                     </tr>
                                 </thead>
@@ -78,24 +100,40 @@ const DonorDashboard = () => {
                                         data.map((singleData, idx) => <tr key={singleData._id}>
                                             <th>{idx + 1}</th>
                                             <td>{singleData.recipientName}</td>
-                                            <td className="flex flex-col">
-                                                <span>{singleData.district}</span>
+                                            <td className="">
+                                                <span>{singleData.district},</span>
                                                 <span>{singleData.upazila}</span>
                                             </td>
                                             <td>{singleData.bloodGroup}</td>
                                             <td>{singleData.donateDate.split(',')[0]}</td>
                                             <td>{singleData.donateTime.split(',')[1]}</td>
                                             <td className={` ${singleData.status === 'pending' && 'text-[#FF5733]' || singleData.status === 'inprogress' && 'text-[#3498DB]' || singleData.status === 'done' && 'text-green-600' || singleData.status === 'canceled' && 'text-red-900'} text-lg `}>{singleData.status}</td>
-                                            <td>
-                                                <Link to={`/dashboard/updated-donation-request/${singleData._id}`}>
-                                                    <FaEdit className="text-xl text-green-600 hover:scale-110"></FaEdit>
-                                                </Link>
+                                            {
+                                                singleData.status === 'inprogress' ?
 
-                                            </td>
-                                            <td onClick={() => handleDelete(singleData._id)}>
-                                                <MdDeleteForever className="text-2xl text-red-600 hover:scale-110"></MdDeleteForever>
-                                            </td>
+                                                    <td className="flex gap-1">
+                                                        <button onClick={() => handleCancel(singleData)} className="tooltip" data-tip="cancel">
+                                                            <MdOutlineCancel className="text-xl  text-red-600 hover:scale-110" ></MdOutlineCancel>
+                                                        </button>
+                                                        <button onClick={() => handleDone(singleData)} className="tooltip" data-tip="done">
+                                                            <IoCheckmarkDoneCircle className="text-xl  text-green-600 hover:scale-110"></IoCheckmarkDoneCircle>
+                                                        </button>
 
+                                                    </td>
+
+                                                    :
+                                                    <td className="flex gap-1">
+                                                        <button>
+                                                            <Link to={`/dashboard/updated-donation-request/${singleData._id}`} className="tooltip" data-tip="updated">
+                                                                <FaEdit className="text-xl text-green-600 hover:scale-110"></FaEdit>
+                                                            </Link>
+
+                                                        </button>
+                                                        <button onClick={() => handleDelete(singleData._id)} className="tooltip" data-tip="delete">
+                                                            <MdDeleteForever className="text-2xl text-red-600 hover:scale-110"></MdDeleteForever>
+                                                        </button>
+                                                    </td>
+                                            }
                                             <td>
                                                 <Link to={`/donarRequestDetails/${singleData._id}`}>View</Link>
                                             </td>

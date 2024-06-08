@@ -1,4 +1,4 @@
-
+import { FaArrowDown } from "react-icons/fa";
 import useAllUsers from "../../../../Hooks/useAllUsers";
 import Swal from "sweetalert2";
 import useAxiosSecure from "../../../../Hooks/useAxiosSecure";
@@ -41,7 +41,7 @@ const AllUsersPage = () => {
     }
     const hangleConfirmChange = async (user) => {
         const updatedRole = changeRole
-        const res = await axiosSecure.patch(`/updatedRole/${user.email}`, { updatedRole })
+        const res = await axiosSecure.patch(`/user/admin/${user.email}`, { updatedRole })
         console.log(res.data)
         if (res.data.modifiedCount) {
             toast.success('Role Change Successfully Done')
@@ -67,11 +67,11 @@ const AllUsersPage = () => {
 
                 </div>
             </div>
-            <div className="overflow-x-auto">
+            <div className="overflow-x-auto mr-5 mt-5 ">
 
-                <table className="table table-zebra">
+                <table className="table table-zebra ">
                     {/* head */}
-                    <thead>
+                    <thead className="bg-orange-600 text-white">
                         <tr>
                             <th>#</th>
                             <th>Profile</th>
@@ -112,12 +112,12 @@ const AllUsersPage = () => {
                                 <td>
 
                                     {/* Open the modal using document.getElementById('ID').showModal() method */}
-                                    <button className="btn" onClick={() => document.getElementById('my_modal_1').showModal()}>{user.role}</button>
+                                    <button className="btn" onClick={() => document.getElementById('my_modal_1').showModal()}>{user.role} <FaArrowDown /></button>
                                     <dialog id="my_modal_1" className="modal">
                                         <div className="modal-box text-center">
                                             <div className="w-full ">
                                                 <select onChange={handleRoleChange} className="select select-bordered w-1/2">
-                                                    <option disabled selected value=''>{user.role}</option>
+                                                    <option disabled selected value=''>{user.role}  </option>
                                                     <option value="donor">donor</option>
                                                     <option value="volunteer">volunteer</option>
                                                     <option value="admin">admin</option>

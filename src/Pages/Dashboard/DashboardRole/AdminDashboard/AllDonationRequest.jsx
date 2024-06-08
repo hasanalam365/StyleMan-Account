@@ -98,11 +98,11 @@ const AllDonationRequest = () => {
                 } className="btn btn-ghost">Search</button>
 
             </div>
-            <div className="overflow-x-auto">
+            <div className="overflow-x-auto mr-5 mt-5 ">
 
-                <table className="table table-zebra">
+                <table className="table table-zebra ">
                     {/* head */}
-                    <thead>
+                    <thead className="bg-orange-600 text-white">
                         <tr>
                             <th>#</th>
                             <th>Recipient Name</th>
@@ -125,8 +125,8 @@ const AllDonationRequest = () => {
                             allRequests.map((singleData, idx) => <tr key={singleData._id}>
                                 <th>{idx + 1}</th>
                                 <td>{singleData.recipientName}</td>
-                                <td className="flex flex-col">
-                                    <span>{singleData.district}</span>
+                                <td className="">
+                                    <span>{singleData.district},</span>
                                     <span>{singleData.upazila}</span>
                                 </td>
                                 <td>{singleData.bloodGroup}</td>
