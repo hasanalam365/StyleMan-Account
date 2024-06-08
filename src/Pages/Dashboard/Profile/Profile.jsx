@@ -67,6 +67,7 @@ const Profile = () => {
             if (updated.data.modifiedCount > 0) {
                 toast.success('Profile Updated Successfully')
                 setEnableEditBtn(true)
+                navigate('/dashboard')
             }
         }
 
@@ -104,7 +105,7 @@ const Profile = () => {
                         </a>
 
                         <p className='p-2 px-4 text-xs text-white bg-pink-500 rounded-full'>
-                            Admin
+                            {data.role}
                         </p>
 
                         <form onSubmit={handleUpdatedProfile} className='w-full p-2 mt-4 rounded-lg'>
@@ -174,7 +175,7 @@ const Profile = () => {
                                                 <option>{data.district}</option>
 
                                                 {
-                                                    !enableEditBtn && districts.map(district => <option selected key={district.id} >{data.district}</option>)
+                                                    !enableEditBtn && districts.map(district => <option key={district.id} >{district.name}</option>)
                                                 }
 
 
@@ -194,7 +195,7 @@ const Profile = () => {
                                                 className="select select-bordered w-full " required>
                                                 <option>{data.upazila}</option>
                                                 {
-                                                    !enableEditBtn && upazilas.map(upazila => <option selected key={upazila.id}>{data.upazila}</option>)
+                                                    !enableEditBtn && upazilas.map(upazila => <option key={upazila.id}>{upazila.name}</option>)
                                                 }
 
 
@@ -205,7 +206,7 @@ const Profile = () => {
 
                                 </div>
                                 {/* image upload */}
-                                {enableEditBtn ? <div className='flex flex-col w-max  text-center mb-5 border-2 p-2'>
+                                {!enableEditBtn && <div className='flex flex-col w-max  text-center mb-5 border-2 p-2'>
                                     <label>
                                         <input
                                             className='text-sm cursor-pointer w-36 hidden'
@@ -219,10 +220,7 @@ const Profile = () => {
                                             Update Image
                                         </div>
                                     </label>
-                                </div> :
-                                    <div className="form-control w-1/2">
-                                        <input type="file" className="bg-gray-50 p-2 " name='photo' id="" required />
-                                    </div>
+                                </div>
                                 }
 
                                 <div className="flex justify-end">
