@@ -5,8 +5,10 @@ import { useState } from "react";
 import Swal from "sweetalert2";
 import { Link } from "react-router-dom";
 import { FaEdit } from "react-icons/fa";
-import { MdDeleteForever } from "react-icons/md";
+import { MdDeleteForever, MdOutlineCancel } from "react-icons/md";
 import useRoleCheckFetch from "../../../../Hooks/useRoleCheckFetch";
+import { toast } from "react-toastify";
+import { IoCheckmarkDoneCircle } from "react-icons/io5";
 
 const AllDonationRequest = () => {
 
@@ -82,6 +84,27 @@ const AllDonationRequest = () => {
     };
 
 
+    const handleCancel = async (data) => {
+
+        const status = data.status === 'canceled' ? 'done' : 'canceled'
+
+        const res = await axiosPublic.patch(`/changeStatus/${data._id}`, { status })
+        if (res.data.modifiedCount > 0) {
+            toast.success(`${data.status === 'done' ? 'Done' : 'Canceled'}`)
+            refetch()
+        }
+    }
+    const handleDone = async (data) => {
+
+        const status = data.status === 'done' ? 'canceled' : 'done'
+
+        const res = await axiosPublic.patch(`/changeStatus/${data._id}`, { status })
+        if (res.data.modifiedCount > 0) {
+            toast.success(`${data.status === 'done' ? 'Canceled' : 'Done'}`)
+            refetch()
+        }
+    }
+
     return (
         <div>
             <div>
@@ -110,12 +133,17 @@ const AllDonationRequest = () => {
                             <th>Blood Group</th>
                             <th>Donation Date</th>
                             <th>Donation Time</th>
+                            <th>Donar Info</th>
                             <th>Donation Status</th>
+
                             {
                                 isAdmin === 'admin' && <>
+
                                     <th>Update</th>
                                     <th>Delete</th>
-                                </>}
+                                </>
+                            }
+
                             <th>Details</th>
                         </tr>
                     </thead>
@@ -133,7 +161,21 @@ const AllDonationRequest = () => {
                                 <td>{singleData.donateDate.split(',')[0]}</td>
                                 <td>{singleData.donateTime.split(',')[1]}</td>
 
+                                <td>
+                                    {
+                                        singleData.status === 'inprogress' ? <div className="flex flex-col">
+                                            <p>{singleData.bloodDonarName}</p>
+                                            <p>{singleData.bloodDonarEmail}</p>
+                                        </div>
+                                            :
+                                            <h3 className="text-red-400">Anyone don't agree!</h3>
+                                    }
+                                </td>
+
+
+
                                 <td className={` ${singleData.status === 'pending' && 'text-[#FF5733]' || singleData.status === 'inprogress' && 'text-[#3498DB]' || singleData.status === 'done' && 'text-green-600' || singleData.status === 'canceled' && 'text-red-900'} text-lg `}>{singleData.status}</td>
+
 
                                 {isAdmin === 'admin' && <>
                                     <td>

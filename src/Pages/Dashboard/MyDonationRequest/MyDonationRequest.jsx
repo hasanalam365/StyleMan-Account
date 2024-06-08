@@ -26,8 +26,7 @@ const MyDonationRequest = () => {
         }
     })
 
-    // const filterProgress = data.filter(data => data.status === 'inprogress').map(datas => datas.status === 'inprogress')
-    // console.log(filterProgress)
+
 
     const [category, setCategory] = useState('');
     // const [search, setSearch] = useState([]);
@@ -104,99 +103,114 @@ const MyDonationRequest = () => {
 
     return (
         <div>
-            <div>
-                <select value={category} onChange={handleChange} className="select select-bordered w-full max-w-xs">
-                    <option disabled selected value=''>Filter Information</option>
-                    <option value="pending">Pending</option>
-                    <option value="inprogress">Inprogress</option>
-                    <option value="done">Done</option>
-                    <option value="canceled">Canceled</option>
+            {
+                data.length === 0 ? <div>
+                    <h1 className="text-4xl mt-52 w-1/4 mx-auto">No data Found!!</h1>
+                </div>
+                    :
+                    <div>
+                        <div>
+                            <select value={category} onChange={handleChange} className="select select-bordered w-full max-w-xs">
+                                <option disabled selected value=''>Filter Information</option>
+                                <option value="pending">Pending</option>
+                                <option value="inprogress">Inprogress</option>
+                                <option value="done">Done</option>
+                                <option value="canceled">Canceled</option>
 
-                </select>
-                <button onClick={
-                    handleSearch
-                } className="btn btn-ghost">Search</button>
+                            </select>
+                            <button onClick={
+                                handleSearch
+                            } className="btn btn-ghost">Search</button>
 
-            </div>
-            <div className="overflow-x-auto mr-5 mt-5 ">
+                        </div>
+                        <div className="overflow-x-auto mr-5 mt-5 ">
 
-                <table className="table table-zebra ">
-                    {/* head */}
-                    <thead className="bg-orange-600 text-white">
-                        <tr>
-                            <th>#</th>
-                            <th>Recipient Name</th>
-                            <th>Recipient Location</th>
-                            <th>Blood Group</th>
-                            <th>Donation Date</th>
-                            <th>Donation Time</th>
-                            <th>Donation Status</th>
-                            <th>Actions</th>
+                            <table className="table table-zebra ">
+                                {/* head */}
+                                <thead className="bg-orange-600 text-white">
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Recipient Name</th>
+                                        <th>Recipient Location</th>
+                                        <th>Blood Group</th>
+                                        <th>Donation Date</th>
+                                        <th>Donation Time</th>
+                                        <th>Donation Status</th>
+                                        <th>Donar Info</th>
+                                        <th>Actions</th>
+                                        <th>Details</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
 
-                            <th>Details</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-
-                        {
-                            data.map((singleData, idx) => <tr key={singleData._id}>
-                                <th>{idx + 1}</th>
-                                <td>{singleData.recipientName}</td>
-                                <td className="">
-                                    <span>{singleData.district},</span>
-                                    <span>{singleData.upazila}</span>
-                                </td>
-                                <td>{singleData.bloodGroup}</td>
-                                <td>{singleData.donateDate.split(',')[0]}</td>
-                                <td>{singleData.donateTime.split(',')[1]}</td>
-
-                                <td className={` ${singleData.status === 'pending' && 'text-[#FF5733]' || singleData.status === 'inprogress' && 'text-[#3498DB]' || singleData.status === 'done' && 'text-green-600' || singleData.status === 'canceled' && 'text-red-900'} text-lg `}>{singleData.status}</td>
-
-
-                                {
-                                    singleData.status === 'inprogress' ?
-
-                                        <td className="flex gap-1">
-                                            <button onClick={() => handleCancel(singleData)} className="tooltip" data-tip="cancel">
-                                                <MdOutlineCancel className="text-xl  text-red-600 hover:scale-110" ></MdOutlineCancel>
-                                            </button>
-                                            <button onClick={() => handleDone(singleData)} className="tooltip" data-tip="done">
-                                                <IoCheckmarkDoneCircle className="text-xl  text-green-600 hover:scale-110"></IoCheckmarkDoneCircle>
-                                            </button>
-
-                                        </td>
-
-                                        :
-                                        <td className="flex gap-1">
-                                            <button>
-                                                <Link to={`/dashboard/updated-donation-request/${singleData._id}`} className="tooltip" data-tip="updated">
-                                                    <FaEdit className="text-xl text-green-600 hover:scale-110"></FaEdit>
-                                                </Link>
-
-                                            </button>
-                                            <button onClick={() => handleDelete(singleData._id)} className="tooltip" data-tip="delete">
-                                                <MdDeleteForever className="text-2xl text-red-600 hover:scale-110"></MdDeleteForever>
-                                            </button>
-                                        </td>
-                                }
-                                {/* <td>
-                                    <Link to={`/dashboard/updated-donation-request/${singleData._id}`}>
-                                        <FaEdit className="text-xl text-green-600 hover:scale-110"></FaEdit>
-                                    </Link>
-
-                                </td> */}
+                                    {
+                                        data.map((singleData, idx) => <tr key={singleData._id}>
+                                            <th>{idx + 1}</th>
+                                            <td>{singleData.recipientName}</td>
+                                            <td className="">
+                                                <span>{singleData.district},</span>
+                                                <span>{singleData.upazila}</span>
+                                            </td>
+                                            <td>{singleData.bloodGroup}</td>
+                                            <td>{singleData.donateDate.split(',')[0]}</td>
+                                            <td>{singleData.donateTime.split(',')[1]}</td>
 
 
-                                <td>
-                                    <Link to={`/donarRequestDetails/${singleData._id}`}>View</Link>
-                                </td>
-                            </tr>)
-                        }
+                                            <td className={` ${singleData.status === 'pending' && 'text-[#FF5733]' || singleData.status === 'inprogress' && 'text-[#3498DB]' || singleData.status === 'done' && 'text-green-600' || singleData.status === 'canceled' && 'text-red-900'} text-lg `}>{singleData.status}</td>
 
-                    </tbody>
-                </table>
-            </div>
+                                            <td>
+                                                {
+                                                    singleData.status === 'inprogress' ? <div>
+                                                        <p>{singleData.bloodDonarName},</p>
+                                                        <p>{singleData.bloodDonarEmail}</p>
+                                                    </div>
+                                                        :
+                                                        <h3 className="text-red-400">Anyone don't agree!</h3>
+                                                }
+                                            </td>
+
+                                            {
+                                                singleData.status === 'inprogress' ?
+
+                                                    <td className="flex gap-1">
+                                                        <button onClick={() => handleCancel(singleData)} className="tooltip" data-tip="cancel">
+                                                            <MdOutlineCancel className="text-xl  text-red-600 hover:scale-110" ></MdOutlineCancel>
+                                                        </button>
+                                                        <button onClick={() => handleDone(singleData)} className="tooltip" data-tip="done">
+                                                            <IoCheckmarkDoneCircle className="text-xl  text-green-600 hover:scale-110"></IoCheckmarkDoneCircle>
+                                                        </button>
+
+                                                    </td>
+
+                                                    :
+                                                    <td className="flex gap-1">
+                                                        <button>
+                                                            <Link to={`/dashboard/updated-donation-request/${singleData._id}`} className="tooltip" data-tip="updated">
+                                                                <FaEdit className="text-xl text-green-600 hover:scale-110"></FaEdit>
+                                                            </Link>
+
+                                                        </button>
+                                                        <button onClick={() => handleDelete(singleData._id)} className="tooltip" data-tip="delete">
+                                                            <MdDeleteForever className="text-2xl text-red-600 hover:scale-110"></MdDeleteForever>
+                                                        </button>
+                                                    </td>
+                                            }
+
+
+
+                                            <td>
+                                                <Link to={`/donarRequestDetails/${singleData._id}`}>View</Link>
+                                            </td>
+                                        </tr>)
+                                    }
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+            }
         </div>
+
     );
 };
 

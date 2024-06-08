@@ -1,15 +1,17 @@
 import { useQuery } from "@tanstack/react-query";
 import useAuth from "../../../../Hooks/useAuth";
 import useAxiosPublic from "../../../../Hooks/useAxiosPublic";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { FaEdit } from "react-icons/fa";
 import { MdDeleteForever, MdOutlineCancel } from "react-icons/md";
 import Swal from "sweetalert2";
 import { IoCheckmarkDoneCircle } from "react-icons/io5";
+import { toast } from "react-toastify";
 
 const DonorDashboard = () => {
     const { user } = useAuth()
     const axiosPublic = useAxiosPublic()
+
 
     const { data = [], refetch } = useQuery({
         queryKey: ['my-donation-request'],
@@ -55,7 +57,7 @@ const DonorDashboard = () => {
         const res = await axiosPublic.patch(`/changeStatus/${data._id}`, { status })
         if (res.data.modifiedCount > 0) {
             toast.success(`${data.status === 'done' ? 'Done' : 'Canceled'}`)
-            navigate('/dashboard')
+            refetch()
         }
     }
     const handleDone = async (data) => {
@@ -65,7 +67,7 @@ const DonorDashboard = () => {
         const res = await axiosPublic.patch(`/changeStatus/${data._id}`, { status })
         if (res.data.modifiedCount > 0) {
             toast.success(`${data.status === 'done' ? 'Canceled' : 'Done'}`)
-            navigate('/dashboard')
+            refetch()
         }
     }
 
@@ -90,7 +92,7 @@ const DonorDashboard = () => {
                                         <th>Donation Time</th>
                                         <th>Donation Status</th>
                                         <th>Actions</th>
-
+                                        <th>Donar Info</th>
                                         <th>Details</th>
                                     </tr>
                                 </thead>
@@ -107,6 +109,18 @@ const DonorDashboard = () => {
                                             <td>{singleData.bloodGroup}</td>
                                             <td>{singleData.donateDate.split(',')[0]}</td>
                                             <td>{singleData.donateTime.split(',')[1]}</td>
+
+                                            <td>
+                                                {
+                                                    singleData.status === 'inprogress' ? <div>
+                                                        <p>{singleData.bloodDonarName},</p>
+                                                        <p>{singleData.bloodDonarEmail}</p>
+                                                    </div>
+                                                        :
+                                                        <h3 className="text-red-400">Anyone don't agree!</h3>
+                                                }
+                                            </td>
+
                                             <td className={` ${singleData.status === 'pending' && 'text-[#FF5733]' || singleData.status === 'inprogress' && 'text-[#3498DB]' || singleData.status === 'done' && 'text-green-600' || singleData.status === 'canceled' && 'text-red-900'} text-lg `}>{singleData.status}</td>
                                             {
                                                 singleData.status === 'inprogress' ?
