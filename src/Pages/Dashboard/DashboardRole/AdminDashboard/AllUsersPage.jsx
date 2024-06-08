@@ -17,7 +17,7 @@ const AllUsersPage = () => {
             title: ` Do you want to change the Status?`,
 
             showCancelButton: true,
-            confirmButtonText: `${user.status === 'active' ? 'Block' : 'Active'}`,
+            confirmButtonText: `${user.status === 'active' ? 'block' : 'Active'}`,
 
         }).then(async (result) => {
             /* Read more about isConfirmed, isDenied below */
@@ -26,7 +26,7 @@ const AllUsersPage = () => {
 
                 const res = await axiosSecure.patch(`/statusUpdate/${user.email}`, { updatedStatus })
                 if (res.data.modifiedCount) {
-                    Swal.fire(`${user.status === 'active' ? 'Blocked' : 'Actived'}`, "", "success");
+                    Swal.fire(`${user.status === 'active' ? 'block' : 'Actived'}`, "", "success");
                     refetch()
                 }
 

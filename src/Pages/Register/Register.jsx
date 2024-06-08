@@ -116,7 +116,7 @@ const Register = () => {
 
 
 
-        // console.log('imagefFIle', photo[0].name)
+
 
 
 

@@ -1,4 +1,4 @@
-import { useForm } from "react-hook-form"
+
 import { useQuery } from '@tanstack/react-query';
 import useAxiosPublic from '../../../Hooks/useAxiosPublic';
 import useAuth from '../../../Hooks/useAuth';
@@ -7,9 +7,11 @@ import { toast } from "react-toastify";
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import useDataLoad from "../../../Hooks/useDataLoad";
+import { useNavigate } from 'react-router-dom';
 
 const image_hosting_key = import.meta.env.VITE_IMAGE_HOST_KEY
 const image_hosting_api = `https://api.imgbb.com/1/upload?key=${image_hosting_key}`
+
 
 
 
@@ -19,75 +21,58 @@ const Profile = () => {
     const [enableEditBtn, setEnableEditBtn] = useState(true)
     const axiosPublic = useAxiosPublic()
     const [, districts, upazilas] = useDataLoad()
-    // const {
-    //     register,
-    //     handleSubmit,
-    // } = useForm()
-
-    // const onSubmit = async (dataInput) => {
-
-    //     const { name, email, bloodGroup, district, upazila, photoURL } = dataInput
-
-    //     const imageFile = { image: photoURL[0] }
-
-
-    //     const resImg = await axiosPublic.post(image_hosting_api, imageFile, {
-    //         headers: {
-    //             'content-type': 'multipart/form-data'
-    //         }
-    //     })
-
-    //     console.log('post image', resImg)
-
-    //     const photo = resImg.data.data.display_url
-    //     if (resImg.data.success) {
-    //         const updatedInfo =
-    //         {
-    //             name: name,
-    //             email: email,
-    //             bloodGroup: bloodGroup,
-    //             district: district,
-    //             upazila: upazila,
-    //             photoURL: photo,
-    //             id: data._id
-    //         }
-
-
-    //         const res = await axiosPublic.patch(`/users/${data._id}`, updatedInfo)
-
-
-    //         if (res.data.modifiedCount > 0) {
-    //             toast.success('updated successfully')
-
-
-    //         }
-    //     }
-
-
-    // }
-
-    const handleUpdatedProfile = (e) => {
-        e.preventDefault()
-        const form = e.target;
-        const name = form.name.value;
-        const email = form.email.value;
-        const bloodGroup = form.bloodGroup.value;
-        const district = form.district.value;
-        const upazila = form.upazila.value;
-        const photoURL = form.photo.files;
-
-        const allinfo = { name, email, bloodGroup, district, upazila, photoURL }
-        console.table(allinfo)
-
-    }
+const navigate=useNavigate()
 
     const { data = [] } = useQuery({
-        queryKey: ['users'],
+        queryKey: ['user'],
         queryFn: async () => {
             const { data: userData } = await axiosPublic.get(`/user/${user?.email}`)
             return userData
         }
     })
+    // console.log(data)
+
+
+    const handleUpdatedProfile = async (e) => {
+        e.preventDefault()
+        const form = e.target;
+        const name = form.name.value;
+        const bloodGroup = form.bloodGroup.value;
+        const district = form.district.value;
+        const upazila = form.upazila.value;
+        const photo = form.photo.files;
+
+
+        const imageFile = { image: photo[0] }
+        console.log(imageFile);
+        const res = await axiosPublic.post(image_hosting_api, imageFile, {
+            headers: {
+                'content-type': 'multipart/form-data'
+            }
+        })
+
+        if (res.data.success) {
+            const photoURL = res.data.data.display_url
+
+            const updatedProfileInfo = {
+                name,
+                bloodGroup,
+                district,
+                upazila,
+                photoURL
+            }
+
+
+            const updated = await axiosPublic.patch(`/updateProfile/${user.email}`, updatedProfileInfo)
+            if (updated.data.modifiedCount > 0) {
+                toast.success('Profile Updated Successfully')
+                navigate('/dashboard')
+            }
+        }
+
+    }
+
+
 
 
     return (
@@ -113,7 +98,7 @@ const Profile = () => {
                         <a href='#' className='relative block'>
                             <img
                                 alt='profile'
-                                src={user.photoURL}
+                                src={data.photoURL}
                                 className='mx-auto object-cover rounded-full h-24 w-24  border-2 border-white '
                             />
                         </a>
@@ -220,7 +205,7 @@ const Profile = () => {
 
                                 </div>
                                 {/* image upload */}
-                                <div className='flex flex-col w-max  text-center mb-5 border-2 p-2'>
+                                {/* <div className='flex flex-col w-max  text-center mb-5 border-2 p-2'>
                                     <label>
                                         <input
                                             className='text-sm cursor-pointer w-36 hidden'
@@ -234,6 +219,9 @@ const Profile = () => {
                                             Update Image
                                         </div>
                                     </label>
+                                </div> */}
+                                <div className="form-control w-1/2">
+                                    <input type="file" className="bg-gray-50 p-2" name='photo' id="" />
                                 </div>
                                 <div className="flex justify-end">
                                     {

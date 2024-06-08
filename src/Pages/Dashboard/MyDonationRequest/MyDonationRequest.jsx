@@ -13,7 +13,7 @@ const MyDonationRequest = () => {
     const axiosPublic = useAxiosPublic()
 
 
-    const { data = [], refetch } = useQuery({
+    const { data = [] } = useQuery({
         queryKey: ['my-donation-request'],
         queryFn: async () => {
             const { data } = await axiosPublic.get(`/create-donation-request/${user.email}`)
@@ -25,7 +25,7 @@ const MyDonationRequest = () => {
 
     const [category, setCategory] = useState('');
     // const [search, setSearch] = useState([]);
-    console.log(category)
+    console.log(category, 'category is power bu tnot change')
     const { data: seachData = [] } = useQuery({
         queryKey: ['filter-search'],
         queryFn: async () => {
@@ -64,15 +64,13 @@ const MyDonationRequest = () => {
         });
     }
 
-    const [set, setSet] = useState()
 
-    const handleSearch = async () => {
-        const response = await fetch(`/search?category=${category}`);
-        const data = await response.json();
-        setSet(data);
+    const handleSearch = () => {
+
+
     };
 
-    console.log(set)
+
     const handleChange = (e) => {
         setCategory(e.target.value);
     };
@@ -114,7 +112,7 @@ const MyDonationRequest = () => {
                     <tbody>
 
                         {
-                            data.map((singleData, idx) => <tr key={singleData._id}>
+                            seachData.map((singleData, idx) => <tr key={singleData._id}>
                                 <th>{idx + 1}</th>
                                 <td>{singleData.recipientName}</td>
                                 <td className="flex flex-col">
