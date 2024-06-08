@@ -9,6 +9,7 @@ import { GiGroupedDrops } from "react-icons/gi";
 import { LuHelpingHand } from "react-icons/lu";
 import { FaUsersGear } from "react-icons/fa6";
 import useRoleCheckFetch from "../../../Hooks/useRoleCheckFetch";
+import useAdmin from "../../../Hooks/useAdmin";
 // import useAllUsers from "../../../Hooks/useAllUsers";
 
 
@@ -16,12 +17,12 @@ const Sidebar = () => {
 
     const { user, signOutUser } = useAuth()
     const navigate = useNavigate()
-    const [roleChecked] = useRoleCheckFetch()
+    // const [roleChecked] = useRoleCheckFetch()
 
-    const isAdmin = roleChecked.role
+    // const isAdmin = roleChecked.role
 
-    // const isAdmin2 = roleChecked.role
-    // console.log(isAdmin2)
+    const [isAdmin] = useAdmin()
+
 
 
     const handleLogOut = () => {
@@ -66,7 +67,7 @@ const Sidebar = () => {
 
                 {/* admin dashboard */}
                 {
-                    isAdmin === 'admin' && <>
+                    isAdmin && <>
                         <ul className="pt-2 pb-4 space-y-1 text-sm  ">
                             <li className="dark:bg-gray-100 dark:text-gray-900">
                                 <a className="flex items-center p-2 space-x-3 rounded-md">

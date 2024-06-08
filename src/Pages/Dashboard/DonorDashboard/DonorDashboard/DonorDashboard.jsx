@@ -71,7 +71,7 @@ const DonorDashboard = () => {
 
     return (
         <div>
-            <h1 className="text-3xl font-semibold mb-8">Welcome to <span className="text-orange-600">{user.displayName}</span></h1>
+            <h1 className="text-3xl font-semibold mb-8">Welcome to <span className="text-orange-600">{user?.displayName}</span></h1>
             {
                 !data.length == [] && <>
                     <div>
