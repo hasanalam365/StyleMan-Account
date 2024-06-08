@@ -38,8 +38,8 @@ const AdminDashboard = () => {
                 <div className="stat">
                     <div className="stat-figure text-secondary">
                         <div className="avatar online">
-                            <div className="w-16 rounded-full">
-                                <img src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg" />
+                            <div className=" rounded-full h-[70px] bg-gray-100 w-[70px]">
+
                             </div>
                         </div>
                     </div>

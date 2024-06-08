@@ -24,7 +24,7 @@ const CreateDonationRequest = () => {
     const [roleChecked] = useRoleCheckFetch()
 
     const checkUserStatus = roleChecked.status
-
+    console.log(checkUserStatus)
 
 
     const handleDonateRequest = async (e) => {

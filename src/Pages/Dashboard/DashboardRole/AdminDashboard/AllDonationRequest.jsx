@@ -135,12 +135,12 @@ const AllDonationRequest = () => {
                             <th>Donation Time</th>
                             <th>Donar Info</th>
                             <th>Donation Status</th>
-
+                            <th>Updated Status</th>
                             {
                                 isAdmin === 'admin' && <>
 
-                                    <th>Update</th>
-                                    <th>Delete</th>
+                                    <th>Actions</th>
+
                                 </>
                             }
 
@@ -175,20 +175,39 @@ const AllDonationRequest = () => {
 
 
                                 <td className={` ${singleData.status === 'pending' && 'text-[#FF5733]' || singleData.status === 'inprogress' && 'text-[#3498DB]' || singleData.status === 'done' && 'text-green-600' || singleData.status === 'canceled' && 'text-red-900'} text-lg `}>{singleData.status}</td>
+                                {
+                                    singleData.status === 'inprogress' ?
+
+                                        <td className="flex gap-1">
+                                            <button onClick={() => handleCancel(singleData)} className="tooltip" data-tip="cancel">
+                                                <MdOutlineCancel className="text-xl  text-red-600 hover:scale-110" ></MdOutlineCancel>
+                                            </button>
+                                            <button onClick={() => handleDone(singleData)} className="tooltip" data-tip="done">
+                                                <IoCheckmarkDoneCircle className="text-xl  text-green-600 hover:scale-110"></IoCheckmarkDoneCircle>
+                                            </button>
+
+                                        </td>
+                                        :
+                                        <td></td>
+                                }
+
+                                <td >
+                                    {isAdmin === 'admin' &&
+                                        <div className="flex">
+                                            <button>
+                                                <Link to={`/dashboard/updated-donation-request/${singleData._id}`}>
+                                                    <FaEdit className="text-xl text-green-600 hover:scale-110"></FaEdit>
+                                                </Link>
+
+                                            </button>
+                                            <button onClick={() => handleDelete(singleData._id)}>
+                                                <MdDeleteForever className="text-2xl text-red-600 hover:scale-110"></MdDeleteForever>
+                                            </button>
+                                        </div>
 
 
-                                {isAdmin === 'admin' && <>
-                                    <td>
-                                        <Link to={`/dashboard/updated-donation-request/${singleData._id}`}>
-                                            <FaEdit className="text-xl text-green-600 hover:scale-110"></FaEdit>
-                                        </Link>
-
-                                    </td>
-                                    <td onClick={() => handleDelete(singleData._id)}>
-                                        <MdDeleteForever className="text-2xl text-red-600 hover:scale-110"></MdDeleteForever>
-                                    </td>
-                                </>}
-
+                                    }
+                                </td>
                                 <td>
                                     <Link to={`/donarRequestDetails/${singleData._id}`}>View</Link>
                                 </td>
