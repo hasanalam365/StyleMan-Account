@@ -1,19 +1,24 @@
 import { useQuery } from "@tanstack/react-query";
 import useAuth from "../../../Hooks/useAuth";
 import useAxiosPublic from "../../../Hooks/useAxiosPublic";
-import { FaEdit } from "react-icons/fa";
+import { FaCandyCane, FaEdit } from "react-icons/fa";
 import { MdDeleteForever } from "react-icons/md";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import { useState } from "react";
+import { IoCheckmarkDoneCircle } from "react-icons/io5";
+import { MdOutlineCancel } from "react-icons/md";
+import useAxiosSecure from "../../../Hooks/useAxiosSecure";
+import { toast } from "react-toastify";
 
 const MyDonationRequest = () => {
 
     const { user } = useAuth()
     const axiosPublic = useAxiosPublic()
+    const axiosSecure = useAxiosSecure()
+    const navigate = useNavigate()
 
-
-    const { data = [] } = useQuery({
+    const { data = [], refetch } = useQuery({
         queryKey: ['my-donation-request'],
         queryFn: async () => {
             const { data } = await axiosPublic.get(`/create-donation-request/${user.email}`)
@@ -21,11 +26,12 @@ const MyDonationRequest = () => {
         }
     })
 
-
+    // const filterProgress = data.filter(data => data.status === 'inprogress').map(datas => datas.status === 'inprogress')
+    // console.log(filterProgress)
 
     const [category, setCategory] = useState('');
     // const [search, setSearch] = useState([]);
-    console.log(category, 'category is power bu tnot change')
+    // console.log(category, 'category is power bu tnot change')
     const { data: seachData = [] } = useQuery({
         queryKey: ['filter-search'],
         queryFn: async () => {
@@ -75,6 +81,27 @@ const MyDonationRequest = () => {
         setCategory(e.target.value);
     };
 
+    const handleCancel = async (data) => {
+
+        const status = data.status === 'canceled' ? 'done' : 'canceled'
+
+        const res = await axiosPublic.patch(`/changeStatus/${data._id}`, { status })
+        if (res.data.modifiedCount > 0) {
+            toast.success(`${data.status === 'done' ? 'Done' : 'Canceled'}`)
+            navigate('/dashboard')
+        }
+    }
+    const handleDone = async (data) => {
+
+        const status = data.status === 'done' ? 'canceled' : 'done'
+
+        const res = await axiosPublic.patch(`/changeStatus/${data._id}`, { status })
+        if (res.data.modifiedCount > 0) {
+            toast.success(`${data.status === 'done' ? 'Canceled' : 'Done'}`)
+            navigate('/dashboard')
+        }
+    }
+
     return (
         <div>
             <div>
@@ -104,15 +131,15 @@ const MyDonationRequest = () => {
                             <th>Donation Date</th>
                             <th>Donation Time</th>
                             <th>Donation Status</th>
-                            <th>Update</th>
-                            <th>Delete</th>
+                            <th>Actions</th>
+
                             <th>Details</th>
                         </tr>
                     </thead>
                     <tbody>
 
                         {
-                            seachData.map((singleData, idx) => <tr key={singleData._id}>
+                            data.map((singleData, idx) => <tr key={singleData._id}>
                                 <th>{idx + 1}</th>
                                 <td>{singleData.recipientName}</td>
                                 <td className="flex flex-col">
@@ -125,18 +152,43 @@ const MyDonationRequest = () => {
 
                                 <td className={` ${singleData.status === 'pending' && 'text-[#FF5733]' || singleData.status === 'inprogress' && 'text-[#3498DB]' || singleData.status === 'done' && 'text-green-600' || singleData.status === 'canceled' && 'text-red-900'} text-lg `}>{singleData.status}</td>
 
-                                <td>
+
+                                {
+                                    singleData.status === 'inprogress' ?
+
+                                        <td className="flex gap-1">
+                                            <button onClick={() => handleCancel(singleData)} className="tooltip" data-tip="cancel">
+                                                <MdOutlineCancel className="text-xl  text-red-600 hover:scale-110" ></MdOutlineCancel>
+                                            </button>
+                                            <button onClick={() => handleDone(singleData)} className="tooltip" data-tip="done">
+                                                <IoCheckmarkDoneCircle className="text-xl  text-green-600 hover:scale-110"></IoCheckmarkDoneCircle>
+                                            </button>
+
+                                        </td>
+
+                                        :
+                                        <td className="flex gap-1">
+                                            <button>
+                                                <Link to={`/dashboard/updated-donation-request/${singleData._id}`} className="tooltip" data-tip="updated">
+                                                    <FaEdit className="text-xl text-green-600 hover:scale-110"></FaEdit>
+                                                </Link>
+
+                                            </button>
+                                            <button onClick={() => handleDelete(singleData._id)} className="tooltip" data-tip="delete">
+                                                <MdDeleteForever className="text-2xl text-red-600 hover:scale-110"></MdDeleteForever>
+                                            </button>
+                                        </td>
+                                }
+                                {/* <td>
                                     <Link to={`/dashboard/updated-donation-request/${singleData._id}`}>
                                         <FaEdit className="text-xl text-green-600 hover:scale-110"></FaEdit>
                                     </Link>
 
-                                </td>
-                                <td onClick={() => handleDelete(singleData._id)}>
-                                    <MdDeleteForever className="text-2xl text-red-600 hover:scale-110"></MdDeleteForever>
-                                </td>
+                                </td> */}
+
 
                                 <td>
-                                    <Link>View</Link>
+                                    <Link to={`/donarRequestDetails/${singleData._id}`}>View</Link>
                                 </td>
                             </tr>)
                         }

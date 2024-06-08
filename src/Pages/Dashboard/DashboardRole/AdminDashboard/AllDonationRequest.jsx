@@ -148,7 +148,7 @@ const AllDonationRequest = () => {
                                 </>}
 
                                 <td>
-                                    <Link>View</Link>
+                                    <Link to={`/donarRequestDetails/${singleData._id}`}>View</Link>
                                 </td>
                             </tr>)
                         }
