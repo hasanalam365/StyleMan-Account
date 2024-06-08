@@ -112,12 +112,12 @@ const AllUsersPage = () => {
                                 <td>
 
                                     {/* Open the modal using document.getElementById('ID').showModal() method */}
-                                    <button className="btn" onClick={() => document.getElementById('my_modal_1').showModal()}>{user.role} <FaArrowDown /></button>
+                                    <button className="btn" onClick={() => document.getElementById('my_modal_1').showModal()}>{user.role}<FaArrowDown /></button>
                                     <dialog id="my_modal_1" className="modal">
                                         <div className="modal-box text-center">
                                             <div className="w-full ">
                                                 <select onChange={handleRoleChange} className="select select-bordered w-1/2">
-                                                    <option disabled selected value=''>{user.role}  </option>
+                                                    <option disabled selected value=''>{user.role}</option>
                                                     <option value="donor">donor</option>
                                                     <option value="volunteer">volunteer</option>
                                                     <option value="admin">admin</option>

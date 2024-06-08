@@ -78,8 +78,9 @@ const Register = () => {
                 'content-type': 'multipart/form-data'
             }
         })
-
+        console.log('image check', res.data)
         const photoURL = res.data.data.display_url
+        console.log('photoU', photoURL)
         const submitForm = { name, email, photoURL, bloodGroup, district, upazila, status, role }
 
 
@@ -94,7 +95,7 @@ const Register = () => {
                         signOutUser()
                         navigate('/login')
 
-                        const res = await axiosPublic.put('/users', submitForm)
+                        const res = await axiosPublic.put(`/usercreate/${submitForm.email}`, submitForm)
                         console.log(res.data)
 
                         if (res.data.insertedId) {
