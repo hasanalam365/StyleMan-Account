@@ -25,7 +25,7 @@ const AllDonationRequest = () => {
 
     const [category, setCategory] = useState('');
     // const [search, setSearch] = useState([]);
-    console.log(category)
+    // console.log(category)
     const { data: searchData = [], refetch } = useQuery({
         queryKey: ['filter-search'],
         queryFn: async () => {
@@ -35,7 +35,6 @@ const AllDonationRequest = () => {
             return res.data
         }
     })
-
 
 
     const handleDelete = (id) => {
@@ -110,7 +109,7 @@ const AllDonationRequest = () => {
                     <option value="canceled">Canceled</option>
 
                 </select>
-                <button onClick={handleSearch} className="btn btn-ghost">Search</button>
+                <button onClick={handleSearch} className="btn bg-orange-500 text-white">filter</button>
 
             </div>
             <div className="overflow-x-auto mr-5 mt-5 ">
@@ -183,6 +182,7 @@ const AllDonationRequest = () => {
                                         : <td></td>
 
                                 }
+
 
 
                                 {isAdmin === 'admin' &&

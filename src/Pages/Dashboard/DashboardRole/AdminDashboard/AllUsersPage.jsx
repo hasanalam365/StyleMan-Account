@@ -39,10 +39,12 @@ const AllUsersPage = () => {
 
 
     }
-    const hangleConfirmChange = async (user) => {
+    const handleConfirmChange = async (user) => {
         const updatedRole = changeRole
+
         console.log(updatedRole)
-        console.log(user)
+        console.log('user', user)
+
         const res = await axiosSecure.patch(`/user/role/admin/${user.email}`, { updatedRole })
         console.log(res.data)
         if (res.data.modifiedCount) {
@@ -113,7 +115,7 @@ const AllUsersPage = () => {
                                 <td>
 
                                     {/* Open the modal using document.getElementById('ID').showModal() method */}
-                                    <button className="btn" onClick={() => document.getElementById('my_modal_1').showModal()}>{user.email}<FaArrowDown /></button>
+                                    <button className="btn" onClick={() => document.getElementById('my_modal_1').showModal()}>{user.role}<FaArrowDown /></button>
                                     <dialog id="my_modal_1" className="modal">
                                         <div className="modal-box text-center">
                                             <div className="w-full ">
@@ -128,7 +130,7 @@ const AllUsersPage = () => {
                                             <div className="modal-action">
                                                 <form method="dialog">
                                                     {/* if there is a button in form, it will close the modal */}
-                                                    <button onClick={() => hangleConfirmChange(user)} className="btn bg-orange-600 text-white">confirm</button>
+                                                    <button onClick={() => handleConfirmChange()} className="btn bg-orange-600 text-white">confirm</button>
                                                 </form>
                                             </div>
                                         </div>

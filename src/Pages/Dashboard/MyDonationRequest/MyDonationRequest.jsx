@@ -18,10 +18,13 @@ const MyDonationRequest = () => {
     const axiosSecure = useAxiosSecure()
     const navigate = useNavigate()
 
+
     const { data = [], refetch } = useQuery({
         queryKey: ['my-donation-request'],
         queryFn: async () => {
-            const { data } = await axiosPublic.get(`/create-donation-request/${user.email}`)
+            const { data } = await axiosPublic.get(`/create-donation-request/${user.email}`, {
+                params: { category },
+            })
             return data
         }
     })
@@ -31,15 +34,15 @@ const MyDonationRequest = () => {
     const [category, setCategory] = useState('');
     // const [search, setSearch] = useState([]);
     // console.log(category, 'category is power bu tnot change')
-    const { data: seachData = [] } = useQuery({
-        queryKey: ['filter-search'],
-        queryFn: async () => {
-            const res = await axiosPublic.get('/search', {
-                params: { category },
-            })
-            return res.data
-        }
-    })
+    // const { data: seachData = [] } = useQuery({
+    //     queryKey: ['filter-search'],
+    //     queryFn: async () => {
+    //         const res = await axiosPublic.get('/search', {
+    //             params: { category },
+    //         })
+    //         return res.data
+    //     }
+    // })
 
     const handleDelete = (id) => {
 
@@ -71,7 +74,7 @@ const MyDonationRequest = () => {
 
 
     const handleSearch = () => {
-
+        refetch()
 
     };
 
@@ -103,26 +106,27 @@ const MyDonationRequest = () => {
 
     return (
         <div>
+            <div>
+                <select value={category} onChange={handleChange} className="select select-bordered w-full max-w-xs">
+                    <option selected value=''>All Status</option>
+                    <option value="pending">Pending</option>
+                    <option value="inprogress">Inprogress</option>
+                    <option value="done">Done</option>
+                    <option value="canceled">Canceled</option>
+
+                </select>
+                <button onClick={
+                    handleSearch
+                } className="btn btn-ghost">Search</button>
+
+            </div>
             {
                 data.length === 0 ? <div>
                     <h1 className="text-4xl mt-52 w-1/4 mx-auto">No data Found!!</h1>
                 </div>
                     :
                     <div>
-                        <div>
-                            <select value={category} onChange={handleChange} className="select select-bordered w-full max-w-xs">
-                                <option disabled selected value=''>Filter Information</option>
-                                <option value="pending">Pending</option>
-                                <option value="inprogress">Inprogress</option>
-                                <option value="done">Done</option>
-                                <option value="canceled">Canceled</option>
 
-                            </select>
-                            <button onClick={
-                                handleSearch
-                            } className="btn btn-ghost">Search</button>
-
-                        </div>
                         <div className="overflow-x-auto mr-5 mt-5 ">
 
                             <table className="table table-zebra ">
