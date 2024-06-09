@@ -24,7 +24,7 @@ const AllUsersPage = () => {
             if (result.isConfirmed) {
                 const updatedStatus = `${user.status === 'active' ? 'block' : 'active'}`
 
-                const res = await axiosSecure.patch(`/statusUpdate/${user.email}`, { updatedStatus })
+                const res = await axiosSecure.patch(`/statusUpdate/admin/${user.email}`, { updatedStatus })
                 if (res.data.modifiedCount) {
                     Swal.fire(`${user.status === 'active' ? 'block' : 'Actived'}`, "", "success");
                     refetch()
@@ -41,7 +41,9 @@ const AllUsersPage = () => {
     }
     const hangleConfirmChange = async (user) => {
         const updatedRole = changeRole
-        const res = await axiosSecure.patch(`/user/admin/${user.email}`, { updatedRole })
+        console.log(updatedRole)
+        console.log(user)
+        const res = await axiosSecure.patch(`/user/role/admin/${user.email}`, { updatedRole })
         console.log(res.data)
         if (res.data.modifiedCount) {
             toast.success('Role Change Successfully Done')
@@ -108,11 +110,10 @@ const AllUsersPage = () => {
                                 </td>
 
 
-
                                 <td>
 
                                     {/* Open the modal using document.getElementById('ID').showModal() method */}
-                                    <button className="btn" onClick={() => document.getElementById('my_modal_1').showModal()}>{user.role}<FaArrowDown /></button>
+                                    <button className="btn" onClick={() => document.getElementById('my_modal_1').showModal()}>{user.email}<FaArrowDown /></button>
                                     <dialog id="my_modal_1" className="modal">
                                         <div className="modal-box text-center">
                                             <div className="w-full ">
@@ -121,6 +122,7 @@ const AllUsersPage = () => {
                                                     <option value="donor">donor</option>
                                                     <option value="volunteer">volunteer</option>
                                                     <option value="admin">admin</option>
+
                                                 </select>
                                             </div>
                                             <div className="modal-action">

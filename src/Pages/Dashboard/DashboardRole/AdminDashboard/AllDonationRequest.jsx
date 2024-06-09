@@ -21,27 +21,22 @@ const AllDonationRequest = () => {
     const isVolunteer = roleChecked.role
 
 
-    const { data: allRequests = [], refetch } = useQuery({
-        queryKey: ['my-donation-request'],
-        queryFn: async () => {
-            const { data } = await axiosPublic.get(`/create-donation-request`)
-            return data
-        }
-    })
 
 
     const [category, setCategory] = useState('');
     // const [search, setSearch] = useState([]);
     console.log(category)
-    const { data: seachData = [] } = useQuery({
+    const { data: searchData = [], refetch } = useQuery({
         queryKey: ['filter-search'],
         queryFn: async () => {
-            const res = await axiosPublic.get('/search', {
+            const res = await axiosPublic.get('/filter-all-donations', {
                 params: { category },
             })
             return res.data
         }
     })
+
+
 
     const handleDelete = (id) => {
 
@@ -71,15 +66,13 @@ const AllDonationRequest = () => {
         });
     }
 
-    const [set, setSet] = useState()
+    // const [set, setSet] = useState()
 
     const handleSearch = async () => {
-        const response = await fetch(`/search?category=${category}`);
-        const data = await response.json();
-        setSet(data);
+        refetch()
     };
 
-    console.log(set)
+    // console.log(set)
     const handleChange = (e) => {
         setCategory(e.target.value);
     };
@@ -110,16 +103,14 @@ const AllDonationRequest = () => {
         <div>
             <div>
                 <select value={category} onChange={handleChange} className="select select-bordered w-full max-w-xs">
-                    <option disabled selected value=''>Filter Information</option>
+                    <option selected value=''>All Status</option>
                     <option value="pending">Pending</option>
                     <option value="inprogress">Inprogress</option>
                     <option value="done">Done</option>
                     <option value="canceled">Canceled</option>
 
                 </select>
-                <button onClick={
-                    handleSearch
-                } className="btn btn-ghost">Search</button>
+                <button onClick={handleSearch} className="btn btn-ghost">Search</button>
 
             </div>
             <div className="overflow-x-auto mr-5 mt-5 ">
@@ -152,7 +143,7 @@ const AllDonationRequest = () => {
                     <tbody>
 
                         {
-                            allRequests.map((singleData, idx) => <tr key={singleData._id}>
+                            searchData.map((singleData, idx) => <tr key={singleData._id}>
                                 <th>{idx + 1}</th>
                                 <td>{singleData.recipientName}</td>
                                 <td className="">
