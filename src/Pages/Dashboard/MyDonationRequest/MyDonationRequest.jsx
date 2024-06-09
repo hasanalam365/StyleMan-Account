@@ -115,10 +115,7 @@ const MyDonationRequest = () => {
                     <option value="canceled">Canceled</option>
 
                 </select>
-                <button onClick={
-                    handleSearch
-                } className="btn btn-ghost">Search</button>
-
+                <button onClick={handleSearch} className="btn bg-orange-500 text-white">filter</button>
             </div>
             {
                 data.length === 0 ? <div>

@@ -4,13 +4,29 @@ import Swal from "sweetalert2";
 import useAxiosSecure from "../../../../Hooks/useAxiosSecure";
 import { useState } from "react";
 import { toast } from "react-toastify";
+import { useQuery } from "@tanstack/react-query";
+import useAxiosPublic from "../../../../Hooks/useAxiosPublic";
 
 
 const AllUsersPage = () => {
-    const [users, refetch] = useAllUsers()
+    // const [users] = useAllUsers()
 
     const axiosSecure = useAxiosSecure()
     const [changeRole, setChangeRole] = useState()
+    const axiosPublic = useAxiosPublic()
+
+    const [category, setStatusChange] = useState('');
+
+    const { data: usersData = [], refetch } = useQuery({
+        queryKey: ['all-users-data'],
+        queryFn: async () => {
+            const res = await axiosPublic.get('/users/admin-allUsers', {
+                params: { category },
+            })
+            return res.data
+        }
+    })
+    // console.log('hi search', usersData, category)
 
     const handleStatusChange = (user) => {
         Swal.fire({
@@ -53,21 +69,36 @@ const AllUsersPage = () => {
         }
     }
 
+
+
+
+
+    const handleSearch = async () => {
+        refetch()
+    };
+
+    // console.log(set)
+    const handleChange = (e) => {
+        setStatusChange(e.target.value);
+        refetch()
+    };
+
+
     return (
         <div>
             <div className="flex items-center justify-between">
                 <div>
-                    <h2 className="text-3xl font-semibold">Total Users: {users.length}</h2>
+                    <h2 className="text-3xl font-semibold">Total Users: {usersData.length}</h2>
                 </div>
                 <div className="">
-                    <select className="select select-bordered max-w-xs">
-                        <option disabled selected value=''>Filter</option>
+                    <select value={category} name="idc" onChange={handleChange} className="select select-bordered max-w-xs">
+                        <option selected value=''>All Status</option>
                         <option value="active">Active</option>
                         <option value="block">Block</option>
 
 
                     </select>
-                    <button className="btn bg-orange-600 text-white">Search</button>
+                    <button onClick={handleSearch} className="btn bg-orange-600 text-white">filter</button>
 
                 </div>
             </div>
@@ -90,7 +121,7 @@ const AllUsersPage = () => {
                     <tbody>
 
                         {
-                            users.map((user, idx) => <tr key={user._id}>
+                            usersData.map((user, idx) => <tr key={user._id}>
                                 <th>{idx + 1}</th>
                                 <td>
                                     <img className="w-[45px] h-[45px] rounded-full" src={user.photoURL} alt="" />

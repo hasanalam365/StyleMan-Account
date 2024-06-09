@@ -82,13 +82,13 @@ export const router = createBrowserRouter([
 
             },
             {
-                path: '/dashboard/all-users',
-                element: <AdminRoute>
+                path: 'all-users',
+                element:
                     <AllUsersPage></AllUsersPage>
-                </AdminRoute>
+
             },
             {
-                path: '/dashboard/all-blood-donation-request',
+                path: 'all-blood-donation-request',
                 element: <AllDonationRequest></AllDonationRequest>
             },
             {
