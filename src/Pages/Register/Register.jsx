@@ -114,15 +114,6 @@ const Register = () => {
 
 
 
-
-
-
-
-
-
-
-
-
     }
 
 
@@ -133,30 +124,30 @@ const Register = () => {
                     <h1 className="text-5xl font-bold py-8">Register now!</h1>
 
                 </div>
-                <div className="card shrink-0   shadow-2xl bg-base-100 h-max w-[400px] mx-auto">
-                    <form onSubmit={handleSubmit} className="card-body">
-                        <div className="form-control">
+                <div className="card shrink-0   shadow-2xl bg-base-100 w-[90%] mx-auto">
+                    <form onSubmit={handleSubmit} className="card-body grid  grid-cols-6">
+                        <div className="form-control col-span-6 md:col-span-3 lg:col-span-3 ">
                             <label className="label">
                                 <span className="label-text">Name</span>
                             </label>
                             <input type="text" placeholder="name" name='name' className="input input-bordered" required />
                         </div>
-                        <div className="form-control">
+                        <div className="form-control col-span-6 md:col-span-3 lg:col-span-3 ">
                             <label className="label">
                                 <span className="label-text">Email</span>
                             </label>
                             <input type="email" placeholder="email" name='email' className="input input-bordered" required />
                         </div>
-                        <div className="form-control">
+                        <div className="form-control col-span-6 md:col-span-3 lg:col-span-3 ">
                             <label className="label">
                                 <span className="label-text">Photo</span>
                             </label>
-                            <input type="file" placeholder="Photo" name='photo' className="" required />
+                            <input type="file" placeholder="Photo" name='photo' className="bg-gray-50 p-1" required />
 
                         </div>
                         {/* blood group */}
 
-                        <div className="form-control">
+                        <div className="form-control col-span-6 md:col-span-3 lg:col-span-3 ">
                             <Field>
                                 <Label className="label">Blood Group</Label>
 
@@ -187,7 +178,7 @@ const Register = () => {
                         </div>
 
                         {/* districts */}
-                        <div className="form-control">
+                        <div className="form-control col-span-6 md:col-span-3 lg:col-span-3 ">
                             <Field>
                                 <Label className="label">Select District</Label>
 
@@ -215,7 +206,7 @@ const Register = () => {
                             </Field>
                         </div>
                         {/* upazilas */}
-                        <div className="form-control">
+                        <div className="form-control col-span-6 md:col-span-3 lg:col-span-3 ">
                             <Field>
                                 <Label className="label">Select Upazila</Label>
 
@@ -243,14 +234,14 @@ const Register = () => {
                             </Field>
                         </div>
 
-                        <div className="form-control">
+                        <div className="form-control col-span-6 md:col-span-3 lg:col-span-3 ">
                             <label className="label">
                                 <span className="label-text">Password</span>
                             </label>
                             <input type="password" placeholder="password" name='password' className="input input-bordered" required />
 
                         </div>
-                        <div className="form-control">
+                        <div className="form-control col-span-6 md:col-span-3 lg:col-span-3 ">
                             <label className="label">
                                 <span className="label-text">Confirm Password</span>
                             </label>
@@ -258,15 +249,15 @@ const Register = () => {
                             <span className="text-red-600">{errorText}</span>
                         </div>
 
-                        <div className="form-control mt-6">
+                        <div className="form-control mt-6 col-span-6 ">
                             <button className="btn btn-primary">Register</button>
                         </div>
 
-                        <div>
-                            <h1>Already have an Account? Please <Link to="/login" className="text-green-600 font-semibold">Login</Link></h1>
-                        </div>
-                    </form>
 
+                    </form>
+                    <div className="p-4 text-center">
+                        <h1 className="text-xl">Already have an Account? Please <Link to="/login" className="text-green-600 font-semibold">Login</Link></h1>
+                    </div>
                 </div>
                 <ToastContainer />
             </div>
