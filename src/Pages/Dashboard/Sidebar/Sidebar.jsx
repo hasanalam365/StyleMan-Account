@@ -36,7 +36,7 @@ const Sidebar = ({ open, setOpen }) => {
     return (
         <div>
 
-            <div className={` ${open === true ? ' min-h-screen p-3 space-y-2 w-full dark:bg-gray-50 dark:text-gray-800 ' : ''} `}>
+            <div className={` ${open === true ? ' min-h-screen space-y-2 w-full dark:bg-gray-50 dark:text-gray-800 ' : ''} `}>
                 {
                     !open && <div className="">
                         <div className="flex items-center p-2 space-x-4">

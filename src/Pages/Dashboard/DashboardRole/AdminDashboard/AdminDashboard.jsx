@@ -12,7 +12,7 @@ const AdminDashboard = () => {
     const usersLength = users.filter(user => user.role === 'donor')
 
     return (
-        <div>
+        <div className="w-[95%] mx-auto">
             <h1 className="text-3xl font-semibold mt-5 mb-3">Welcome to <span className="text-orange-600">{user.displayName}</span></h1>
 
             <div className="stats shadow">

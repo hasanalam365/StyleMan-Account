@@ -79,11 +79,11 @@ const Profile = () => {
     return (
 
 
-        <div className=" min-h-screen bg-base-200 ">
+        <div className="p-8 bg-base-200 ">
 
-            <div className='flex justify-center items-center h-screen'>
+            <div className='flex justify-center items-center '>
 
-                <div className='bg-white shadow-lg rounded-2xl w-3/5 relative'>
+                <div className='bg-white shadow-lg rounded-2xl w-4/5 relative'>
                     <img
                         alt='profile'
                         src='https://wallpapercave.com/wp/wp10784415.jpg'
@@ -108,40 +108,42 @@ const Profile = () => {
                             {data.role}
                         </p>
 
-                        <form onSubmit={handleUpdatedProfile} className='w-full p-2 mt-4 rounded-lg'>
-                            <div className='flex flex-col text-sm text-gray-600 '>
-                                <div className="flex gap-5">
-                                    <label className='flex flex-col'>
+                        <form onSubmit={handleUpdatedProfile} className='w-[350px] lg:w-[90%] mx-auto p-2 mt-4 rounded-lg'>
+                            <div className='flex flex-col text-sm  text-gray-600 '>
+
+                                <div className=" flex flex-col gap-5 md:flex-col lg:flex-row ">
+                                    <label className='flex flex-col col-span-3'>
                                         Name:
                                         <input type="text"
                                             {...(enableEditBtn && { value: data.name })}
                                             defaultValue={data.name}
-                                            name="name" className="input bg-gray-50 font-medium text-black p-2" />
+                                            name="name" className="input w-[245px] md:w-full bg-gray-50 font-medium text-black p-2" />
 
 
                                     </label>
 
-                                    <label className='flex flex-col'>
+                                    <label className='flex flex-col col-span-3'>
                                         Email:
                                         <input type="email"
                                             {...(enableEditBtn && { value: data.email })}
                                             value={data.email}
-                                            name="email" className="input bg-gray-50 font-medium text-black p-2" />
+                                            name="email" className="input w-[250px] md:w-full bg-gray-50 font-medium text-black p-2" />
                                     </label>
                                 </div>
 
 
-                                <div className="flex gap-5">
-                                    <div className="form-control">
+                                <div className="w-full grid grid-cols-6 gap-3 ">
 
-                                        <label className="form-control w-full my-6">
+                                    <div className="form-control col-span-6 lg:col-span-2">
+
+                                        <label className="form-control w-full">
                                             <div className="label">
                                                 <span className="label-text">Blood Group</span>
 
                                             </div>
                                             <select
                                                 name="bloodGroup"
-                                                className="select select-bordered w-full " required>
+                                                className="select select-bordered w-3/4 md:w-full lg:w-full " required>
                                                 <option
 
                                                 >{data.bloodGroup}</option>
@@ -162,16 +164,16 @@ const Profile = () => {
 
                                         </label>
                                     </div>
-                                    <div className="form-control">
+                                    <div className="form-control col-span-6  lg:col-span-2">
 
-                                        <label className="form-control w-full my-6">
+                                        <label className="form-control w-full ">
                                             <div className="label">
                                                 <span className="label-text">District</span>
 
                                             </div>
                                             <select
                                                 name="district"
-                                                className="select select-bordered w-full " required>
+                                                className="select select-bordered w-3/4 md:w-full lg:w-full " required>
                                                 <option>{data.district}</option>
 
                                                 {
@@ -183,16 +185,16 @@ const Profile = () => {
 
                                         </label>
                                     </div>
-                                    <div className="form-control">
+                                    <div className="form-control col-span-6 lg:col-span-2">
 
-                                        <label className="form-control w-full my-6">
+                                        <label className="form-control w-full ">
                                             <div className="label">
                                                 <span className="label-text">Upazila</span>
 
                                             </div>
                                             <select
                                                 name="upazila"
-                                                className="select select-bordered w-full " required>
+                                                className="select select-bordered w-3/4 md:w-full lg:w-full " required>
                                                 <option>{data.upazila}</option>
                                                 {
                                                     !enableEditBtn && upazilas.map(upazila => <option key={upazila.id}>{upazila.name}</option>)
@@ -206,31 +208,32 @@ const Profile = () => {
 
                                 </div>
                                 {/* image upload */}
-                                {!enableEditBtn && <div className='flex flex-col w-max  text-center mb-5 border-2 p-2'>
-                                    <label>
-                                        <input
-                                            className='text-sm cursor-pointer w-36 hidden'
-                                            type='file'
-                                            name='photo'
-                                            id='image'
-                                            accept='image/*'
-                                            hidden
-                                        />
-                                        <div className='bg-rose-500 text-white border border-gray-300 rounded font-medium cursor-pointer p-1 px-3 hover:bg-rose-500'>
-                                            Update Image
-                                        </div>
-                                    </label>
-                                </div>
+
+
+                            </div>
+                            {!enableEditBtn && <div className='flex flex-col w-max  text-center mt-5 mb-5 border-2 p-2'>
+                                <label>
+                                    <input
+                                        className='text-sm cursor-pointer w-36 hidden'
+                                        type='file'
+                                        name='photo'
+                                        id='image'
+                                        accept='image/*'
+                                        hidden
+                                    />
+                                    <div className='bg-rose-500 text-white border border-gray-300 rounded font-medium cursor-pointer p-1 px-3 hover:bg-rose-500'>
+                                        Update Image
+                                    </div>
+                                </label>
+                            </div>
+                            }
+
+                            <div className="w-full ">
+                                {
+                                    !enableEditBtn && <button className='bg-[#F43F5E] px-10 py-1 rounded-lg text-white cursor-pointer hover:bg-[#af4053] w-[260px] md:w-full lg:w-full mb-1 '>
+                                        Update Profile
+                                    </button>
                                 }
-
-                                <div className="flex justify-end">
-                                    {
-                                        !enableEditBtn && <button className='bg-[#F43F5E] px-10 py-1 rounded-lg text-white cursor-pointer hover:bg-[#af4053] block mb-1'>
-                                            Update Profile
-                                        </button>
-                                    }
-
-                                </div>
 
                             </div>
                         </form>
