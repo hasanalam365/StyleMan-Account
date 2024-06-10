@@ -56,8 +56,8 @@ const Features = () => {
                                 </div>
                             </div>
                         </div>
-                        <div aria-hidden="true" className="mt-10 lg:mt-0">
-                            <img src="https://i.ibb.co/mFcw9DN/national-cancer-institute-PP5n-O5gc-Ld-A-unsplash.jpg" alt="" className="mx-auto rounded-lg shadow-lg dark:bg-gray-500 h-[550px]" />
+                        <div className="mt-10 lg:mt-0">
+                            <img src="https://i.ibb.co/mFcw9DN/national-cancer-institute-PP5n-O5gc-Ld-A-unsplash.jpg" alt="" className="mx-auto rounded-lg shadow-lg dark:bg-gray-500 w-[400px] lg:w-[550px] h-[300px] md:w-[600px] md:h-[450px] lg:h-[600px]" />
                         </div>
                     </div>
                     <div>
@@ -108,7 +108,7 @@ const Features = () => {
                                 </div>
                             </div>
                             <div className="mt-10 lg:mt-0 lg:col-start-1 lg:row-start-1">
-                                <img src="https://i.ibb.co/HzmbL3T/only-lens-2.jpg" alt="" className="h-[550px] mx-auto rounded-lg shadow-lg dark:bg-gray-500" />
+                                <img src="https://i.ibb.co/HzmbL3T/only-lens-2.jpg" alt="" className="mx-auto rounded-lg shadow-lg dark:bg-gray-500 w-[400px] lg:w-[550px] h-[300px] md:w-[600px] md:h-[450px] lg:h-[600px]" />
                             </div>
                         </div>
                     </div>
