@@ -33,22 +33,25 @@ const TestimonialRight = () => {
                     disableOnInteraction: false,
                 }}
                 loop={true}
-                slidesPerView={2}
+                slidesPerView={1}
                 spaceBetween={30}
                 pagination={true}
                 modules={[Autoplay]}
                 className="mySwiper"
             >
 
+
                 {
                     testimonials.map(testimonial => <SwiperSlide key={testimonial._id}>
-                        <div className="bg-base-100 shadow-xl p-8 h-[260px] space-y-2">
+                        <div className="bg-base-100 shadow-xl p-8 h-[220px]  space-y-2">
                             <div className='flex justify-between items-center'>
                                 <div className='flex gap-5 items-center'>
                                     <img className='h-[50px] w-[50px] rounded-full' src={testimonial.photo} alt="photo" />
                                     <div>
                                         <h4 className='text-xl font-medium'>{testimonial.name}</h4>
-                                        <p>{testimonial.designation}</p>
+                                        <p>
+                                            {testimonial.designation}
+                                        </p>
                                     </div>
                                 </div>
                                 <div>
@@ -60,6 +63,7 @@ const TestimonialRight = () => {
                         </div>
                     </SwiperSlide>)
                 }
+
 
 
 
