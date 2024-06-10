@@ -17,7 +17,7 @@ const MyDonationRequest = () => {
     const axiosPublic = useAxiosPublic()
     const axiosSecure = useAxiosSecure()
     const navigate = useNavigate()
-
+    const [category, setCategory] = useState('');
 
     const { data = [], refetch } = useQuery({
         queryKey: ['my-donation-request'],
@@ -31,18 +31,8 @@ const MyDonationRequest = () => {
 
 
 
-    const [category, setCategory] = useState('');
-    // const [search, setSearch] = useState([]);
-    // console.log(category, 'category is power bu tnot change')
-    // const { data: seachData = [] } = useQuery({
-    //     queryKey: ['filter-search'],
-    //     queryFn: async () => {
-    //         const res = await axiosPublic.get('/search', {
-    //             params: { category },
-    //         })
-    //         return res.data
-    //     }
-    // })
+
+
 
     const handleDelete = (id) => {
 

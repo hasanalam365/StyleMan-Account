@@ -83,8 +83,9 @@ export const router = createBrowserRouter([
             },
             {
                 path: 'all-users',
-                element:
+                element: <AdminRoute>
                     <AllUsersPage></AllUsersPage>
+                </AdminRoute>
 
             },
             {

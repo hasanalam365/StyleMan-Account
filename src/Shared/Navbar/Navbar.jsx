@@ -11,9 +11,13 @@ const Navbar = () => {
         <NavLink to="/">Home</NavLink>
         <NavLink to="/donarRequests">Donation Requests</NavLink>
         <NavLink>Blog</NavLink>
-        <NavLink to="/login">Login</NavLink>
+
         {
             user && <NavLink to="/fundings">Fundings</NavLink>
+
+        }
+        {
+            !user && <NavLink to="/login">Login</NavLink>
 
         }
 

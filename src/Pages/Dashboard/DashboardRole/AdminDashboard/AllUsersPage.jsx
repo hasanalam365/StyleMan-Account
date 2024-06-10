@@ -20,7 +20,7 @@ const AllUsersPage = () => {
     const { data: usersData = [], refetch } = useQuery({
         queryKey: ['all-users-data'],
         queryFn: async () => {
-            const res = await axiosPublic.get('/users/admin-allUsers', {
+            const res = await axiosSecure.get('/users/admin-allUsers', {
                 params: { category },
             })
             return res.data
@@ -91,7 +91,7 @@ const AllUsersPage = () => {
                     <h2 className="text-3xl font-semibold">Total Users: {usersData.length}</h2>
                 </div>
                 <div className="">
-                    <select value={category} name="idc" onChange={handleChange} className="select select-bordered max-w-xs">
+                    <select value={category} name="filterStatus" onChange={handleChange} className="select select-bordered max-w-xs">
                         <option selected value=''>All Status</option>
                         <option value="active">Active</option>
                         <option value="block">Block</option>
@@ -146,7 +146,7 @@ const AllUsersPage = () => {
                                 <td>
 
                                     {/* Open the modal using document.getElementById('ID').showModal() method */}
-                                    <button className="btn" onClick={() => document.getElementById('my_modal_1').showModal()}>{user.role}<FaArrowDown /></button>
+                                    <span className="" onClick={() => document.getElementById('my_modal_1').showModal()}>{user.role}<FaArrowDown /></span>
                                     <dialog id="my_modal_1" className="modal">
                                         <div className="modal-box text-center">
                                             <div className="w-full ">
@@ -161,7 +161,7 @@ const AllUsersPage = () => {
                                             <div className="modal-action">
                                                 <form method="dialog">
                                                     {/* if there is a button in form, it will close the modal */}
-                                                    <button onClick={() => handleConfirmChange()} className="btn bg-orange-600 text-white">confirm</button>
+                                                    <button onClick={() => handleConfirmChange(user)} className="btn bg-orange-600 text-white">confirm</button>
                                                 </form>
                                             </div>
                                         </div>
