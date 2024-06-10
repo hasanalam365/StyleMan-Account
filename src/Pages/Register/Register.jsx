@@ -32,7 +32,7 @@ const Register = () => {
             .then(res => res.json())
             .then(data => {
                 setDistricts(data)
-                // console.log(data)
+                //  (data)
 
             })
     }, [])
@@ -44,12 +44,12 @@ const Register = () => {
             .then(res => res.json())
             .then(data => {
                 setUpazilas(data)
-                // console.log(data)
+                //  (data)
 
             })
     }, [])
 
-    // console.log(upazilas)
+    //  (upazilas)
 
 
     const handleSubmit = async (e) => {
@@ -78,9 +78,9 @@ const Register = () => {
                 'content-type': 'multipart/form-data'
             }
         })
-        console.log('image check', res.data)
+
         const photoURL = res.data.data.display_url
-        console.log('photoU', photoURL)
+
         const submitForm = { name, email, photoURL, bloodGroup, district, upazila, status, role }
 
 
@@ -96,7 +96,7 @@ const Register = () => {
                         navigate('/login')
 
                         const res = await axiosPublic.put(`/usercreate/${submitForm.email}`, submitForm)
-                        console.log(res.data)
+
 
                         if (res.data.insertedId) {
                             toast.success('Registration Successfully')
@@ -109,7 +109,7 @@ const Register = () => {
 
             })
             .catch(error => {
-                console.log(error.message)
+                (error.message)
             })
 
 

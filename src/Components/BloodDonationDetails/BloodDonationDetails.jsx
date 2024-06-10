@@ -46,7 +46,7 @@ const BloodDonationDetails = () => {
             if (result.isConfirmed) {
 
                 const res = await axiosPublic.put(`/donarDonateBlood/${loadUpdateData._id}`, bloodDonarConfirmInfo)
-                console.log(res.data)
+
                 if (res.data.modifiedCount > 0) {
                     toast.success(`Thank you ${user.displayName} for donating blood`)
                     navigate('/')

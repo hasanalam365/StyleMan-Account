@@ -51,7 +51,9 @@ const SearchDonors = () => {
                     <div className="grid grid-cols-12 gap-5 items-center justify-center">
                         <div className="form-control col-span-12 lg:col-span-3">
                             <select value={bloodGroup} onChange={hanldeBlood} name="bloodGroup" className="select select-success">
-                                <option>Choose a Blood Group</option>
+
+                                <option selected disabled>Choose a Blood Group</option>
+
                                 <option value="A+">A+</option>
                                 <option value="A-">A-</option>
                                 <option value="B+">B+</option>

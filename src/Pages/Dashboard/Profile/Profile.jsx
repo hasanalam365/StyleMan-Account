@@ -30,7 +30,7 @@ const Profile = () => {
             return userData
         }
     })
-    // console.log(data)
+    //  (data)
 
 
     const handleUpdatedProfile = async (e) => {
@@ -44,7 +44,7 @@ const Profile = () => {
 
 
         const imageFile = { image: photo[0] }
-        console.log(imageFile);
+
         const res = await axiosPublic.post(image_hosting_api, imageFile, {
             headers: {
                 'content-type': 'multipart/form-data'

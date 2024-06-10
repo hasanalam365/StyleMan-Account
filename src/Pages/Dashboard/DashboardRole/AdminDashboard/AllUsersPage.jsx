@@ -1,11 +1,10 @@
 import { FaArrowDown } from "react-icons/fa";
-import useAllUsers from "../../../../Hooks/useAllUsers";
 import Swal from "sweetalert2";
 import useAxiosSecure from "../../../../Hooks/useAxiosSecure";
 import { useState } from "react";
 import { toast } from "react-toastify";
 import { useQuery } from "@tanstack/react-query";
-import useAxiosPublic from "../../../../Hooks/useAxiosPublic";
+
 
 
 const AllUsersPage = () => {
@@ -13,7 +12,7 @@ const AllUsersPage = () => {
 
     const axiosSecure = useAxiosSecure()
     const [changeRole, setChangeRole] = useState()
-    const axiosPublic = useAxiosPublic()
+
 
     const [category, setStatusChange] = useState('');
 
@@ -26,7 +25,7 @@ const AllUsersPage = () => {
             return res.data
         }
     })
-    // console.log('hi search', usersData, category)
+    //  ('hi search', usersData, category)
 
     const handleStatusChange = (user) => {
         Swal.fire({
@@ -58,11 +57,10 @@ const AllUsersPage = () => {
     const handleConfirmChange = async (user) => {
         const updatedRole = changeRole
 
-        console.log(updatedRole)
-        console.log('user', user)
+
 
         const res = await axiosSecure.patch(`/user/role/admin/${user.email}`, { updatedRole })
-        console.log(res.data)
+
         if (res.data.modifiedCount) {
             toast.success('Role Change Successfully Done')
             refetch()
@@ -77,7 +75,7 @@ const AllUsersPage = () => {
         refetch()
     };
 
-    // console.log(set)
+    //  (set)
     const handleChange = (e) => {
         setStatusChange(e.target.value);
         refetch()
@@ -90,7 +88,7 @@ const AllUsersPage = () => {
                 <div>
                     <h2 className="text-3xl font-semibold">Total Users: {usersData.length}</h2>
                 </div>
-                <div className="">
+                <div className="mr-5">
                     <select value={category} name="filterStatus" onChange={handleChange} className="select select-bordered max-w-xs">
                         <option selected value=''>All Status</option>
                         <option value="active">Active</option>

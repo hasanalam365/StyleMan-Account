@@ -2,7 +2,7 @@
 const Fundings = () => {
     return (
         <div>
-            this is fundings page
+            This Feautures is Comming
         </div>
     );
 };

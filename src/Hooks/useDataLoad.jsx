@@ -35,14 +35,6 @@ const useDataLoad = () => {
     })
 
 
-    //testimonial data
-    // const { data: testimonials = [] } = useQuery({
-    //     queryKey: ['testimonials'],
-    //     queryFn: async () => {
-    //         const { data } = await axiosPublic.get("/testimonials")
-    //         return data
-    //     }
-    // })
 
 
 

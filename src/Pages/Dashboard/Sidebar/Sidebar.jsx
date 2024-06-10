@@ -32,15 +32,13 @@ const Sidebar = ({ open, setOpen }) => {
         navigate("/")
     }
 
-    console.log(open)
+
     return (
-        <div className={` ${open === true ? 'w-80 ' : ''} `}>
-            <div className="ml-2">
-                <button onClick={() => setOpen(!open)} className="btn  "><CgMenuGridR className="text-lg"></CgMenuGridR></button>
-            </div>
+        <div>
+
             <div className={` ${open === true ? ' min-h-screen p-3 space-y-2 w-full dark:bg-gray-50 dark:text-gray-800 ' : ''} `}>
                 {
-                    open && <div className="">
+                    !open && <div className="">
                         <div className="flex items-center p-2 space-x-4">
                             {
                                 !user ? <HashLoader color="#36d7b7" /> : <> <img src={user?.photoURL} alt="" className="w-12 h-12 rounded-full dark:bg-gray-500" />
@@ -65,10 +63,12 @@ const Sidebar = ({ open, setOpen }) => {
                             </ul>
                             <ul className="pt-2 pb-4 space-y-1 text-sm">
                                 <li className="dark:bg-gray-100 dark:text-gray-900">
-                                    <a className="flex items-center p-2 space-x-3 rounded-md">
-                                        <LuLayoutDashboard className="text-xl"></LuLayoutDashboard>
-                                        <Link to="/dashboard"> <span>Dashboard</span></Link>
-                                    </a>
+                                    <button onClick={() => setOpen(true)}>
+                                        <a className="flex items-center p-2 space-x-3 rounded-md">
+                                            <LuLayoutDashboard className="text-xl"></LuLayoutDashboard>
+                                            <Link to="/dashboard"> <span>Dashboard</span></Link>
+                                        </a>
+                                    </button>
                                 </li>
 
                             </ul>
@@ -79,20 +79,24 @@ const Sidebar = ({ open, setOpen }) => {
                                 isAdmin && <>
                                     <ul className="pt-2 pb-4 space-y-1 text-sm  ">
                                         <li className="dark:bg-gray-100 dark:text-gray-900">
-                                            <a className="flex items-center p-2 space-x-3 rounded-md">
-                                                <FaUsersGear className="text-xl"></FaUsersGear >
-                                                <Link to="/dashboard/all-users"> <span>All Users</span></Link>
-                                            </a>
+                                            <button onClick={() => setOpen(true)}>
+                                                <a className="flex items-center p-2 space-x-3 rounded-md">
+                                                    <FaUsersGear className="text-xl"></FaUsersGear >
+                                                    <Link to="/dashboard/all-users"> <span>All Users</span></Link>
+                                                </a>
+                                            </button>
                                         </li>
 
 
                                     </ul>
                                     <ul className="pt-2 pb-4 space-y-1 text-sm  ">
                                         <li className="dark:bg-gray-100 dark:text-gray-900">
-                                            <a className="flex items-center p-2 space-x-3 rounded-md">
-                                                <GiGroupedDrops className="text-xl"></GiGroupedDrops >
-                                                <Link to="/dashboard/all-blood-donation-request"> <span>All Donation Requests</span></Link>
-                                            </a>
+                                            <button onClick={() => setOpen(true)}>
+                                                <a className="flex items-center p-2 space-x-3 rounded-md">
+                                                    <GiGroupedDrops className="text-xl"></GiGroupedDrops >
+                                                    <Link to="/dashboard/all-blood-donation-request"> <span>All Donation Requests</span></Link>
+                                                </a>
+                                            </button>
                                         </li>
                                         <div className="divider"></div>
 
@@ -104,10 +108,12 @@ const Sidebar = ({ open, setOpen }) => {
 
                                 isVolunteer === 'volunteer' && <ul className="pt-2 pb-4 space-y-1 text-sm  ">
                                     <li className="dark:bg-gray-100 dark:text-gray-900">
-                                        <a className="flex items-center p-2 space-x-3 rounded-md">
-                                            <GiGroupedDrops className="text-xl"></GiGroupedDrops >
-                                            <Link to="/dashboard/all-blood-donation-request"> <span>All Donation Requests</span></Link>
-                                        </a>
+                                        <button onClick={() => setOpen(true)}>
+                                            <a className="flex items-center p-2 space-x-3 rounded-md">
+                                                <GiGroupedDrops className="text-xl"></GiGroupedDrops >
+                                                <Link to="/dashboard/all-blood-donation-request"> <span>All Donation Requests</span></Link>
+                                            </a>
+                                        </button>
                                     </li>
                                     <div className="divider"></div>
 
@@ -120,10 +126,12 @@ const Sidebar = ({ open, setOpen }) => {
                             {
                                 isAdmin === 'volunteer' && <ul className="pt-2 pb-4 space-y-1 text-sm  ">
                                     <li className="dark:bg-gray-100 dark:text-gray-900">
-                                        <a className="flex items-center p-2 space-x-3 rounded-md">
-                                            <GiGroupedDrops className="text-xl"></GiGroupedDrops >
-                                            <Link to="/dashboard/all-blood-donation-request"> <span>All Donation Requests</span></Link>
-                                        </a>
+                                        <button onClick={() => setOpen(true)}>
+                                            <a className="flex items-center p-2 space-x-3 rounded-md">
+                                                <GiGroupedDrops className="text-xl"></GiGroupedDrops >
+                                                <Link to="/dashboard/all-blood-donation-request"> <span>All Donation Requests</span></Link>
+                                            </a>
+                                        </button>
                                     </li>
                                     <div className="divider"></div>
 
@@ -132,19 +140,23 @@ const Sidebar = ({ open, setOpen }) => {
 
                             <ul className="pt-2 pb-4 space-y-1 text-sm">
                                 <li className="dark:bg-gray-100 dark:text-gray-900">
+                                    {/* <button onClick={() => setOpen(true)}> */}
                                     <a className="flex items-center p-2 space-x-3 rounded-md">
                                         <LuHelpingHand className="text-xl"></LuHelpingHand>
                                         <Link to="/dashboard/create-donation-request"> <span>Create Request</span></Link>
                                     </a>
+                                    {/* </button> */}
                                 </li>
 
                             </ul>
                             <ul className="pt-2 pb-4 space-y-1 text-sm">
                                 <li className="dark:bg-gray-100 dark:text-gray-900">
-                                    <a className="flex items-center p-2 space-x-3 rounded-md">
-                                        <LuHelpingHand className="text-xl"></LuHelpingHand>
-                                        <Link to="/dashboard/my-donation-requests"> <span>My Donation Request</span></Link>
-                                    </a>
+                                    <button onClick={() => setOpen(true)}>
+                                        <a className="flex items-center p-2 space-x-3 rounded-md">
+                                            <LuHelpingHand className="text-xl"></LuHelpingHand>
+                                            <Link to="/dashboard/my-donation-requests"> <span>My Donation Request</span></Link>
+                                        </a>
+                                    </button>
                                 </li>
 
                             </ul>
@@ -153,12 +165,14 @@ const Sidebar = ({ open, setOpen }) => {
                         <div>
                             <ul className="pt-4 pb-2 space-y-1 text-sm">
                                 <li>
-                                    <a className="flex items-center p-2 space-x-3 rounded-md">
-                                        <CgProfile className="text-xl"></CgProfile>
-                                        <Link to="/dashboard/profile">
-                                            <span>Profile</span>
-                                        </Link>
-                                    </a>
+                                    <button onClick={() => setOpen(true)}>
+                                        <a className="flex items-center p-2 space-x-3 rounded-md">
+                                            <CgProfile className="text-xl"></CgProfile>
+                                            <Link to="/dashboard/profile">
+                                                <span>Profile</span>
+                                            </Link>
+                                        </a>
+                                    </button>
                                 </li>
                                 <li>
                                     <button onClick={handleLogOut} className="flex items-center p-2 space-x-3 rounded-md">

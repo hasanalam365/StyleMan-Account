@@ -48,7 +48,7 @@ const MyDonationRequest = () => {
             if (result.isConfirmed) {
 
                 const res = await axiosPublic.delete(`/donation-request-delete/${id}`)
-                console.log(res.deletedCount)
+
                 if (res.data.deletedCount > 0) {
                     Swal.fire({
                         title: "Deleted!",

@@ -12,7 +12,7 @@ const DashboardRole = () => {
     const [roleChecked] = useRoleCheckFetch()
 
     const isAdmin = roleChecked.role
-    console.log(isAdmin)
+
 
     return (
         <div>

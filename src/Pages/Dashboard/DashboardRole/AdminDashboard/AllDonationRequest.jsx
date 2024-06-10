@@ -24,8 +24,7 @@ const AllDonationRequest = () => {
 
 
     const [category, setCategory] = useState('');
-    // const [search, setSearch] = useState([]);
-    // console.log(category)
+
     const { data: searchData = [], refetch } = useQuery({
         queryKey: ['filter-search-all-donation'],
         queryFn: async () => {
@@ -51,7 +50,7 @@ const AllDonationRequest = () => {
             if (result.isConfirmed) {
 
                 const res = await axiosPublic.delete(`/donation-request-delete/${id}`)
-                console.log(res.deletedCount)
+                    (res.deletedCount)
                 if (res.data.deletedCount > 0) {
                     Swal.fire({
                         title: "Deleted!",
@@ -71,7 +70,7 @@ const AllDonationRequest = () => {
         refetch()
     };
 
-    // console.log(set)
+    //  (set)
     const handleChange = (e) => {
         setCategory(e.target.value);
     };

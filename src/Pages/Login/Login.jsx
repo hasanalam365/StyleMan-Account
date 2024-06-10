@@ -10,7 +10,7 @@ const Login = () => {
     const { signInUser } = useAuth()
     const location = useLocation()
     const navigate = useNavigate()
-    // console.log(location)
+    //  (location)
 
     const handleLogin = (e) => {
         e.preventDefault()
@@ -18,7 +18,7 @@ const Login = () => {
         const email = form.email.value
         const password = form.password.value
 
-        // console.log(email, password)
+        //  (email, password)
 
         signInUser(email, password)
             .then((result) => {

@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import useAuth from "./useAuth";
 
 export const axiosSecure = axios.create({
-    baseURL: 'http://localhost:5000'
+    baseURL: import.meta.env.VITE_API_URL
 })
 
 const useAxiosSecure = () => {
@@ -14,7 +14,7 @@ const useAxiosSecure = () => {
     axiosSecure.interceptors.request.use(function (config) {
         // Do something before request is sent
         const token = localStorage.getItem('access-token')
-        // console.log('request stopped by interceptors', token)
+        //  ('request stopped by interceptors', token)
 
         config.headers.authorization = `Bearer ${token}`
 
@@ -30,7 +30,7 @@ const useAxiosSecure = () => {
         return response;
     }, async (error) => {
 
-        // console.log('error status in the interceptor', error.response.status)
+        //  ('error status in the interceptor', error.response.status)
 
         //for 401 or 403 logout the user and move the user to the login page
         if (error.response.status === 401) {

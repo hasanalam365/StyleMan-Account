@@ -61,7 +61,7 @@ export const router = createBrowserRouter([
                 element: <PrivateRoute>
                     <BloodDonationDetails></BloodDonationDetails>
                 </PrivateRoute>,
-                loader: ({ params }) => fetch(`http://localhost:5000/donation-request/${params.id}`)
+                loader: ({ params }) => fetch(`import.meta.env.VITE_API_URL/${params.id}`)
             },
         ]
     },
@@ -112,7 +112,7 @@ export const router = createBrowserRouter([
 
                 path: 'updated-donation-request/:id',
                 element: <PrivateRoute> <UpdatedDonationRequest></UpdatedDonationRequest></PrivateRoute>,
-                loader: ({ params }) => fetch(`http://localhost:5000/donation-request/${params.id}`)
+                loader: ({ params }) => fetch(`import.meta.env.VITE_API_URL/${params.id}`)
             },
             {
                 path: 'profile',
