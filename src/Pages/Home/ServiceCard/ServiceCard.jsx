@@ -10,24 +10,24 @@ const ServiceCard = () => {
                 <div className="border-b-4 rounded-xl border-b-red-600 shadow-xl image-full ">
 
                     <div className=" hover:scale-125 flex items-center justify-center p-6">
-                        <h2 className="text-3xl font-semibold ">24/7 Services</h2>
+                        <h2 className="text-3xl font-semibold lg:text-2xl">24/7 Services</h2>
                     </div>
                 </div>
                 <div className="border-l-4 rounded-xl border-l-blue-600  shadow-xl image-full">
 
                     <div className=" hover:scale-125 flex items-center justify-center p-6">
-                        <h2 className="text-3xl font-semibold ">Blood Bank</h2>
+                        <h2 className="text-3xl font-semibold lg:text-2xl">Blood Bank</h2>
                     </div>
                 </div>
                 <div className="border-t-4 rounded-xl border-t-purple-600  shadow-xl image-full">
 
                     <div className=" hover:scale-125 flex items-center justify-center p-6">
-                        <h2 className="text-3xl font-semibold ">Blood Donation</h2>
+                        <h2 className="text-3xl font-semibold lg:text-2xl">Blood Donation</h2>
                     </div>
                 </div>
                 <div className="border-r-4 rounded-xl border-r-sky-900  shadow-xl image-full">
                     <div className=" hover:scale-125 flex items-center justify-center p-6">
-                        <h2 className="text-3xl font-semibold ">Health Check</h2>
+                        <h2 className="text-3xl  font-semibold lg:text-2xl">Health Check</h2>
                     </div>
                 </div>
             </div>
