@@ -7,7 +7,7 @@ import Testimonial from "../Testimonial/Testimonial";
 
 const Home = () => {
     return (
-        <div>
+        <div className=" w-[95%] md:w-[95%] mx-auto lg:container">
             <Banner></Banner>
             <ServiceCard></ServiceCard>
             <Features></Features>
