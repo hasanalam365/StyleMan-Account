@@ -118,7 +118,7 @@ const Register = () => {
 
 
     return (
-        <div className=" min-h-screen bg-base-200">
+        <div className=" min-h-screen bg-base-200 mb-10 p-8">
             <div className=" flex-col ">
                 <div className="text-center ">
                     <h1 className="text-5xl font-bold py-8">Register now!</h1>
