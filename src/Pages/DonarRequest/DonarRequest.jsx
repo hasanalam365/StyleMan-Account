@@ -7,7 +7,7 @@ const DonarRequest = () => {
     const [donationRequests] = useDataLoad()
 
     return (<>
-        {donationRequests.length === 0 && <div className="mt-52 ml-[550px]">
+        {donationRequests.length === 0 && <div className="mt-40 ml-40 md:mt-48 md:ml-[350px] lg:mt-52 lg:ml-[500px]">
             <DNA
                 visible={true}
                 height="80"

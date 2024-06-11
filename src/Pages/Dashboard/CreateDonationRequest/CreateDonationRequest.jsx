@@ -175,7 +175,7 @@ const CreateDonationRequest = () => {
                                 p-2 dark:border-gray-300" />
                             </div>
                             <div className="form-control col-span-full mt-6">
-                                <button className="btn btn-primary">Request</button>
+                                <button className="btn btn-secondary">Request</button>
                             </div>
                         </div>
                     </fieldset>
