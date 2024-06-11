@@ -22,6 +22,9 @@ const Profile = () => {
     const axiosPublic = useAxiosPublic()
     const [, districts, upazilas] = useDataLoad()
     const navigate = useNavigate()
+    const [imagePrev, setImagePrev] = useState()
+
+    console.log(imagePrev)
 
     const { data = [] } = useQuery({
         queryKey: ['user'],
@@ -79,7 +82,7 @@ const Profile = () => {
     return (
 
 
-        <div className="p-8 bg-base-200 ">
+        <div className="p-8 min-h-screen bg-base-200 ">
 
             <div className='flex justify-center items-center '>
 
@@ -211,22 +214,35 @@ const Profile = () => {
 
 
                             </div>
-                            {!enableEditBtn && <div className='flex flex-col w-max  text-center mt-5 mb-5 border-2 p-2'>
-                                <label>
-                                    <input
-                                        className='text-sm cursor-pointer w-36 hidden'
-                                        type='file'
-                                        name='photo'
-                                        id='image'
-                                        accept='image/*'
-                                        hidden
-                                    />
-                                    <div className='bg-rose-500 text-white border border-gray-300 rounded font-medium cursor-pointer p-1 px-3 hover:bg-rose-500'>
-                                        Update Image
+
+                            <div className='flex gap-5 md:gap-8 lg:gap-10 items-center'>
+                                {!enableEditBtn && <div className='flex flex-col w-max  text-center mt-5 mb-5 border-2 p-2'>
+                                    <label>
+                                        <input
+                                            onChange={e => setImagePrev(URL.createObjectURL(e.target.files[0]))}
+                                            className='text-sm cursor-pointer w-36 hidden'
+                                            type='file'
+                                            name='photo'
+                                            id='image'
+                                            accept='image/*'
+                                            hidden
+                                        />
+                                        <div className='bg-rose-500 text-white border border-gray-300 rounded font-medium cursor-pointer p-1 px-3 hover:bg-rose-500'>
+                                            Update Image
+                                        </div>
+
+                                    </label>
+
+                                </div>
+                                }
+                                {
+                                    imagePrev && <div className='p-1 border-2 border-gray-300'>
+
+                                        <img className='w-14 h-14' src={imagePrev} alt="" />
                                     </div>
-                                </label>
+                                }
+
                             </div>
-                            }
 
                             <div className="w-full ">
                                 {

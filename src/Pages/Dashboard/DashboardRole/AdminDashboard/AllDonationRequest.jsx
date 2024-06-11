@@ -98,7 +98,7 @@ const AllDonationRequest = () => {
     }
 
     return (
-        <div className="w-[95%] mx-auto">
+        <div className="p-4">
             <div>
                 <select value={category} onChange={handleChange} className="select select-bordered w-full max-w-xs">
                     <option selected value=''>All Status</option>
