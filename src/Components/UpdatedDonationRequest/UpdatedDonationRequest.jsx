@@ -59,12 +59,12 @@ const UpdatedDonationRequest = () => {
     return (
         <div>
             <section className="p-6 bg-gray-100 dark:text-gray-900">
-                <form onSubmit={handleUpdated} noValidate="" action="" className="container flex flex-col mx-auto space-y-12">
-                    <fieldset className="grid grid-cols-4 gap-6 p-6 rounded-md shadow-sm dark:bg-gray-50">
-                        <div className="space-y-2 col-span-full lg:col-span-1">
-                            <p className=" ">Updated Donation Request Information</p>
+                <form onSubmit={handleUpdated} noValidate="" action="" className="container flex flex-col mx-auto space-y-4">
+                    <div className="col-span-full lg:col-span-1 mx-auto">
+                        <p className="text-3xl ml-5  md:text-4xl lg:text-4xl font-semibold">Donation Request Update</p>
 
-                        </div>
+                    </div>
+                    <fieldset className=" p-6 rounded-md shadow-sm dark:bg-gray-50">
                         <div className="grid grid-cols-6  gap-4 col-span-full lg:col-span-3">
                             <div className="col-span-full sm:col-span-3">
                                 <label className="text-lg  ">Recipient Name</label>
@@ -76,13 +76,12 @@ const UpdatedDonationRequest = () => {
                             <div className="col-span-full sm:col-span-3">
                                 <label htmlFor="hospitalName" className="text-lg  ">Hospital Name</label>
                                 <input id="lastname" type="text" name="hospitalName"
-                                    defaultValue={loadUpdateData.hospitalName} placeholder="exp: Dhaka 
-Medical College Hospital" className="w-full rounded-md focus:ring focus:ring-opacity-75 dark:text-gray-50 focus:dark:ring-default-600  p-2 dark:border-gray-300" />
+                                    defaultValue={loadUpdateData.hospitalName} placeholder="exp: Dhaka Medical College Hospital" className="w-full rounded-md focus:ring focus:ring-opacity-75 dark:text-gray-50 focus:dark:ring-default-600  p-2 dark:border-gray-300" />
                             </div>
 
-                            <div className="flex flex-col  sm:col-span-6 lg:flex-row  gap-5 ">
-                                <div className="flex flex-col sm:col-span-2">
-                                    <label className="text-lg  " htmlFor="">Select Blood Group</label>
+                            <div className="col-span-full grid grid-cols-6 lg:flex-row  gap-5 ">
+                                <div className="flex flex-col col-span-full md:col-span-2  lg:col-span-2 ">
+                                    <label className="text-lg  " htmlFor="">Blood Group </label>
                                     <select name="bloodGroup" className="select select-success">
 
                                         <option value={loadUpdateData.bloodGroup}>{loadUpdateData.bloodGroup}</option>
@@ -97,7 +96,7 @@ Medical College Hospital" className="w-full rounded-md focus:ring focus:ring-opa
 
                                     </select>
                                 </div>
-                                <div className="flex flex-col sm:col-span-2">
+                                <div className="flex flex-col col-span-full md:col-span-2  lg:col-span-2 ">
                                     <label className="text-lg  " htmlFor="">Select District</label>
                                     <select name="district" className="select select-success">
                                         <option value={loadUpdateData.district}>{loadUpdateData.district}</option>
@@ -110,7 +109,7 @@ Medical College Hospital" className="w-full rounded-md focus:ring focus:ring-opa
 
                                     </select>
                                 </div>
-                                <div className="flex flex-col sm:col-span-2">
+                                <div className="flex flex-col col-span-full md:col-span-2 lg:col-span-2">
                                     <label className="text-lg  " htmlFor="">Select Upazila</label>
                                     <select name="upazila" className="select select-success">
                                         <option value={loadUpdateData.upazila}>{loadUpdateData.upazila}</option>
@@ -125,7 +124,7 @@ Medical College Hospital" className="w-full rounded-md focus:ring focus:ring-opa
                                 </div>
 
                             </div>
-                            <div className="col-span-full sm:col-span-6">
+                            <div className=" col-span-6">
                                 <label className="text-lg  ">Full Address</label>
                                 <input id="Recipient Name" type="text" placeholder="exp: Zahir Raihan Rd, Dhaka"
                                     defaultValue={loadUpdateData.fullAddress}
@@ -143,14 +142,15 @@ Medical College Hospital" className="w-full rounded-md focus:ring focus:ring-opa
                                     showIcon
                                     selected={startDate}
                                     onSelect={(date) => setStartDate(date)}
+                                    className="w-full "
                                 />
                             </div>
-                            <div className="col-span-3 flex flex-col">
+                            <div className="col-span-3 flex flex-col md:col-span-3 lg:col-span-3">
                                 <label htmlFor="Select Date" className="text-lg">Donation Time</label>
                                 <DatePicker
                                     selected={time}
                                     onChange={(time) => setStartTime(time)}
-                                    className="p-2 rounded-lg"
+                                    className="p-1 w-full"
                                     showTimeSelect
                                     showTimeSelectOnly
                                     timeIntervals={15}
@@ -170,7 +170,7 @@ Medical College Hospital" className="w-full rounded-md focus:ring focus:ring-opa
                                 p-2 dark:border-gray-300" />
                             </div>
                             <div className="form-control col-span-full mt-6">
-                                <button className="btn btn-primary">Updated</button>
+                                <button className="btn btn-secondary">Updated</button>
                             </div>
                         </div>
                     </fieldset>

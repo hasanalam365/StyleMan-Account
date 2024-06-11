@@ -28,7 +28,7 @@ const DonarRequest = () => {
                         <p>Donation Date: {donar.donateDate}</p>
                         <div className="card-actions justify-end">
                             <Link to={`/donarRequestDetails/${donar._id}`}>
-                                <button className="btn btn-primary">View Details</button>
+                                <button className="btn btn-secondary">View Details</button>
                             </Link>
                         </div>
                     </div>

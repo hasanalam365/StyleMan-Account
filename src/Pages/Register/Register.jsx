@@ -1,4 +1,4 @@
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Field, Label, Select } from '@headlessui/react'
 import { FaAngleDown } from "react-icons/fa6";
 import clsx from 'clsx'
@@ -23,6 +23,7 @@ const Register = () => {
     const [errorText, setErrorText] = useState()
     const navigate = useNavigate()
     const axiosPublic = useAxiosPublic()
+    const location = useLocation()
 
 
 
@@ -100,7 +101,7 @@ const Register = () => {
 
                         if (res.data.insertedId) {
                             toast.success('Registration Successfully')
-
+                            navigate(location?.state || '/')
                         }
 
 
@@ -250,7 +251,7 @@ const Register = () => {
                         </div>
 
                         <div className="form-control mt-6 col-span-6 ">
-                            <button className="btn btn-primary">Register</button>
+                            <button className="btn btn-secondary">Register</button>
                         </div>
 
 

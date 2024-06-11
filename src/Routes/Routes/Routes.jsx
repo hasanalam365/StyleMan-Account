@@ -61,7 +61,7 @@ export const router = createBrowserRouter([
                 element: <PrivateRoute>
                     <BloodDonationDetails></BloodDonationDetails>
                 </PrivateRoute>,
-                loader: ({ params }) => fetch(`import.meta.env.VITE_API_URL/${params.id}`)
+                loader: ({ params }) => fetch(`https://reddrop-bdserver.vercel.app/donation-request/${params.id}`)
             },
         ]
     },
@@ -76,16 +76,16 @@ export const router = createBrowserRouter([
             {
 
                 path: '/dashboard',
-                element:
-                    <DashboardRole></DashboardRole>
-
+                element: <DashboardRole></DashboardRole>
 
             },
             {
                 path: 'all-users',
-                element: <AdminRoute>
-                    <AllUsersPage></AllUsersPage>
-                </AdminRoute>
+                element: <PrivateRoute>
+                    <AdminRoute>
+                        <AllUsersPage></AllUsersPage>
+                    </AdminRoute>
+                </PrivateRoute>
 
             },
             {
@@ -112,7 +112,7 @@ export const router = createBrowserRouter([
 
                 path: 'updated-donation-request/:id',
                 element: <PrivateRoute> <UpdatedDonationRequest></UpdatedDonationRequest></PrivateRoute>,
-                loader: ({ params }) => fetch(`import.meta.env.VITE_API_URL/${params.id}`)
+                loader: ({ params }) => fetch(`https://reddrop-bdserver.vercel.app/donation-request/${params.id}`)
             },
             {
                 path: 'profile',

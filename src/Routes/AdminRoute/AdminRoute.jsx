@@ -4,7 +4,7 @@ import useAuth from "../../Hooks/useAuth";
 import { DNA } from "react-loader-spinner";
 
 const AdminRoute = ({ children }) => {
-    const { user, loading } = useAuth()
+    const { user, loading, signOutUser } = useAuth()
     const [isAdmin, isPending] = useAdmin()
     const location = useLocation()
 
@@ -22,6 +22,10 @@ const AdminRoute = ({ children }) => {
     }
     if (user && isAdmin) {
         return children;
+    }
+
+    if (!isAdmin) {
+        signOutUser()
     }
 
     return <Navigate to='/login' state={location?.pathname || '/'}></Navigate>

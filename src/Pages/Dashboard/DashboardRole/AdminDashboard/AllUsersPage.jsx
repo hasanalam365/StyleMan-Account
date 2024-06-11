@@ -1,9 +1,10 @@
-import { FaArrowDown } from "react-icons/fa";
+
 import Swal from "sweetalert2";
 import useAxiosSecure from "../../../../Hooks/useAxiosSecure";
 import { useState } from "react";
 import { toast } from "react-toastify";
 import { useQuery } from "@tanstack/react-query";
+
 
 
 
@@ -14,7 +15,9 @@ const AllUsersPage = () => {
     const [changeRole, setChangeRole] = useState()
     const [category, setStatusChange] = useState('');
     const [userEmail, setUserEmail] = useState()
-    console.log(userEmail, changeRole)
+
+
+
 
     const { data: usersData = [], refetch } = useQuery({
         queryKey: ['all-users-data'],

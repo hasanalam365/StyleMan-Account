@@ -10,7 +10,7 @@ const Login = () => {
     const { signInUser } = useAuth()
     const location = useLocation()
     const navigate = useNavigate()
-    //  (location)
+
 
     const handleLogin = (e) => {
         e.preventDefault()
@@ -64,7 +64,7 @@ const Login = () => {
                             </label>
                         </div>
                         <div className="form-control mt-6">
-                            <button className="btn btn-primary">Login</button>
+                            <button className="btn btn-secondary">Login</button>
                         </div>
                         <div>
                             <h1>Don't have an Account? Please <Link to="/register" className="text-green-600 font-semibold">Register</Link></h1>

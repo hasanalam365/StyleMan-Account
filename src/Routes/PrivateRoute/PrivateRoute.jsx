@@ -10,7 +10,7 @@ const PrivateRoute = ({ children }) => {
 
 
     if (loading) {
-        return <div className="mt-40 ml-40 md:mt-48 md:ml-[350px] lg:mt-52 lg:ml-[500px]">
+        return <div className="mt-40 ml-40 md:mt-48 md:ml-[350px] lg:mt-52 lg:ml-[560px]">
             <DNA
                 visible={true}
                 height="80"

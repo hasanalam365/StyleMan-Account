@@ -9,6 +9,7 @@ import { BiDonateBlood } from "react-icons/bi";
 import { MdBloodtype } from "react-icons/md";
 import { MdLocalLaundryService } from "react-icons/md";
 import { RiShieldUserLine } from "react-icons/ri";
+import useAdmin from "../../../Hooks/useAdmin";
 
 const Sidebar = ({ isActive, setActive }) => {
 
@@ -19,9 +20,9 @@ const Sidebar = ({ isActive, setActive }) => {
     // const isVolunteer = roleChecked.role
 
 
-    // const [isAdmin] = useAdmin()
+    const [isAdmin] = useAdmin()
 
-    console.log(isActive)
+
 
     const handleLogOut = () => {
         signOutUser()
@@ -131,18 +132,21 @@ const Sidebar = ({ isActive, setActive }) => {
                     <hr />
                     {/* admin only */}
                     {/* All User Menu */}
-                    <NavLink
-                        onClick={() => setActive(true)}
-                        to='/dashboard/all-users'
-                        className={({ isActive }) =>
-                            `flex items-center px-4 py-2 my-5  transition-colors duration-300 transform  hover:bg-gray-300   hover:text-gray-700 ${isActive ? 'bg-gray-300  text-gray-700' : 'text-gray-600'
-                            }`
-                        }
-                    >
-                        <FaUsers className='w-5 h-5' />
+                    {
+                        isAdmin && <NavLink
+                            onClick={() => setActive(true)}
+                            to='/dashboard/all-users'
+                            className={({ isActive }) =>
+                                `flex items-center px-4 py-2 my-5  transition-colors duration-300 transform  hover:bg-gray-300   hover:text-gray-700 ${isActive ? 'bg-gray-300  text-gray-700' : 'text-gray-600'
+                                }`
+                            }
+                        >
+                            <FaUsers className='w-5 h-5' />
 
-                        <span className='mx-4 font-medium'>All Users</span>
-                    </NavLink>
+                            <span className='mx-4 font-medium'>All Users</span>
+                        </NavLink>
+                    }
+
                     <NavLink
                         onClick={() => setActive(true)}
                         to='/dashboard/all-blood-donation-request'
