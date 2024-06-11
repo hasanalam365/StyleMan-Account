@@ -11,7 +11,7 @@ import { useLoaderData, useNavigate } from "react-router-dom";
 const UpdatedDonationRequest = () => {
 
     const { user } = useAuth()
-    const [districts, upazilas] = useDataLoad()
+    const [, districts, upazilas] = useDataLoad()
 
     const loadUpdateData = useLoaderData()
     const [startDate, setStartDate] = useState(new Date(loadUpdateData.donateDate));
@@ -96,7 +96,7 @@ const UpdatedDonationRequest = () => {
 
                                     </select>
                                 </div>
-                                <div className="flex flex-col col-span-full md:col-span-2  lg:col-span-2 ">
+                                <div className="flex flex-col col-span-full md:col-span-2 lg:col-span-2">
                                     <label className="text-lg  " htmlFor="">Select District</label>
                                     <select name="district" className="select select-success">
                                         <option value={loadUpdateData.district}>{loadUpdateData.district}</option>
