@@ -30,7 +30,7 @@ const Navbar = () => {
         navigate('/login')
     }
     return (
-        <div className=" bg-base-100 flex justify-between p-2 items-center">
+        <div className=" bg-base-100 flex justify-between p-2 items-center fixed z-10 container mx-auto shadow-lg">
             <div className="">
                 <div className="dropdown">
                     <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden">

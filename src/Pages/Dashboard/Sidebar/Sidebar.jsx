@@ -62,8 +62,8 @@ const Sidebar = ({ isActive, setActive }) => {
             >
                 <div>
                     <div>
-                        <div className='w-full hidden md:flex py-1 shadow-lg rounded-lg justify-center items-center bg-rose-100 mx-auto'>
-                            <Link to='/'>
+                        <div className='w-full  mx-auto'>
+                            <Link to='/' className="hidden md:flex py-1 shadow-lg rounded-lg justify-center items-center bg-rose-100">
                                 <img
                                     // className='hidden md:block'
                                     src='https://i.ibb.co/vJVfyQQ/a12-logo-red-drop-removebg-preview.png'
@@ -71,8 +71,9 @@ const Sidebar = ({ isActive, setActive }) => {
                                     width='50'
                                     height='20'
                                 />
+                                <h3 className="text-2xl font-semibold">Red<span className="text-red-600">Drop</span></h3>
                             </Link>
-                            <h3 className="text-2xl font-semibold">Red<span className="text-red-600">Drop</span></h3>
+
                         </div>
                     </div>
 

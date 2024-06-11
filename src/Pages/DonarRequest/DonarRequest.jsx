@@ -1,12 +1,23 @@
 import { Link } from "react-router-dom";
 import useDataLoad from "../../Hooks/useDataLoad";
+import { DNA } from "react-loader-spinner";
 
 const DonarRequest = () => {
 
     const [donationRequests] = useDataLoad()
 
-    return (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+    return (<>
+        {donationRequests.length === 0 && <div className="mt-52 ml-[550px]">
+            <DNA
+                visible={true}
+                height="80"
+                width="80"
+                ariaLabel="dna-loading"
+                wrapperStyle={{}}
+                wrapperClass="dna-wrapper"
+            />
+        </div>}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 mb-10 mt-5">
             {
                 donationRequests.filter(item => item.status === 'pending').map(donar => <div key={donar._id} className="card bg-base-100 shadow-xl ">
                     <div className="card-body">
@@ -24,6 +35,7 @@ const DonarRequest = () => {
                 </div>)
             }
         </div>
+    </>
     );
 };
 
