@@ -24,7 +24,7 @@ const Profile = () => {
     const navigate = useNavigate()
     const [imagePrev, setImagePrev] = useState()
 
-    console.log(imagePrev)
+
 
     const { data = [] } = useQuery({
         queryKey: ['user'],

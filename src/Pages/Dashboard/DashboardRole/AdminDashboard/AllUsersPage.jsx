@@ -59,9 +59,9 @@ const AllUsersPage = () => {
     }
     const handleConfirmChange = async () => {
         const updatedRole = changeRole
-        console.log(updatedRole)
+
         const res = await axiosSecure.patch(`/user/role/admin/${userEmail}`, { updatedRole })
-        console.log(res.data)
+
         if (res.data.modifiedCount) {
             toast.success('Role Change Successfully Done')
             refetch()
@@ -126,7 +126,7 @@ const AllUsersPage = () => {
                                 <td>
                                     {user.email}
                                 </td>
-                                <td>
+                                <td className={`${user.role === 'admin' && 'text-orange-600' || user.role === 'volunteer' && 'text-purple-600'} font-medium`}>
                                     {user.role}
 
                                 </td>

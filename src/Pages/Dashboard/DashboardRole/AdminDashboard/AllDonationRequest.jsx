@@ -9,11 +9,12 @@ import { MdDeleteForever, MdOutlineCancel } from "react-icons/md";
 import useRoleCheckFetch from "../../../../Hooks/useRoleCheckFetch";
 import { toast } from "react-toastify";
 import { IoCheckmarkDoneCircle } from "react-icons/io5";
+import useAxiosSecure from "../../../../Hooks/useAxiosSecure";
 
 const AllDonationRequest = () => {
 
     const { user } = useAuth()
-    const axiosPublic = useAxiosPublic()
+    const axiosSecure = useAxiosSecure()
 
     const [roleChecked] = useRoleCheckFetch()
 
@@ -28,7 +29,7 @@ const AllDonationRequest = () => {
     const { data: searchData = [], refetch } = useQuery({
         queryKey: ['filter-search-all-donation'],
         queryFn: async () => {
-            const res = await axiosPublic.get('/filter-all-donations', {
+            const res = await axiosSecure.get('/filter-all-donations', {
                 params: { category },
             })
             return res.data

@@ -29,6 +29,8 @@ const Navbar = () => {
         signOutUser()
         navigate('/login')
     }
+
+
     return (
         <div className=" bg-base-100 flex justify-between p-2 items-center fixed z-10 container mx-auto shadow-lg">
             <div className="">

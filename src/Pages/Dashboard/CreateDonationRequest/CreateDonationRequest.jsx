@@ -41,7 +41,7 @@ const CreateDonationRequest = () => {
 
         const donationDetails = { recipientName, hospitalName, district, upazila, bloodGroup, requestMessage, fullAddress, donateDate, donateTime, requesterName, requesterEmail, status }
 
-        // console.table(donationDetails)
+
 
         if (checkUserStatus === 'block') {
             return toast.error(`Dear ${user.displayName}, you are a block user. cannot create blood request`)

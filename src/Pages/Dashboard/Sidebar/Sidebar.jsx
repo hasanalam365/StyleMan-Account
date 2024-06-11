@@ -10,14 +10,15 @@ import { MdBloodtype } from "react-icons/md";
 import { MdLocalLaundryService } from "react-icons/md";
 import { RiShieldUserLine } from "react-icons/ri";
 import useAdmin from "../../../Hooks/useAdmin";
+import useRoleCheckFetch from "../../../Hooks/useRoleCheckFetch";
 
 const Sidebar = ({ isActive, setActive }) => {
 
     const { user, signOutUser } = useAuth()
     const navigate = useNavigate()
-    // const [roleChecked] = useRoleCheckFetch()
+    const [roleChecked] = useRoleCheckFetch()
 
-    // const isVolunteer = roleChecked.role
+    const isRole = roleChecked.role === 'admin' || roleChecked.role === 'volunteer'
 
 
     const [isAdmin] = useAdmin()
@@ -147,18 +148,20 @@ const Sidebar = ({ isActive, setActive }) => {
                         </NavLink>
                     }
 
-                    <NavLink
-                        onClick={() => setActive(true)}
-                        to='/dashboard/all-blood-donation-request'
-                        className={({ isActive }) =>
-                            `flex items-center px-4 py-2 my-5  transition-colors duration-300 transform  hover:bg-gray-300   hover:text-gray-700 ${isActive ? 'bg-gray-300  text-gray-700' : 'text-gray-600'
-                            }`
-                        }
-                    >
-                        <MdLocalLaundryService className='w-5 h-5' />
+                    {
+                        isRole &&
+                        <NavLink
+                            onClick={() => setActive(true)}
+                            to='/dashboard/all-blood-donation-request'
+                            className={({ isActive }) =>
+                                `flex items-center px-4 py-2 my-5  transition-colors duration-300 transform  hover:bg-gray-300   hover:text-gray-700 ${isActive ? 'bg-gray-300  text-gray-700' : 'text-gray-600'
+                                }`
+                            }
+                        >
+                            <MdLocalLaundryService className='w-5 h-5' />
 
-                        <span className='mx-4 font-medium'>All Donation Requests</span>
-                    </NavLink>
+                            <span className='mx-4 font-medium'>All Donation Requests</span>
+                        </NavLink>}
 
                 </div>
                 <div>

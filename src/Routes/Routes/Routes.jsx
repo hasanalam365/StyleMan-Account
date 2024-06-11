@@ -8,7 +8,7 @@ import Fundings from "../../Pages/Fundings/Fundings/Fundings";
 import PrivateRoute from "../PrivateRoute/PrivateRoute";
 import Dashboard from "../../Layouts/Dashboard/Dashboard";
 import Profile from "../../Pages/Dashboard/Profile/Profile";
-import DonorDashboard from "../../Pages/Dashboard/DonorDashboard/DonorDashboard/DonorDashboard";
+
 import CreateDonationRequest from "../../Pages/Dashboard/CreateDonationRequest/CreateDonationRequest";
 import MyDonationRequest from "../../Pages/Dashboard/MyDonationRequest/MyDonationRequest";
 import UpdatedDonationRequest from "../../Components/UpdatedDonationRequest/UpdatedDonationRequest";
@@ -19,6 +19,7 @@ import BloodDonationDetails from "../../Components/BloodDonationDetails/BloodDon
 import AllUsersPage from "../../Pages/Dashboard/DashboardRole/AdminDashboard/AllUsersPage";
 import AllDonationRequest from "../../Pages/Dashboard/DashboardRole/AdminDashboard/AllDonationRequest";
 import AdminRoute from "../AdminRoute/AdminRoute";
+// import AdminAndVolunRoute from "../AdminRoute/AdminAndVolun/AdminAndVolunRoute";
 
 
 
@@ -90,7 +91,13 @@ export const router = createBrowserRouter([
             },
             {
                 path: 'all-blood-donation-request',
-                element: <AllDonationRequest></AllDonationRequest>
+                element: <PrivateRoute>
+                    {/* <AdminAndVolunRoute> */}
+
+                    <AllDonationRequest></AllDonationRequest>
+
+                    {/* </AdminAndVolunRoute> */}
+                </PrivateRoute>
             },
             {
 

@@ -14,7 +14,7 @@ const BloodDonationDetails = () => {
     const { user } = useAuth()
     const [, districts, upazilas] = useDataLoad()
 
-    console.log(districts)
+
 
 
     const loadUpdateData = useLoaderData()
