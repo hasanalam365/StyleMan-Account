@@ -12,9 +12,9 @@ const AllUsersPage = () => {
 
     const axiosSecure = useAxiosSecure()
     const [changeRole, setChangeRole] = useState()
-
-
     const [category, setStatusChange] = useState('');
+    const [userEmail, setUserEmail] = useState()
+    console.log(userEmail, changeRole)
 
     const { data: usersData = [], refetch } = useQuery({
         queryKey: ['all-users-data'],
@@ -54,21 +54,16 @@ const AllUsersPage = () => {
 
 
     }
-    const handleConfirmChange = async (user) => {
+    const handleConfirmChange = async () => {
         const updatedRole = changeRole
-
-
-
-        const res = await axiosSecure.patch(`/user/role/admin/${user.email}`, { updatedRole })
-
+        console.log(updatedRole)
+        const res = await axiosSecure.patch(`/user/role/admin/${userEmail}`, { updatedRole })
+        console.log(res.data)
         if (res.data.modifiedCount) {
             toast.success('Role Change Successfully Done')
             refetch()
         }
     }
-
-
-
 
 
     const handleSearch = async () => {
@@ -135,7 +130,7 @@ const AllUsersPage = () => {
 
 
                                 <td>
-                                    <button onClick={() => handleStatusChange(user)} className={`btn ${user.status === 'active' && 'text-green-600' || user.status === 'block' && 'text-red-600'}`}>
+                                    <button onClick={() => handleStatusChange(user)} className={` ${user.status === 'active' && 'text-green-600' || user.status === 'block' && 'text-red-600'}`}>
                                         {user.status}
                                     </button>
                                 </td>
@@ -144,7 +139,7 @@ const AllUsersPage = () => {
                                 <td>
 
                                     {/* Open the modal using document.getElementById('ID').showModal() method */}
-                                    <span className="" onClick={() => document.getElementById('my_modal_1').showModal()}>{user.role}<FaArrowDown /></span>
+                                    <button className={`${user.role === 'admin' && 'text-orange-600' || user.role === 'volunteer' && 'text-purple-600'} text-lg btn`} onClick={() => { document.getElementById('my_modal_1').showModal(); setUserEmail(user.email) }}>{user.role}</button>
                                     <dialog id="my_modal_1" className="modal">
                                         <div className="modal-box text-center">
                                             <div className="w-full ">
@@ -156,11 +151,16 @@ const AllUsersPage = () => {
 
                                                 </select>
                                             </div>
-                                            <div className="modal-action">
+                                            <div className="modal-action flex items-center justify-between">
                                                 <form method="dialog">
                                                     {/* if there is a button in form, it will close the modal */}
-                                                    <button onClick={() => handleConfirmChange(user)} className="btn bg-orange-600 text-white">confirm</button>
+                                                    <button className="btn">Cancel</button>
                                                 </form>
+                                                <form method="dialog">
+                                                    {/* if there is a button in form, it will close the modal */}
+                                                    <button onClick={() => handleConfirmChange()} className="btn bg-orange-600 text-white">confirm</button>
+                                                </form>
+
                                             </div>
                                         </div>
                                     </dialog>
@@ -171,7 +171,7 @@ const AllUsersPage = () => {
                     </tbody>
                 </table>
             </div>
-        </div>
+        </div >
     );
 };
 

@@ -14,7 +14,7 @@ const Dashboard = () => {
             <Sidebar isActive={isActive} setActive={setActive}></Sidebar>
 
             <div className="md:ml-64 lg:ml-64">
-                {isActive && <Outlet></Outlet>}
+                <Outlet></Outlet>
             </div>
         </div >
     );

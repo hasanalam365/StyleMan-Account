@@ -1,22 +1,19 @@
 
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import useAuth from "../../../Hooks/useAuth";
-import { LuHelpingHand } from "react-icons/lu";
 import { GrLogout } from "react-icons/gr";
-import { FcSettings } from "react-icons/fc";
-import { MdHomeWork } from "react-icons/md";
-import { BsFillHouseAddFill, BsGraphUp } from "react-icons/bs";
 import { AiOutlineBars } from "react-icons/ai";
 import { BiSolidDashboard } from "react-icons/bi";
 import { FaUsers } from "react-icons/fa";
 import { BiDonateBlood } from "react-icons/bi";
 import { MdBloodtype } from "react-icons/md";
 import { MdLocalLaundryService } from "react-icons/md";
+import { RiShieldUserLine } from "react-icons/ri";
 
 const Sidebar = ({ isActive, setActive }) => {
 
     const { user, signOutUser } = useAuth()
-    // const navigate = useNavigate()
+    const navigate = useNavigate()
     // const [roleChecked] = useRoleCheckFetch()
 
     // const isVolunteer = roleChecked.role
@@ -28,7 +25,7 @@ const Sidebar = ({ isActive, setActive }) => {
 
     const handleLogOut = () => {
         signOutUser()
-        // navigate("/")
+        navigate("/")
     }
     const handleToggle = () => {
         setActive(!isActive)
@@ -41,13 +38,11 @@ const Sidebar = ({ isActive, setActive }) => {
                 <div>
                     <div className='block cursor-pointer p-4 font-bold'>
                         <Link to='/'>
-                            <img
-                                // className='hidden md:block'
-                                src='https://i.ibb.co/4ZXzmq5/logo.png'
-                                alt='logo'
-                                width='100'
-                                height='100'
-                            />
+
+                            <h2 className="w-100 text-xl">
+                                Red<span className="text-red-600">Drop</span>
+                            </h2>
+
                         </Link>
                     </div>
                 </div>
@@ -67,16 +62,17 @@ const Sidebar = ({ isActive, setActive }) => {
             >
                 <div>
                     <div>
-                        <div className='w-full hidden md:flex px-4 py-2 shadow-lg rounded-lg justify-center items-center bg-rose-100 mx-auto'>
+                        <div className='w-full hidden md:flex py-1 shadow-lg rounded-lg justify-center items-center bg-rose-100 mx-auto'>
                             <Link to='/'>
                                 <img
                                     // className='hidden md:block'
-                                    src='https://i.ibb.co/4ZXzmq5/logo.png'
+                                    src='https://i.ibb.co/vJVfyQQ/a12-logo-red-drop-removebg-preview.png'
                                     alt='logo'
-                                    width='100'
-                                    height='100'
+                                    width='50'
+                                    height='20'
                                 />
                             </Link>
+                            <h3 className="text-2xl font-semibold">Red<span className="text-red-600">Drop</span></h3>
                         </div>
                     </div>
 
@@ -146,15 +142,19 @@ const Sidebar = ({ isActive, setActive }) => {
 
                         <span className='mx-4 font-medium'>All Users</span>
                     </NavLink>
-                    <button
+                    <NavLink
                         onClick={() => setActive(true)}
-                        to="/dashboard/all-blood-donation-request"
-                        className='flex w-full items-center ml-4 py-2 mt-5 text-gray-600 hover:bg-gray-300   hover:text-gray-700 transition-colors duration-300 transform'
+                        to='/dashboard/all-blood-donation-request'
+                        className={({ isActive }) =>
+                            `flex items-center px-4 py-2 my-5  transition-colors duration-300 transform  hover:bg-gray-300   hover:text-gray-700 ${isActive ? 'bg-gray-300  text-gray-700' : 'text-gray-600'
+                            }`
+                        }
                     >
                         <MdLocalLaundryService className='w-5 h-5' />
 
                         <span className='mx-4 font-medium'>All Donation Requests</span>
-                    </button>
+                    </NavLink>
+
                 </div>
                 <div>
                     <hr />
@@ -168,7 +168,7 @@ const Sidebar = ({ isActive, setActive }) => {
                             }`
                         }
                     >
-                        <FcSettings className='w-5 h-5' />
+                        <RiShieldUserLine className='w-5 h-5' />
 
                         <span className='mx-4 font-medium'>Profile</span>
                     </NavLink>
