@@ -33,7 +33,7 @@ const Profile = () => {
             return userData
         }
     })
-    //  (data)
+    console.log(data.photoURL)
 
 
     const handleUpdatedProfile = async (e) => {
@@ -45,24 +45,43 @@ const Profile = () => {
         const upazila = form.upazila.value;
         const photo = form.photo.files;
 
+        console.log(photo[0])
 
-        const imageFile = { image: photo[0] }
+        if (photo[0] !== undefined) {
+            const imageFile = { image: photo[0] }
+            // console.log('imageFile', imageFile)
+            const res = await axiosPublic.post(image_hosting_api, imageFile, {
+                headers: {
+                    'content-type': 'multipart/form-data'
+                }
+            })
 
-        const res = await axiosPublic.post(image_hosting_api, imageFile, {
-            headers: {
-                'content-type': 'multipart/form-data'
+            if (res.data.success) {
+                const photoURL = res.data.data.display_url
+
+                const updatedProfileInfo = {
+                    name,
+                    bloodGroup,
+                    district,
+                    upazila,
+                    photoURL
+                }
+
+
+                const updated = await axiosPublic.patch(`/updateProfile/${user.email}`, updatedProfileInfo)
+                if (updated.data.modifiedCount > 0) {
+                    toast.success('Profile Updated Successfully')
+                    setEnableEditBtn(true)
+                    navigate('/dashboard')
+                }
             }
-        })
-
-        if (res.data.success) {
-            const photoURL = res.data.data.display_url
-
+        } else {
             const updatedProfileInfo = {
                 name,
                 bloodGroup,
                 district,
                 upazila,
-                photoURL
+                photoURL: data.photoURL
             }
 
 
@@ -74,6 +93,7 @@ const Profile = () => {
             }
         }
 
+
     }
 
 
@@ -82,14 +102,14 @@ const Profile = () => {
     return (
 
 
-        <div className="p-8 min-h-screen bg-base-200 ">
+        <div className=" min-h-screen bg-base-200 ">
 
             <div className='flex justify-center items-center '>
 
                 <div className='bg-white shadow-lg rounded-2xl w-4/5 relative'>
                     <img
                         alt='profile'
-                        src='https://wallpapercave.com/wp/wp10784415.jpg'
+                        src='https://i.ibb.co/tPFNQt4/13346237-5197213.jpg'
                         className='w-full mb-4 rounded-t-lg h-36'
                     />
                     <div className="absolute top-5 right-5">
@@ -226,6 +246,7 @@ const Profile = () => {
                                             id='image'
                                             accept='image/*'
                                             hidden
+
                                         />
                                         <div className='bg-rose-500 text-white border border-gray-300 rounded font-medium cursor-pointer p-1 px-3 hover:bg-rose-500'>
                                             Update Image
