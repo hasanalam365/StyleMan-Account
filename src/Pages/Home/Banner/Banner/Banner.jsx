@@ -26,22 +26,3 @@ const Banner = () => {
 };
 
 export default Banner;
-
-{/* <Carousel>
-                <div className='h-[600px]'>
-                    <img src="https://i.ibb.co/LQMwjrD/nguy-n-hi-p-2r-NHli-X6-XHk-unsplash.jpg" />
-
-                </div>
-                <div>
-                    <img src="https://i.ibb.co/fr9zc0j/nguy-n-hi-p-ma-Ye-Ml3x-Cr-Y-unsplash.jpg" />
-
-                </div>
-                <div>
-                    <img src="https://i.ibb.co/Wf4mVCj/luann-hunt-X20g2-GQs-Vd-A-unsplash.jpg" />
-
-                </div>
-                <div>
-                    <img src="https://i.ibb.co/qxQwQJL/nguy-n-hi-p-s-TTea-N4wwr-U-unsplash.jpg" />
-
-                </div>
-            </Carousel> */}

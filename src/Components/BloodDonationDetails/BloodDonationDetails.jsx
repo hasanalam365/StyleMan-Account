@@ -1,37 +1,17 @@
 import { useLoaderData, useNavigate } from "react-router-dom";
 import useAuth from "../../Hooks/useAuth";
-import useDataLoad from "../../Hooks/useDataLoad";
-import { useState } from "react";
 import useAxiosPublic from "../../Hooks/useAxiosPublic";
 import { toast } from "react-toastify";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import Swal from "sweetalert2";
 
-
 const BloodDonationDetails = () => {
 
     const { user } = useAuth()
-    // const [, districts, upazilas] = useDataLoad()
-
-
-
-
     const loadUpdateData = useLoaderData()
-
-
-
-    // const [startDate, setStartDate] = useState(new Date(loadUpdateData.donateDate));
-    // const [time, setStartTime] = useState(new Date(loadUpdateData.donateTime));
-
-    // console.log(loadUpdateData)
-    // console.log(startDate)
-    // console.log(time)
-
-
     const axiosPublic = useAxiosPublic()
     const navigate = useNavigate()
-
 
     const handleDonate = async (e) => {
         e.preventDefault()
@@ -93,15 +73,12 @@ const BloodDonationDetails = () => {
 
                                         <option value={loadUpdateData.bloodGroup}>{loadUpdateData.bloodGroup}</option>
 
-
                                     </select>
                                 </div>
                                 <div className="flex flex-col col-span-full md:col-span-2  lg:col-span-2 ">
                                     <label className="text-lg  " htmlFor="">Select District</label>
                                     <select name="district" className="select select-success">
                                         <option value={loadUpdateData.district}>{loadUpdateData.district}</option>
-                                        {/* districts map */}
-
 
                                     </select>
                                 </div>
@@ -109,8 +86,6 @@ const BloodDonationDetails = () => {
                                     <label className="text-lg  " htmlFor="">Select Upazila</label>
                                     <select name="upazila" className="select select-success">
                                         <option value={loadUpdateData.upazila}>{loadUpdateData.upazila}</option>
-                                        {/* districts map */}
-
 
                                     </select>
                                 </div>
@@ -133,16 +108,14 @@ const BloodDonationDetails = () => {
                                 <DatePicker
                                     showIcon
                                     value={loadUpdateData.donateDate.split(',')[0]}
-                                    // selected={startDate}
-                                    // onSelect={(date) => setStartDate(date)}
+
                                     className="w-full "
                                 />
                             </div>
                             <div className="col-span-3 flex flex-col md:col-span-3 lg:col-span-3">
                                 <label htmlFor="Select Date" className="text-lg">Donation Time</label>
                                 <DatePicker
-                                    // selected={time}
-                                    // onChange={(time) => setStartTime(time)}
+
                                     className="p-1 w-full"
                                     showTimeSelect
                                     value={loadUpdateData.donateTime.split(',')[1]}

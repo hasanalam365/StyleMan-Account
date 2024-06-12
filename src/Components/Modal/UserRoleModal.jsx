@@ -1,5 +1,4 @@
 import { Description, Field, Label, Select } from '@headlessui/react'
-// import { ChevronDownIcon } from '@heroicons/react/20/solid'
 import clsx from 'clsx'
 import { FaSortDown } from 'react-icons/fa';
 
@@ -14,7 +13,7 @@ const UserRoleModal = () => {
                         className={clsx(
                             'mt-3 block w-full appearance-none rounded-lg border-none bg-white/5 py-1.5 px-3 text-sm/6 text-white',
                             'focus:outline-none data-[focus]:outline-2 data-[focus]:-outline-offset-2 data-[focus]:outline-white/25',
-                            // Make the text of each option black on Windows
+
                             '*:text-black'
                         )}
                     >

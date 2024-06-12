@@ -4,7 +4,6 @@ import useDataLoad from "../../Hooks/useDataLoad";
 import useAxiosPublic from "../../Hooks/useAxiosPublic";
 import { toast } from "react-toastify";
 import DatePicker from "react-datepicker";
-
 import "react-datepicker/dist/react-datepicker.css";
 import { useLoaderData, useNavigate } from "react-router-dom";
 
@@ -12,14 +11,11 @@ const UpdatedDonationRequest = () => {
 
     const { user } = useAuth()
     const [, districts, upazilas] = useDataLoad()
-
     const loadUpdateData = useLoaderData()
     const [startDate, setStartDate] = useState(new Date(loadUpdateData.donateDate));
     const [time, setStartTime] = useState(new Date(loadUpdateData.donateTime));
-
     const axiosPublic = useAxiosPublic()
     const navigate = useNavigate()
-
 
     const handleUpdated = async (e) => {
         e.preventDefault()
@@ -33,13 +29,11 @@ const UpdatedDonationRequest = () => {
         const bloodGroup = form.bloodGroup.value;
         const donateDate = startDate.toLocaleString()
         const donateTime = time.toLocaleString()
-
         const requestMessage = form.requestMessage.value
         const fullAddress = form.fullAddress.value
         const status = "pending"
 
         const donationUpdatedDetails = { recipientName, hospitalName, district, upazila, bloodGroup, requestMessage, fullAddress, donateDate, donateTime, requesterName, requesterEmail, status }
-
 
         try {
             const res = await axiosPublic.patch(`/updated-request/${loadUpdateData._id}`, donationUpdatedDetails)
@@ -52,8 +46,6 @@ const UpdatedDonationRequest = () => {
         } catch (err) {
             toast.err(err.message)
         }
-
-
     }
 
     return (

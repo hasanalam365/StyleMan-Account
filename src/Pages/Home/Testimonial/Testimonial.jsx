@@ -1,12 +1,6 @@
-
-
-
 import TestimonialRight from "../../../Components/TestimonialRight/TestimonialRight";
 
-
 const Testimonial = () => {
-
-
 
     return (
         <div className="flex flex-col md:flex-col lg:flex-row  gap-10 bg-gray-100 p-4 md:p-8 lg:p-16 ">

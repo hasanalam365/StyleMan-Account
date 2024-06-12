@@ -1,7 +1,5 @@
 import SectionHeader from "../../../Shared/SectionHeader/SectionHeader";
 
-
-
 const Features = () => {
     return (
         <div className="my-10">
@@ -114,8 +112,6 @@ const Features = () => {
                     </div>
                 </div>
             </section>
-
-
         </div>
     );
 };

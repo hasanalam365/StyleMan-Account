@@ -4,7 +4,6 @@ import { FaAngleDown } from "react-icons/fa6";
 import clsx from 'clsx'
 import { useEffect, useState } from "react";
 import useAuth from "../../Hooks/useAuth";
-// import axios from "axios";
 import useAxiosPublic from "../../Hooks/useAxiosPublic";
 import { ToastContainer, toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
@@ -13,11 +12,9 @@ import 'react-toastify/dist/ReactToastify.css';
 const image_hosting_key = import.meta.env.VITE_IMAGE_HOST_KEY
 const image_hosting_api = `https://api.imgbb.com/1/upload?key=${image_hosting_key}`
 
-
 const Register = () => {
 
     const { signUpUser, updateUser, signOutUser } = useAuth()
-
     const [districts = [], setDistricts] = useState()
     const [upazilas = [], setUpazilas] = useState()
     const [errorText, setErrorText] = useState()
@@ -25,15 +22,12 @@ const Register = () => {
     const axiosPublic = useAxiosPublic()
     const location = useLocation()
 
-
-
     // fetch Districts data
     useEffect(() => {
         fetch('districts.json')
             .then(res => res.json())
             .then(data => {
                 setDistricts(data)
-                //  (data)
 
             })
     }, [])
@@ -45,12 +39,9 @@ const Register = () => {
             .then(res => res.json())
             .then(data => {
                 setUpazilas(data)
-                //  (data)
 
             })
     }, [])
-
-    //  (upazilas)
 
 
     const handleSubmit = async (e) => {
@@ -85,36 +76,24 @@ const Register = () => {
         const submitForm = { name, email, photoURL, bloodGroup, district, upazila, status, role }
 
 
-        //signUp User
         signUpUser(email, password)
             .then(() => {
-
-
                 updateUser(name, photoURL)
                     .then(async () => {
-
                         signOutUser()
                         navigate('/login')
-
                         const res = await axiosPublic.put(`/usercreate/${submitForm.email}`, submitForm)
-
 
                         if (res.data.insertedId) {
                             toast.success('Registration Successfully')
                             navigate(location?.state || '/')
                         }
-
-
-
                     })
 
             })
             .catch(error => {
                 (error.message)
             })
-
-
-
     }
 
 

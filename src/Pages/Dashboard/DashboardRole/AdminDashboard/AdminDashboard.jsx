@@ -5,10 +5,8 @@ import useDataLoad from "../../../../Hooks/useDataLoad";
 const AdminDashboard = () => {
 
     const { user } = useAuth()
-    //  (user)
     const [users] = useAllUsers()
     const [donationRequests] = useDataLoad()
-
     const usersLength = users.filter(user => user.role === 'donor')
 
     return (

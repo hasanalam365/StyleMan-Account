@@ -11,14 +11,12 @@ const Login = () => {
     const location = useLocation()
     const navigate = useNavigate()
 
-
     const handleLogin = (e) => {
         e.preventDefault()
         const form = e.target
         const email = form.email.value
         const password = form.password.value
 
-        //  (email, password)
 
         signInUser(email, password)
             .then((result) => {
@@ -48,7 +46,7 @@ const Login = () => {
                             <label className="input input-bordered flex items-center gap-2 ">
                                 <MdOutlineMailOutline className="text-xl " />
 
-                                <input type="text" className="grow" name="email" placeholder="email" />
+                                <input type="email" className="grow" name="email" placeholder="email" />
                             </label>
                         </div>
                         <div className="form-control">

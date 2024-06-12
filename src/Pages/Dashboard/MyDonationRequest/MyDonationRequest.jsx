@@ -1,7 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import useAuth from "../../../Hooks/useAuth";
 import useAxiosPublic from "../../../Hooks/useAxiosPublic";
-import { FaCandyCane, FaEdit } from "react-icons/fa";
 import { MdDeleteForever } from "react-icons/md";
 import { Link, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
@@ -11,6 +10,7 @@ import { MdOutlineCancel } from "react-icons/md";
 import useAxiosSecure from "../../../Hooks/useAxiosSecure";
 import { toast } from "react-toastify";
 import { DNA } from "react-loader-spinner";
+import { FaEdit } from "react-icons/fa";
 
 const MyDonationRequest = () => {
 
@@ -31,12 +31,7 @@ const MyDonationRequest = () => {
     })
 
 
-
-
-
-
     const handleDelete = (id) => {
-
         Swal.fire({
             title: "Are you sure?",
             text: "You want to delete this!",
@@ -49,7 +44,6 @@ const MyDonationRequest = () => {
             if (result.isConfirmed) {
 
                 const res = await axiosPublic.delete(`/donation-request-delete/${id}`)
-
                 if (res.data.deletedCount > 0) {
                     Swal.fire({
                         title: "Deleted!",
@@ -58,7 +52,6 @@ const MyDonationRequest = () => {
                     });
                     refetch()
                 }
-
             }
         });
     }
@@ -66,9 +59,7 @@ const MyDonationRequest = () => {
 
     const handleSearch = () => {
         refetch()
-
     };
-
 
     const handleChange = (e) => {
         setCategory(e.target.value);
@@ -162,7 +153,6 @@ const MyDonationRequest = () => {
                                                 <td>{singleData.donateDate.split(',')[0]}</td>
                                                 <td>{singleData.donateTime.split(',')[1]}</td>
 
-
                                                 <td className={` ${singleData.status === 'pending' && 'text-[#FF5733]' || singleData.status === 'inprogress' && 'text-[#3498DB]' || singleData.status === 'done' && 'text-green-600' || singleData.status === 'canceled' && 'text-red-900'} text-lg `}>{singleData.status}</td>
 
                                                 <td>
@@ -203,8 +193,6 @@ const MyDonationRequest = () => {
                                                         </td>
                                                 }
 
-
-
                                                 <td>
                                                     <Link to={`/donarRequestDetails/${singleData._id}`}>View</Link>
                                                 </td>
@@ -218,8 +206,6 @@ const MyDonationRequest = () => {
                 }
             </div>
         </>
-
-
 
     );
 };

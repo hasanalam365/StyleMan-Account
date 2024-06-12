@@ -4,16 +4,12 @@ import useAxiosPublic from '../../../Hooks/useAxiosPublic';
 import useAuth from '../../../Hooks/useAuth';
 import { useState } from 'react';
 import { toast } from "react-toastify";
-import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import useDataLoad from "../../../Hooks/useDataLoad";
 import { useNavigate } from 'react-router-dom';
 
 const image_hosting_key = import.meta.env.VITE_IMAGE_HOST_KEY
 const image_hosting_api = `https://api.imgbb.com/1/upload?key=${image_hosting_key}`
-
-
-
 
 const Profile = () => {
 
@@ -24,8 +20,6 @@ const Profile = () => {
     const navigate = useNavigate()
     const [imagePrev, setImagePrev] = useState()
 
-
-
     const { data = [] } = useQuery({
         queryKey: ['user'],
         queryFn: async () => {
@@ -33,8 +27,6 @@ const Profile = () => {
             return userData
         }
     })
-    console.log(data.photoURL)
-
 
     const handleUpdatedProfile = async (e) => {
         e.preventDefault()
@@ -45,11 +37,9 @@ const Profile = () => {
         const upazila = form.upazila.value;
         const photo = form.photo.files;
 
-        console.log(photo[0])
-
         if (photo[0] !== undefined) {
             const imageFile = { image: photo[0] }
-            // console.log('imageFile', imageFile)
+
             const res = await axiosPublic.post(image_hosting_api, imageFile, {
                 headers: {
                     'content-type': 'multipart/form-data'
@@ -84,7 +74,6 @@ const Profile = () => {
                 photoURL: data.photoURL
             }
 
-
             const updated = await axiosPublic.patch(`/updateProfile/${user.email}`, updatedProfileInfo)
             if (updated.data.modifiedCount > 0) {
                 toast.success('Profile Updated Successfully')
@@ -96,16 +85,9 @@ const Profile = () => {
 
     }
 
-
-
-
     return (
-
-
         <div className=" min-h-screen bg-base-200 ">
-
             <div className='flex justify-center items-center '>
-
                 <div className='bg-white shadow-lg rounded-2xl w-4/5 relative'>
                     <img
                         alt='profile'
@@ -133,7 +115,6 @@ const Profile = () => {
 
                         <form onSubmit={handleUpdatedProfile} className='w-[350px] lg:w-[90%] mx-auto p-2 mt-4 rounded-lg'>
                             <div className='flex flex-col text-sm  text-gray-600 '>
-
                                 <div className=" flex flex-col gap-5 md:flex-col lg:flex-row ">
                                     <label className='flex flex-col col-span-3'>
                                         Name:
@@ -141,7 +122,6 @@ const Profile = () => {
                                             {...(enableEditBtn && { value: data.name })}
                                             defaultValue={data.name}
                                             name="name" className="input w-[245px] md:w-full bg-gray-50 font-medium text-black p-2" />
-
 
                                     </label>
 
@@ -154,11 +134,9 @@ const Profile = () => {
                                     </label>
                                 </div>
 
-
                                 <div className="w-full grid grid-cols-6 gap-3 ">
 
                                     <div className="form-control col-span-6 lg:col-span-2">
-
                                         <label className="form-control w-full">
                                             <div className="label">
                                                 <span className="label-text">Blood Group</span>
@@ -203,7 +181,6 @@ const Profile = () => {
                                                     !enableEditBtn && districts.map(district => <option key={district.id} >{district.name}</option>)
                                                 }
 
-
                                             </select>
 
                                         </label>
@@ -223,15 +200,11 @@ const Profile = () => {
                                                     !enableEditBtn && upazilas.map(upazila => <option key={upazila.id}>{upazila.name}</option>)
                                                 }
 
-
                                             </select>
-
                                         </label>
                                     </div>
 
                                 </div>
-                                {/* image upload */}
-
 
                             </div>
 
@@ -274,7 +247,6 @@ const Profile = () => {
 
                             </div>
                         </form>
-                        {/* uporer ta div silo */}
                     </div>
                 </div>
             </div>

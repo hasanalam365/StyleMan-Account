@@ -1,6 +1,5 @@
 import { useNavigate } from "react-router-dom";
 
-// https://i.ibb.co/FwtXmWM/13346237-5197213.jpg
 const ErrorPage = () => {
 
     const navigate = useNavigate()

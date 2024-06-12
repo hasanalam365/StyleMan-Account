@@ -34,10 +34,6 @@ const useDataLoad = () => {
         }
     })
 
-
-
-
-
     return [donationRequests, districts, upazilas]
 };
 

@@ -1,4 +1,4 @@
-import { FaQuoteLeft } from "react-icons/fa6";
+
 
 const SectionHeader = ({ heading, subHeading }) => {
     return (

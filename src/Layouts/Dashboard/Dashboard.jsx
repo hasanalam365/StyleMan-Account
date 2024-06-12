@@ -10,9 +10,7 @@ const Dashboard = () => {
     return (
 
         <div className="">
-
             <Sidebar isActive={isActive} setActive={setActive}></Sidebar>
-
             <div className="md:ml-64 lg:ml-64">
                 <Outlet></Outlet>
             </div>

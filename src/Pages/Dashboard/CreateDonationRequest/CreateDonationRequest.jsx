@@ -16,12 +16,7 @@ const CreateDonationRequest = () => {
     const [time, setStartTime] = useState(new Date());
     const axiosPublic = useAxiosPublic()
     const navigate = useNavigate()
-
     const [roleChecked] = useRoleCheckFetch()
-
-
-
-
 
     const handleDonateRequest = async (e) => {
         e.preventDefault()
@@ -45,9 +40,6 @@ const CreateDonationRequest = () => {
         const status = "pending"
 
         const donationDetails = { recipientName, hospitalName, district, upazila, bloodGroup, requestMessage, fullAddress, donateDate, donateTime, requesterName, requesterEmail, status }
-
-
-
 
         try {
 

@@ -11,7 +11,6 @@ const SearchDonors = () => {
     const [district, setDistrict] = useState('')
     const [upazila, setUpazila] = useState('')
 
-
     const { data: donarsAll = [], refetch } = useQuery({
         queryKey: ['all-donation-search'],
         queryFn: async () => {
@@ -24,11 +23,7 @@ const SearchDonors = () => {
     })
 
     const handleSearchBlood = () => {
-
-
-
         refetch()
-
     }
 
     const hanldeBlood = e => {
@@ -44,16 +39,12 @@ const SearchDonors = () => {
     return (
         <div className=" bg-base-200 min-h-screen  mb-10">
             <div className=" mx-auto p-16">
-
-
                 <div className="card shrink-0  ">
-
                     <div className="grid grid-cols-12 gap-5 items-center justify-center">
                         <div className="form-control col-span-12 lg:col-span-3">
                             <select value={bloodGroup} onChange={hanldeBlood} name="bloodGroup" className="select select-success">
 
                                 <option selected disabled>Choose a Blood Group</option>
-
                                 <option value="A+">A+</option>
                                 <option value="A-">A-</option>
                                 <option value="B+">B+</option>
@@ -86,17 +77,13 @@ const SearchDonors = () => {
                                     upazilas.map(upazila => <option key={upazila.id}>{upazila.name}</option>)
                                 }
 
-
                             </select>
                         </div>
                         <div className="form-control col-span-12 lg:col-span-3">
                             <button onClick={handleSearchBlood} className="btn btn-secondary">Search Blood</button>
                         </div>
                     </div>
-
                 </div>
-
-
             </div>
             {
                 donarsAll.length > 0 && <div className="overflow-x-auto mt-5 w-[95%] mx-auto">
@@ -124,12 +111,9 @@ const SearchDonors = () => {
                                 </tr>)
                             }
 
-
-
                         </tbody>
                     </table>
                 </div>
-
 
             }
         </div>

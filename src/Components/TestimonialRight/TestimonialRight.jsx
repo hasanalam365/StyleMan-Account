@@ -1,9 +1,7 @@
 import { Swiper, SwiperSlide } from 'swiper/react';
-// Import Swiper styles
 import 'swiper/css';
 import 'swiper/css/effect-coverflow';
 import 'swiper/css/pagination';
-
 import { Autoplay } from 'swiper/modules';
 import useAxiosPublic from '../../Hooks/useAxiosPublic';
 import { useQuery } from '@tanstack/react-query';
@@ -21,13 +19,9 @@ const TestimonialRight = () => {
         }
     })
 
-
-
     return (
         <div className="">
-
             <Swiper
-
                 autoplay={{
                     delay: 2500,
                     disableOnInteraction: false,
@@ -39,8 +33,6 @@ const TestimonialRight = () => {
                 modules={[Autoplay]}
                 className="mySwiper"
             >
-
-
                 {
                     testimonials.map(testimonial => <SwiperSlide key={testimonial._id}>
                         <div className="bg-base-100 shadow-xl p-8 h-[220px]  space-y-2">
@@ -63,9 +55,6 @@ const TestimonialRight = () => {
                         </div>
                     </SwiperSlide>)
                 }
-
-
-
 
             </Swiper>
         </div >

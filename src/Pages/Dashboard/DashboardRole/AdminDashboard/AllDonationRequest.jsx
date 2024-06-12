@@ -15,15 +15,9 @@ const AllDonationRequest = () => {
 
     const { user } = useAuth()
     const axiosSecure = useAxiosSecure()
-
     const [roleChecked] = useRoleCheckFetch()
-
     const isAdmin = roleChecked.role
     const isVolunteer = roleChecked.role
-
-
-
-
     const [category, setCategory] = useState('');
 
     const { data: searchData = [], refetch } = useQuery({
@@ -65,8 +59,6 @@ const AllDonationRequest = () => {
         });
     }
 
-    // const [set, setSet] = useState()
-
     const handleSearch = async () => {
         refetch()
     };
@@ -75,7 +67,6 @@ const AllDonationRequest = () => {
     const handleChange = (e) => {
         setCategory(e.target.value);
     };
-
 
     const handleCancel = async (data) => {
 
@@ -112,8 +103,6 @@ const AllDonationRequest = () => {
                 <button onClick={handleSearch} className="btn bg-orange-500 text-white">filter</button>
 
             </div>
-
-
             {searchData.length === 0 ? <div className="text-center">
 
                 <h1 className="text-2xl md:text-3xl lg:text-4xl mt-56 ">No data Found!!</h1>
@@ -172,8 +161,6 @@ const AllDonationRequest = () => {
                                         }
                                     </td>
 
-
-
                                     <td className={` ${singleData.status === 'pending' && 'text-[#FF5733]' || singleData.status === 'inprogress' && 'text-[#3498DB]' || singleData.status === 'done' && 'text-green-600' || singleData.status === 'canceled' && 'text-red-900'} text-lg `}>{singleData.status}</td>
                                     {
                                         singleData.status === 'inprogress' ?
@@ -190,8 +177,6 @@ const AllDonationRequest = () => {
                                             : <td></td>
 
                                     }
-
-
 
                                     {isAdmin === 'admin' &&
                                         <td >

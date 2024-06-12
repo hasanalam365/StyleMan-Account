@@ -1,4 +1,3 @@
-
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import useAuth from "../../../Hooks/useAuth";
 import { GrLogout } from "react-icons/gr";
@@ -19,13 +18,8 @@ const Sidebar = ({ isActive, setActive }) => {
     const { user, signOutUser } = useAuth()
     const navigate = useNavigate()
     const [roleChecked] = useRoleCheckFetch()
-
     const isRole = roleChecked.role === 'admin' || roleChecked.role === 'volunteer'
-
-
     const [isAdmin] = useAdmin()
-
-
 
     const handleLogOut = () => {
         signOutUser()
@@ -208,7 +202,6 @@ const Sidebar = ({ isActive, setActive }) => {
                 </div>
             </div>
         </>
-
 
     );
 };

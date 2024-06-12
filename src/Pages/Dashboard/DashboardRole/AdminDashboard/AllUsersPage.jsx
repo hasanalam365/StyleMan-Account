@@ -1,22 +1,15 @@
-
 import Swal from "sweetalert2";
 import useAxiosSecure from "../../../../Hooks/useAxiosSecure";
 import { useState } from "react";
 import { toast } from "react-toastify";
 import { useQuery } from "@tanstack/react-query";
 
-
-
-
 const AllUsersPage = () => {
-    // const [users] = useAllUsers()
 
     const axiosSecure = useAxiosSecure()
     const [changeRole, setChangeRole] = useState()
     const [category, setStatusChange] = useState('');
     const [userEmail, setUserEmail] = useState()
-
-
 
 
     const { data: usersData = [], refetch } = useQuery({
@@ -28,7 +21,6 @@ const AllUsersPage = () => {
             return res.data
         }
     })
-    //  ('hi search', usersData, category)
 
     const handleStatusChange = (user) => {
         Swal.fire({
@@ -91,8 +83,6 @@ const AllUsersPage = () => {
                         <option selected value=''>All Status</option>
                         <option value="active">Active</option>
                         <option value="block">Block</option>
-
-
                     </select>
                     <button onClick={handleSearch} className="btn bg-orange-600 text-white">filter</button>
 
@@ -131,13 +121,11 @@ const AllUsersPage = () => {
 
                                 </td>
 
-
                                 <td>
                                     <button onClick={() => handleStatusChange(user)} className={` ${user.status === 'active' && 'text-green-600' || user.status === 'block' && 'text-red-600'}`}>
                                         {user.status}
                                     </button>
                                 </td>
-
 
                                 <td>
 
