@@ -19,6 +19,9 @@ import BloodDonationDetails from "../../Components/BloodDonationDetails/BloodDon
 import AllUsersPage from "../../Pages/Dashboard/DashboardRole/AdminDashboard/AllUsersPage";
 import AllDonationRequest from "../../Pages/Dashboard/DashboardRole/AdminDashboard/AllDonationRequest";
 import AdminRoute from "../AdminRoute/AdminRoute";
+import ContentManagement from "../../Pages/Dashboard/ContentManageMent/ContentManagement";
+import AddBlog from "../../Pages/Dashboard/ContentManageMent/AddBlog";
+// import AddBlog from "../../Pages/Dashboard/AddBlog/AddBlog";
 // import AdminAndVolunRoute from "../AdminRoute/AdminAndVolun/AdminAndVolunRoute";
 
 
@@ -113,6 +116,18 @@ export const router = createBrowserRouter([
                 element: <PrivateRoute>
                     <MyDonationRequest></MyDonationRequest>
                 </PrivateRoute>
+
+            },
+            {
+
+                path: 'content-management',
+                element: <ContentManagement></ContentManagement>
+
+            },
+            {
+
+                path: 'content-management/add-blog',
+                element: <AddBlog></AddBlog>
 
             },
             {

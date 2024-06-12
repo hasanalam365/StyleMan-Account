@@ -50,8 +50,8 @@ const AllDonationRequest = () => {
         }).then(async (result) => {
             if (result.isConfirmed) {
 
-                const res = await axiosPublic.delete(`/donation-request-delete/${id}`)
-                    (res.deletedCount)
+                const res = await axiosSecure.delete(`/donation-request-delete/${id}`)
+
                 if (res.data.deletedCount > 0) {
                     Swal.fire({
                         title: "Deleted!",
@@ -81,7 +81,7 @@ const AllDonationRequest = () => {
 
         const status = data.status === 'canceled' ? 'done' : 'canceled'
 
-        const res = await axiosPublic.patch(`/changeStatus/${data._id}`, { status })
+        const res = await axiosSecure.patch(`/changeStatus/${data._id}`, { status })
         if (res.data.modifiedCount > 0) {
             toast.success(`${data.status === 'done' ? 'Done' : 'Canceled'}`)
             refetch()
@@ -91,7 +91,7 @@ const AllDonationRequest = () => {
 
         const status = data.status === 'done' ? 'canceled' : 'done'
 
-        const res = await axiosPublic.patch(`/changeStatus/${data._id}`, { status })
+        const res = await axiosSecure.patch(`/changeStatus/${data._id}`, { status })
         if (res.data.modifiedCount > 0) {
             toast.success(`${data.status === 'done' ? 'Canceled' : 'Done'}`)
             refetch()
@@ -100,8 +100,8 @@ const AllDonationRequest = () => {
 
     return (
         <div className="p-4">
-            <div>
-                <select value={category} onChange={handleChange} className="select select-bordered w-full max-w-xs">
+            <div className="flex gap-2">
+                <select value={category} onChange={handleChange} className="select select-bordered w-[80%] max-w-xs">
                     <option selected value=''>All Status</option>
                     <option value="pending">Pending</option>
                     <option value="inprogress">Inprogress</option>
@@ -112,105 +112,114 @@ const AllDonationRequest = () => {
                 <button onClick={handleSearch} className="btn bg-orange-500 text-white">filter</button>
 
             </div>
-            <div className="overflow-x-auto mr-5 mt-5 ">
-
-                <table className="table table-zebra ">
-                    {/* head */}
-                    <thead className="bg-orange-600 text-white">
-                        <tr>
-                            <th>#</th>
-                            <th>Recipient Name</th>
-                            <th>Recipient Location</th>
-                            <th>Blood Group</th>
-                            <th>Donation Date</th>
-                            <th>Donation Time</th>
-                            <th>Donar Info</th>
-                            <th>Donation Status</th>
-                            <th>Updated Status</th>
-                            {
-                                isAdmin === 'admin' &&
-
-                                <th>Actions</th>
 
 
-                            }
+            {searchData.length === 0 ? <div className="text-center">
 
-                            <th>Details</th>
-
-                        </tr>
-                    </thead>
-                    <tbody>
-
-                        {
-                            searchData.map((singleData, idx) => <tr key={singleData._id}>
-                                <th>{idx + 1}</th>
-                                <td>{singleData.recipientName}</td>
-                                <td className="">
-                                    <span>{singleData.district},</span>
-                                    <span>{singleData.upazila}</span>
-                                </td>
-                                <td>{singleData.bloodGroup}</td>
-                                <td>{singleData.donateDate.split(',')[0]}</td>
-                                <td>{singleData.donateTime.split(',')[1]}</td>
-
-                                <td>
-                                    {
-                                        singleData.status === 'inprogress' ? <div className="flex flex-col">
-                                            <p>{singleData.bloodDonarName}</p>
-                                            <p>{singleData.bloodDonarEmail}</p>
-                                        </div>
-                                            :
-                                            <h3 className="text-red-400">Anyone don't agree!</h3>
-                                    }
-                                </td>
+                <h1 className="text-2xl md:text-3xl lg:text-4xl mt-56 ">No data Found!!</h1>
+            </div>
+                :
+                <div className="overflow-x-auto mr-2 mt-5 ">
 
 
-
-                                <td className={` ${singleData.status === 'pending' && 'text-[#FF5733]' || singleData.status === 'inprogress' && 'text-[#3498DB]' || singleData.status === 'done' && 'text-green-600' || singleData.status === 'canceled' && 'text-red-900'} text-lg `}>{singleData.status}</td>
+                    <table className="table table-zebra ">
+                        {/* head */}
+                        <thead className="bg-orange-600 text-white">
+                            <tr>
+                                <th>#</th>
+                                <th>Recipient Name</th>
+                                <th>Recipient Location</th>
+                                <th>Blood Group</th>
+                                <th>Donation Date</th>
+                                <th>Donation Time</th>
+                                <th>Donar Info</th>
+                                <th>Donation Status</th>
+                                <th>Updated Status</th>
                                 {
-                                    singleData.status === 'inprogress' ?
+                                    isAdmin === 'admin' &&
 
-                                        <td className="flex gap-1">
-                                            <button onClick={() => handleCancel(singleData)} className="tooltip" data-tip="cancel">
-                                                <MdOutlineCancel className="text-xl  text-red-600 hover:scale-110" ></MdOutlineCancel>
-                                            </button>
-                                            <button onClick={() => handleDone(singleData)} className="tooltip" data-tip="done">
-                                                <IoCheckmarkDoneCircle className="text-xl  text-green-600 hover:scale-110"></IoCheckmarkDoneCircle>
-                                            </button>
+                                    <th>Actions</th>
+
+
+                                }
+
+                                <th>Details</th>
+
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                            {
+                                searchData.map((singleData, idx) => <tr key={singleData._id}>
+                                    <th>{idx + 1}</th>
+                                    <td>{singleData.recipientName}</td>
+                                    <td className="">
+                                        <span>{singleData.district},</span>
+                                        <span>{singleData.upazila}</span>
+                                    </td>
+                                    <td>{singleData.bloodGroup}</td>
+                                    <td>{singleData.donateDate.split(',')[0]}</td>
+                                    <td>{singleData.donateTime.split(',')[1]}</td>
+
+                                    <td>
+                                        {
+                                            singleData.status === 'inprogress' ? <div className="flex flex-col">
+                                                <p>{singleData.bloodDonarName}</p>
+                                                <p>{singleData.bloodDonarEmail}</p>
+                                            </div>
+                                                :
+                                                <h3 className="text-red-400">Anyone don't agree!</h3>
+                                        }
+                                    </td>
+
+
+
+                                    <td className={` ${singleData.status === 'pending' && 'text-[#FF5733]' || singleData.status === 'inprogress' && 'text-[#3498DB]' || singleData.status === 'done' && 'text-green-600' || singleData.status === 'canceled' && 'text-red-900'} text-lg `}>{singleData.status}</td>
+                                    {
+                                        singleData.status === 'inprogress' ?
+
+                                            <td className="flex gap-1">
+                                                <button onClick={() => handleCancel(singleData)} className="tooltip" data-tip="cancel">
+                                                    <MdOutlineCancel className="text-xl  text-red-600 hover:scale-110" ></MdOutlineCancel>
+                                                </button>
+                                                <button onClick={() => handleDone(singleData)} className="tooltip" data-tip="done">
+                                                    <IoCheckmarkDoneCircle className="text-xl  text-green-600 hover:scale-110"></IoCheckmarkDoneCircle>
+                                                </button>
+
+                                            </td>
+                                            : <td></td>
+
+                                    }
+
+
+
+                                    {isAdmin === 'admin' &&
+                                        <td >
+                                            <div className="flex">
+                                                <button>
+                                                    <Link to={`/dashboard/updated-donation-request/${singleData._id}`}>
+                                                        <FaEdit className="text-xl text-green-600 hover:scale-110"></FaEdit>
+                                                    </Link>
+
+                                                </button>
+                                                <button onClick={() => handleDelete(singleData._id)}>
+                                                    <MdDeleteForever className="text-2xl text-red-600 hover:scale-110"></MdDeleteForever>
+                                                </button>
+                                            </div>
 
                                         </td>
-                                        : <td></td>
+                                    }
 
-                                }
-
-
-
-                                {isAdmin === 'admin' &&
-                                    <td >
-                                        <div className="flex">
-                                            <button>
-                                                <Link to={`/dashboard/updated-donation-request/${singleData._id}`}>
-                                                    <FaEdit className="text-xl text-green-600 hover:scale-110"></FaEdit>
-                                                </Link>
-
-                                            </button>
-                                            <button onClick={() => handleDelete(singleData._id)}>
-                                                <MdDeleteForever className="text-2xl text-red-600 hover:scale-110"></MdDeleteForever>
-                                            </button>
-                                        </div>
-
+                                    <td>
+                                        <Link to={`/donarRequestDetails/${singleData._id}`}>View</Link>
                                     </td>
-                                }
+                                </tr>)
+                            }
 
-                                <td>
-                                    <Link to={`/donarRequestDetails/${singleData._id}`}>View</Link>
-                                </td>
-                            </tr>)
-                        }
-
-                    </tbody>
-                </table>
-            </div>
+                        </tbody>
+                    </table>
+                </div>
+            }
         </div>
     );
 };

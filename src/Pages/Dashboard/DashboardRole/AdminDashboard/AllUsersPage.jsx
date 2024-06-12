@@ -84,9 +84,9 @@ const AllUsersPage = () => {
         <div className="p-4">
             <div className="flex items-center justify-between">
                 <div>
-                    <h2 className="text-3xl font-semibold">Total Users: {usersData.length}</h2>
+                    <h2 className="text-lg md:text-3xl lg:text-3xl font-semibold">Total Users: <span className="bg-blue-600 p-2 rounded-lg text-white">{usersData.length}</span></h2>
                 </div>
-                <div className="mr-5">
+                <div className="mr-1 flex gap-1">
                     <select value={category} name="filterStatus" onChange={handleChange} className="select select-bordered max-w-xs">
                         <option selected value=''>All Status</option>
                         <option value="active">Active</option>
@@ -98,7 +98,7 @@ const AllUsersPage = () => {
 
                 </div>
             </div>
-            <div className="overflow-x-auto mr-5 mt-5 ">
+            <div className="overflow-x-auto mr-1 mt-5 ">
 
                 <table className="table table-zebra ">
                     {/* head */}

@@ -19,12 +19,17 @@ const CreateDonationRequest = () => {
 
     const [roleChecked] = useRoleCheckFetch()
 
-    const checkUserStatus = roleChecked.status
+
 
 
 
     const handleDonateRequest = async (e) => {
         e.preventDefault()
+
+        if (roleChecked.status === 'block') {
+            return toast.error(`Dear ${user.displayName}, you are a block user. cannot create blood request`)
+        }
+
         const form = e.target;
         const recipientName = form.recipientName.value;
         const hospitalName = form.hospitalName.value;
@@ -43,10 +48,9 @@ const CreateDonationRequest = () => {
 
 
 
-        if (checkUserStatus === 'block') {
-            return toast.error(`Dear ${user.displayName}, you are a block user. cannot create blood request`)
-        }
+
         try {
+
             const res = await axiosPublic.post('/create-donation-request', donationDetails)
 
             if (res.data.insertedId) {

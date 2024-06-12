@@ -42,8 +42,8 @@ const SearchDonors = () => {
     }
 
     return (
-        <div className=" bg-base-200 min-h-screen p-16 mb-10">
-            <div className=" mx-auto ">
+        <div className=" bg-base-200 min-h-screen  mb-10">
+            <div className=" mx-auto p-16">
 
 
                 <div className="card shrink-0  ">
@@ -99,7 +99,7 @@ const SearchDonors = () => {
 
             </div>
             {
-                donarsAll.length > 0 && <div className="overflow-x-auto mt-10">
+                donarsAll.length > 0 && <div className="overflow-x-auto mt-5 w-[95%] mx-auto">
                     <table className="table table-zebra">
                         {/* head */}
                         <thead className=" bg-orange-600 text-white">

@@ -110,26 +110,27 @@ const MyDonationRequest = () => {
                 </div>
             }
             <div className="p-4">
+                <div className="flex gap-2">
+                    <select value={category} onChange={handleChange} className="select select-bordered w-[80%] max-w-xs">
+                        <option selected value=''>All Status</option>
+                        <option value="pending">Pending</option>
+                        <option value="inprogress">Inprogress</option>
+                        <option value="done">Done</option>
+                        <option value="canceled">Canceled</option>
+
+                    </select>
+                    <button onClick={handleSearch} className="btn bg-orange-500 text-white">filter</button>
+                </div>
 
                 {
-                    data.length === 0 ? <div>
+                    data.length === 0 ? <div className="text-center">
 
-                        <h1 className="text-4xl mt-72 w-1/4 mx-auto">No data Found!!</h1>
+                        <h1 className="text-2xl md:text-3xl lg:text-4xl mt-56 ">No data Found!!</h1>
                     </div>
                         :
                         <div>
-                            <div>
-                                <select value={category} onChange={handleChange} className="select select-bordered w-full max-w-xs">
-                                    <option selected value=''>All Status</option>
-                                    <option value="pending">Pending</option>
-                                    <option value="inprogress">Inprogress</option>
-                                    <option value="done">Done</option>
-                                    <option value="canceled">Canceled</option>
 
-                                </select>
-                                <button onClick={handleSearch} className="btn bg-orange-500 text-white">filter</button>
-                            </div>
-                            <div className="overflow-x-auto mr-5 mt-5 ">
+                            <div className="overflow-x-auto mr-2 mt-5 ">
 
                                 <table className="table table-zebra ">
                                     {/* head */}
