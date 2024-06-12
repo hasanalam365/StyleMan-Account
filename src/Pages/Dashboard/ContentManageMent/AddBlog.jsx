@@ -1,5 +1,6 @@
 import JoditEditor from 'jodit-react';
 import { useMemo, useRef, useState } from "react";
+import { Helmet } from 'react-helmet-async';
 // import useAxiosSecure from "../../../Hooks/useAxiosSecure";
 
 // const image_hosting_key = import.meta.env.VITE_IMAGE_HOST_KEY
@@ -11,8 +12,13 @@ const AddBlog = () => {
     // const axiosSecure = useAxiosSecure()
 
 
-    // const editor = useRef(null)
-    // const [content, setContent] = useState('')
+    const editor = useRef(null)
+    const [content, setContent] = useState('')
+
+    const config = {
+        placeholder: "Start typing...",
+        readonly: false,
+    }
 
     // const config = useMemo(() => ({
     //     readonly: false,
@@ -21,31 +27,32 @@ const AddBlog = () => {
     //     [placeholder]
     // );
 
-
+    const convertToPlainText = (htmlContent) => {
+        const tempElement = document.createElement('div');
+        tempElement.innerHTML = htmlContent;
+        return tempElement.innerText || tempElement.textContent || '';
+    };
 
 
     const handleAddBlog = (e) => {
         e.preventDefault()
         const form = e.target
         const title = form.title.value;
-        const thumbnail = form.thumbnail.files;
+        // const thumbnail = form.thumbnail.files;
+        console.log(content.innerHTML)
+        const plainText = convertToPlainText(content);
+        console.log('Plain Text:', plainText);
 
-        // console.log(title, thumbnail)
-        //image upload
-        // const imageFile = { image: thumbnail[0] }
-        // const res = await axiosSecure.post(image_hosting_api, imageFile, {
-        //     headers: {
-        //         'content-type': 'multipart/form-data'
-        //     }
-        // })
-
-        // const photoURL = res.data.data.display_url
 
     }
 
     return (
         <div className="mt-10">
-            <div className="card shrink-0   shadow-2xl bg-base-100 h-max w-[400px] mx-auto">
+            <Helmet>
+                <title>Dashboard | Add Blog</title>
+
+            </Helmet>
+            <div className="card shrink-0   shadow-2xl bg-base-100  mx-auto">
                 <form onClick={handleAddBlog} className="card-body">
                     <div className="form-control">
                         <span className="mb-2  font-medium">Content Title</span>
@@ -68,13 +75,22 @@ const AddBlog = () => {
                         onBlur={newContent => setContent(newContent)} // preferred to use only this option to update the content for performance reasons
                         onChange={newContent => { }}
                     /> */}
+                    <JoditEditor
+                        ref={editor}
+                        value={content}
+                        config={config}
+                        onBlur={newContent => setContent(newContent)}
+                        onChange={newContent => { }}
+                    />
                     <div className="form-control mt-6">
                         <button className="btn btn-secondary">Create Blog</button>
                     </div>
 
                 </form>
-
+                {content}
             </div>
+
+
         </div>
     );
 };

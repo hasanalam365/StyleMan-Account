@@ -5,6 +5,7 @@ import { toast } from "react-toastify";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import Swal from "sweetalert2";
+import { Helmet } from "react-helmet-async";
 
 const BloodDonationDetails = () => {
 
@@ -45,6 +46,10 @@ const BloodDonationDetails = () => {
 
     return (
         <div>
+            <Helmet>
+                <title>Home | Blood Donate Details</title>
+
+            </Helmet>
             <section className="p-6 bg-gray-100 dark:text-gray-900">
                 <form onSubmit={handleDonate} noValidate="" action="" className="container flex flex-col mx-auto space-y-4">
                     <div className="col-span-full lg:col-span-1 mx-auto">

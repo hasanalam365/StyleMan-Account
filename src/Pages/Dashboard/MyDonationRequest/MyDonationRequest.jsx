@@ -11,6 +11,7 @@ import useAxiosSecure from "../../../Hooks/useAxiosSecure";
 import { toast } from "react-toastify";
 import { DNA } from "react-loader-spinner";
 import { FaEdit } from "react-icons/fa";
+import { Helmet } from "react-helmet-async";
 
 const MyDonationRequest = () => {
 
@@ -88,6 +89,10 @@ const MyDonationRequest = () => {
 
     return (
         <>
+            <Helmet>
+                <title>Dashboard | My Donation Request</title>
+
+            </Helmet>
             {
                 isLoading && <div className="mt-52 ml-[550px]">
                     <DNA

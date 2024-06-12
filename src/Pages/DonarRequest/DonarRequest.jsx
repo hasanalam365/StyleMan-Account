@@ -1,12 +1,18 @@
 import { Link } from "react-router-dom";
 import useDataLoad from "../../Hooks/useDataLoad";
 import { DNA } from "react-loader-spinner";
+import { Helmet } from "react-helmet-async";
 
 const DonarRequest = () => {
 
     const [donationRequests] = useDataLoad()
 
     return (<>
+
+        <Helmet>
+            <title>Home | Donar Requests</title>
+
+        </Helmet>
         {donationRequests.length === 0 && <div className="mt-40 ml-40 md:mt-48 md:ml-[350px] lg:mt-52 lg:ml-[500px]">
             <DNA
                 visible={true}

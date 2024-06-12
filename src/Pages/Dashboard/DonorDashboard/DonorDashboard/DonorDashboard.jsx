@@ -7,6 +7,7 @@ import { MdDeleteForever, MdOutlineCancel } from "react-icons/md";
 import Swal from "sweetalert2";
 import { IoCheckmarkDoneCircle } from "react-icons/io5";
 import { toast } from "react-toastify";
+import { Helmet } from "react-helmet-async";
 
 const DonorDashboard = () => {
     const { user } = useAuth()
@@ -73,6 +74,10 @@ const DonorDashboard = () => {
 
     return (
         <div>
+            <Helmet>
+                <title>Dashboard | Home</title>
+
+            </Helmet>
             <h1 className="text-3xl font-semibold mb-8 w-[95%] mx-auto">Welcome to <span className="text-orange-600">{user?.displayName}</span></h1>
             {
                 !data.length == [] && <>

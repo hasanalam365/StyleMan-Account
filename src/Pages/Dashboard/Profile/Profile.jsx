@@ -7,6 +7,7 @@ import { toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import useDataLoad from "../../../Hooks/useDataLoad";
 import { useNavigate } from 'react-router-dom';
+import { Helmet } from 'react-helmet-async';
 
 const image_hosting_key = import.meta.env.VITE_IMAGE_HOST_KEY
 const image_hosting_api = `https://api.imgbb.com/1/upload?key=${image_hosting_key}`
@@ -87,6 +88,10 @@ const Profile = () => {
 
     return (
         <div className=" min-h-screen bg-base-200 ">
+            <Helmet>
+                <title>Dashboard | Profile</title>
+
+            </Helmet>
             <div className='flex justify-center items-center '>
                 <div className='bg-white shadow-lg rounded-2xl w-4/5 relative'>
                     <img

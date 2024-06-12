@@ -1,3 +1,4 @@
+import { Helmet } from "react-helmet-async";
 import useAllUsers from "../../../../Hooks/useAllUsers";
 import useAuth from "../../../../Hooks/useAuth";
 import useDataLoad from "../../../../Hooks/useDataLoad";
@@ -11,6 +12,10 @@ const AdminDashboard = () => {
 
     return (
         <div className="w-[98%] mx-auto">
+            <Helmet>
+                <title>Dashboard</title>
+
+            </Helmet>
             <div className="text-center">
                 <h1 className="text-3xl  font-semibold mt-5 mb-3">Welcome to <span className="text-orange-600">{user.displayName}</span></h1>
             </div>

@@ -4,6 +4,7 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import useAuth from "../../Hooks/useAuth";
 import { ToastContainer, toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
+import { Helmet } from "react-helmet-async";
 
 const Login = () => {
 
@@ -34,6 +35,10 @@ const Login = () => {
 
     return (
         <div className=" min-h-screen bg-base-200">
+            <Helmet>
+                <title>Home | Login</title>
+
+            </Helmet>
             <div className=" flex-col ">
                 <div className="text-center ">
                     <h1 className="text-5xl font-bold py-8">Login now!</h1>

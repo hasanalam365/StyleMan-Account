@@ -3,6 +3,7 @@ import useAxiosSecure from "../../../../Hooks/useAxiosSecure";
 import { useState } from "react";
 import { toast } from "react-toastify";
 import { useQuery } from "@tanstack/react-query";
+import { Helmet } from "react-helmet-async";
 
 const AllUsersPage = () => {
 
@@ -74,6 +75,10 @@ const AllUsersPage = () => {
 
     return (
         <div className="p-4">
+            <Helmet>
+                <title>Dashboard | All Users</title>
+
+            </Helmet>
             <div className="flex items-center justify-between">
                 <div>
                     <h2 className="text-lg md:text-3xl lg:text-3xl font-semibold">Total Users: <span className="bg-blue-600 p-2 rounded-lg text-white">{usersData.length}</span></h2>

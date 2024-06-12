@@ -6,7 +6,7 @@ const useRoleCheckFetch = () => {
     const { user } = useAuth()
     const axiosSecure = useAxiosSecure()
 
-    const { data: roleChecked = [] } = useQuery({
+    const { data: roleChecked = [], isPending } = useQuery({
         queryKey: ['user'],
         queryFn: async () => {
             const res = await axiosSecure.get(`/user/${user.email}`)
@@ -14,7 +14,7 @@ const useRoleCheckFetch = () => {
         }
     })
 
-    return [roleChecked]
+    return [roleChecked, isPending]
 };
 
 export default useRoleCheckFetch;

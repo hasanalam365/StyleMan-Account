@@ -6,6 +6,7 @@ import { toast } from "react-toastify";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { useLoaderData, useNavigate } from "react-router-dom";
+import { Helmet } from "react-helmet-async";
 
 const UpdatedDonationRequest = () => {
 
@@ -50,6 +51,10 @@ const UpdatedDonationRequest = () => {
 
     return (
         <div>
+            <Helmet>
+                <title>Dashboard | Updated Donation</title>
+
+            </Helmet>
             <section className="p-6 bg-gray-100 dark:text-gray-900">
                 <form onSubmit={handleUpdated} noValidate="" action="" className="container flex flex-col mx-auto space-y-4">
                     <div className="col-span-full lg:col-span-1 mx-auto">

@@ -7,6 +7,7 @@ import useAxiosPublic from "../../../Hooks/useAxiosPublic";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import useRoleCheckFetch from "../../../Hooks/useRoleCheckFetch";
+import { Helmet } from "react-helmet-async";
 
 const CreateDonationRequest = () => {
 
@@ -58,6 +59,10 @@ const CreateDonationRequest = () => {
 
     return (
         <div>
+            <Helmet>
+                <title>Dashboard | Create Donation</title>
+
+            </Helmet>
             <section className="p-6 bg-gray-100 dark:text-gray-900">
                 <form onSubmit={handleDonateRequest} noValidate="" action="" className="container flex flex-col mx-auto space-y-4">
                     <div className="col-span-full lg:col-span-1 mx-auto">

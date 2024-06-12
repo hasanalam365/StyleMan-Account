@@ -7,6 +7,7 @@ import useAuth from "../../Hooks/useAuth";
 import useAxiosPublic from "../../Hooks/useAxiosPublic";
 import { ToastContainer, toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
+import { Helmet } from "react-helmet-async";
 
 
 const image_hosting_key = import.meta.env.VITE_IMAGE_HOST_KEY
@@ -99,6 +100,10 @@ const Register = () => {
 
     return (
         <div className=" min-h-screen bg-base-200 mb-10 p-8">
+            <Helmet>
+                <title>Home | Register</title>
+
+            </Helmet>
             <div className=" flex-col ">
                 <div className="text-center ">
                     <h1 className="text-5xl font-bold py-8">Register now!</h1>

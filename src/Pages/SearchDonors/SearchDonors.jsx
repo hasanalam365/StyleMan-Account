@@ -3,6 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import useDataLoad from "../../Hooks/useDataLoad";
 import useAxiosPublic from "../../Hooks/useAxiosPublic";
 import { useState } from "react";
+import { Helmet } from "react-helmet-async";
 
 const SearchDonors = () => {
     const [, districts, upazilas] = useDataLoad()
@@ -38,6 +39,10 @@ const SearchDonors = () => {
 
     return (
         <div className=" bg-base-200 min-h-screen  mb-10">
+            <Helmet>
+                <title>Home | Search Donors</title>
+
+            </Helmet>
             <div className=" mx-auto p-16">
                 <div className="card shrink-0  ">
                     <div className="grid grid-cols-12 gap-5 items-center justify-center">

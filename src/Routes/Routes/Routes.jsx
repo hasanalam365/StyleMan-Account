@@ -85,29 +85,28 @@ export const router = createBrowserRouter([
             },
             {
                 path: 'all-users',
-                element: <PrivateRoute>
+                element:
                     <AdminRoute>
                         <AllUsersPage></AllUsersPage>
                     </AdminRoute>
-                </PrivateRoute>
 
             },
             {
                 path: 'all-blood-donation-request',
-                element: <PrivateRoute>
-                    {/* <AdminAndVolunRoute> */}
+                element:
+
 
                     <AllDonationRequest></AllDonationRequest>
 
-                    {/* </AdminAndVolunRoute> */}
-                </PrivateRoute>
+
+
             },
             {
 
                 path: 'create-donation-request',
-                element: <PrivateRoute>
+                element:
                     <CreateDonationRequest></CreateDonationRequest>
-                </PrivateRoute>
+
 
             },
             {
@@ -121,13 +120,16 @@ export const router = createBrowserRouter([
             {
 
                 path: 'content-management',
-                element: <ContentManagement></ContentManagement>
-
+                element: <AdminRoute>
+                    <ContentManagement></ContentManagement>
+                </AdminRoute>
             },
             {
 
                 path: 'content-management/add-blog',
-                element: <AddBlog></AddBlog>
+                element: <AdminRoute>
+                    <AddBlog></AddBlog>
+                </AdminRoute>
 
             },
             {

@@ -10,6 +10,7 @@ import useRoleCheckFetch from "../../../../Hooks/useRoleCheckFetch";
 import { toast } from "react-toastify";
 import { IoCheckmarkDoneCircle } from "react-icons/io5";
 import useAxiosSecure from "../../../../Hooks/useAxiosSecure";
+import { Helmet } from "react-helmet-async";
 
 const AllDonationRequest = () => {
 
@@ -91,6 +92,10 @@ const AllDonationRequest = () => {
 
     return (
         <div className="p-4">
+            <Helmet>
+                <title>Dashboard | All Donation Requests</title>
+
+            </Helmet>
             <div className="flex gap-2">
                 <select value={category} onChange={handleChange} className="select select-bordered w-[80%] max-w-xs">
                     <option selected value=''>All Status</option>
