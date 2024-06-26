@@ -10,7 +10,7 @@ const Navbar = () => {
     const navLinks = <>
         <NavLink to="/">Home</NavLink>
         <NavLink to="/donarRequests">Donation Requests</NavLink>
-        <NavLink>Blog</NavLink>
+        <NavLink to="/blog">Blog</NavLink>
 
         {
             user && <NavLink to="/fundings">Fundings</NavLink>

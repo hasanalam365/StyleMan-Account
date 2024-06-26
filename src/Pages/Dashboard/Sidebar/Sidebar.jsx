@@ -161,7 +161,7 @@ const Sidebar = ({ isActive, setActive }) => {
 
 
                     {/* Add Blog */}
-                    <NavLink
+                    {isAdmin && <NavLink
                         onClick={() => setActive(true)}
                         to='/dashboard/content-management'
                         className={({ isActive }) =>
@@ -172,7 +172,7 @@ const Sidebar = ({ isActive, setActive }) => {
                         <BiSolidBookContent className='w-5 h-5' />
 
                         <span className='mx-4 font-medium'>Content Management</span>
-                    </NavLink>
+                    </NavLink>}
 
                 </div>
                 <div>

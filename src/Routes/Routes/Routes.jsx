@@ -21,6 +21,7 @@ import AllDonationRequest from "../../Pages/Dashboard/DashboardRole/AdminDashboa
 import AdminRoute from "../AdminRoute/AdminRoute";
 import ContentManagement from "../../Pages/Dashboard/ContentManageMent/ContentManagement";
 import AddBlog from "../../Pages/Dashboard/ContentManageMent/AddBlog";
+import BlogPage from "../../Pages/BlogPage/BlogPage";
 // import AddBlog from "../../Pages/Dashboard/AddBlog/AddBlog";
 // import AdminAndVolunRoute from "../AdminRoute/AdminAndVolun/AdminAndVolunRoute";
 
@@ -51,6 +52,10 @@ export const router = createBrowserRouter([
             {
                 path: '/login',
                 element: <Login></Login>
+            },
+            {
+                path: '/blog',
+                element: <BlogPage></BlogPage>
             },
             {
                 path: '/register',

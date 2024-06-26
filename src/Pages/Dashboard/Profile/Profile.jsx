@@ -96,7 +96,7 @@ const Profile = () => {
                 <div className='bg-white shadow-lg rounded-2xl w-4/5 relative'>
                     <img
                         alt='profile'
-                        src='https://i.ibb.co/tPFNQt4/13346237-5197213.jpg'
+                        src='https://ibb.co/71k3knQ'
                         className='w-full mb-4 rounded-t-lg h-36'
                     />
                     <div className="absolute top-5 right-5">
