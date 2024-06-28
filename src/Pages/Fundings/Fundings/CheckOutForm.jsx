@@ -18,10 +18,25 @@ const CheckOutForm = () => {
         if (card == null) {
             return
         }
+
+        //step-3:
+        const { error, paymentMethod } = await stripe.createPaymentMethod({
+            type: 'card',
+            card
+        })
+        //step-3:
+        if (error) {
+            console.log('payment error:', error)
+        }
+        else {
+            console.log('payment method:', paymentMethod)
+        }
+
+
     }
 
     return (
-        <div>
+        <div className="mt-10">
 
             <form onSubmit={handleSubmit}>
                 <CardElement
@@ -40,8 +55,8 @@ const CheckOutForm = () => {
                         },
                     }}
                 />
-                <button type="submit" disabled={!stripe}>
-                    Pay
+                <button className="btn btn-sm btn-primary mt-5" type="submit" disabled={!stripe}>
+                    Payment
                 </button>
             </form>
 
