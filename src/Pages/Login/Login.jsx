@@ -34,48 +34,61 @@ const Login = () => {
     }
 
     return (
-        <div className=" min-h-screen bg-base-200">
+
+
+        <div className=" min-h-screen">
             <Helmet>
                 <title>Home | Login</title>
 
             </Helmet>
-            <div className=" flex-col ">
-                <div className="text-center ">
-                    <h1 className="text-5xl font-bold py-8">Login now!</h1>
+            <div
+                className="hero min-h-screen"
+                style={{
+                    backgroundImage: "url(https://i.ibb.co/2Zyjy9P/3093594-34889.jpg)",
+                }}>
+                <div className="hero-overlay bg-opacity-60"></div>
+                <div className="hero-content ">
+                    <div className=" flex-col ">
+                        <div className="text-center ">
+                            <h1 className="text-5xl text-white font-bold ">Login now!</h1>
 
-                </div>
-                <div className="card shrink-0   shadow-2xl-max w-[350px] md:w-[400px] lg:w-[400px] mx-auto">
-                    <form onSubmit={handleLogin} className="card-body">
-                        <div className="form-control">
-                            <span className="mb-2">Email</span>
-                            <label className="input input-bordered flex items-center gap-2 ">
-                                <MdOutlineMailOutline className="text-xl " />
+                        </div>
+                        <div className="card shrink-0   shadow-2xl-max w-[350px] md:w-[400px] lg:w-[400px] mx-auto">
+                            <form onSubmit={handleLogin} className="card-body">
+                                <div className="form-control">
+                                    <span className="mb-2">Email</span>
+                                    <label className="input input-bordered flex items-center gap-2 ">
+                                        <MdOutlineMailOutline className="text-xl " />
 
-                                <input type="email" className="grow" name="email" placeholder="email" />
-                            </label>
-                        </div>
-                        <div className="form-control">
-                            <span className="mb-2">Password</span>
-                            <label className="input input-bordered flex items-center gap-2 ">
-                                <RiLockPasswordLine className="text-xl" />
+                                        <input type="email" className="grow" name="email" placeholder="email" />
+                                    </label>
+                                </div>
+                                <div className="form-control">
+                                    <span className="mb-2">Password</span>
+                                    <label className="input input-bordered flex items-center gap-2 ">
+                                        <RiLockPasswordLine className="text-xl" />
 
-                                <input type="password" className="grow"
-                                    name="password" placeholder="password" />
-                            </label>
-                            <label className="label">
-                                <a href="#" className="label-text-alt link link-hover">Forgot password?</a>
-                            </label>
+                                        <input type="password" className="grow"
+                                            name="password" placeholder="password" />
+                                    </label>
+                                    <label className="label">
+                                        <a href="#" className="label-text-alt text-white link link-hover">Forgot password?</a>
+                                    </label>
+                                </div>
+                                <div className="form-control mt-6">
+                                    <button className="btn btn-secondary">Login</button>
+                                </div>
+                                <div>
+                                    <h1>Don't have an Account? Please <Link to="/register" className="text-white font-bold">Register</Link></h1>
+                                </div>
+                            </form>
+                            <ToastContainer />
                         </div>
-                        <div className="form-control mt-6">
-                            <button className="btn btn-secondary">Login</button>
-                        </div>
-                        <div>
-                            <h1>Don't have an Account? Please <Link to="/register" className="text-green-600 font-semibold">Register</Link></h1>
-                        </div>
-                    </form>
-                    <ToastContainer />
+                    </div>
                 </div>
             </div>
+
+
         </div>
     );
 };

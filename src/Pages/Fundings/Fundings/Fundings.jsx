@@ -1,4 +1,8 @@
+import { Elements } from "@stripe/react-stripe-js";
+import { loadStripe } from "@stripe/stripe-js";
 import { Helmet } from "react-helmet-async";
+
+const stripePromise = loadStripe('')
 
 const Fundings = () => {
     return (
@@ -7,7 +11,11 @@ const Fundings = () => {
                 <title>Home | Fundings</title>
 
             </Helmet>
-            This Feautures is Comming
+            <div>
+                <Elements stripe={stripePromise}>
+
+                </Elements>
+            </div>
         </div>
     );
 };
