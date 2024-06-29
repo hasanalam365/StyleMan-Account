@@ -61,9 +61,22 @@ const CheckOutForm = () => {
 
 
         //step-5: confirm payments
+        const { paymentIntent, error: cardConfirmError } = await stripe.confirmCardPayment(clientSecret, {
+            payment_method: {
+                card: card,
+                billing_details: {
+                    email: user?.email || 'anonymous',
+                    name: user?.displayName || 'anonymous',
+                }
+            }
+        })
 
-
-
+        if (cardConfirmError) {
+            console.log('confirm error')
+        }
+        else {
+            console.log('payment intent', paymentIntent)
+        }
 
     }
 
@@ -101,7 +114,7 @@ const CheckOutForm = () => {
                         },
                     }}
                 />
-                <button className="btn btn-sm btn-primary mt-5" type="submit" disabled={!stripe || clientSecret}>
+                <button className="btn btn-sm btn-primary mt-5" type="submit" disabled={!stripe}>
                     Payment
                 </button>
             </form>
