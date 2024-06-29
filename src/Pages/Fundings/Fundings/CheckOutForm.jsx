@@ -13,7 +13,7 @@ const CheckOutForm = () => {
     const [amount, setAmount] = useState(0)
     const [clientSecret, setClientSecret] = useState('')
     const { user } = useAuth()
-
+    const [transactionId, setTransactionId] = useState('')
 
     console.log(clientSecret)
     console.log(amount)
@@ -73,6 +73,10 @@ const CheckOutForm = () => {
         }
         else {
             console.log('payment intent', paymentIntent)
+            if (paymentIntent.status === "succeeded") {
+                console.log('trans id', paymentIntent.id)
+                setTransactionId(paymentIntent.id)
+            }
         }
 
     }
@@ -116,6 +120,10 @@ const CheckOutForm = () => {
                 </button>
             </form>
             <p className="text-red-600">{error}</p>
+
+            {
+                transactionId && <p className="text-green-600">Your TransactionId: {transactionId}</p>
+            }
         </div>
     );
 };
