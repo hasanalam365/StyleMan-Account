@@ -13,9 +13,6 @@ const CheckOutForm = () => {
     const [amount, setAmount] = useState(0)
     const [clientSecret, setClientSecret] = useState('')
     const { user } = useAuth()
-    // step-4.2
-
-
 
 
     console.log(clientSecret)
