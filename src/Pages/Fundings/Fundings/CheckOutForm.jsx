@@ -2,62 +2,66 @@ import { CardElement, useElements, useStripe } from "@stripe/react-stripe-js";
 import { useEffect, useState } from "react";
 import useAxiosPublic from "../../../Hooks/useAxiosPublic";
 import useAuth from "../../../Hooks/useAuth";
+import Swal from "sweetalert2";
 
 const CheckOutForm = () => {
 
-    const [error, setError] = useState('')
-    const stripe = useStripe()
-    const elements = useElements()
-    const axiosPublic = useAxiosPublic()
-    const [select, setSelect] = useState(1)
-    const [amount, setAmount] = useState(0)
-    const [clientSecret, setClientSecret] = useState('')
-    const { user } = useAuth()
-    const [transactionId, setTransactionId] = useState('')
+    const [error, setError] = useState('');
+    const stripe = useStripe();
+    const elements = useElements();
+    const axiosPublic = useAxiosPublic();
+    const [select, setSelect] = useState(1);
+    const [amount, setAmount] = useState(0);
+    const [clientSecret, setClientSecret] = useState('');
+    const { user } = useAuth();
+    const [transactionId, setTransactionId] = useState('');
 
-    console.log(clientSecret)
-    console.log(amount)
+    const createPaymentIntent = async () => {
+        try {
+            const response = await axiosPublic.post('http://localhost:5000/create-payment-intent', { amount });
+            setClientSecret(response.data.clientSecret);
+        } catch (err) {
+            console.error("Error creating payment intent:", err);
+        }
+    };
+
+    useEffect(() => {
+        if (clientSecret) {
+            confirmPayment();
+        }
+    }, [clientSecret]);
 
     const handleSubmit = async (e) => {
-        e.preventDefault()
+        e.preventDefault();
 
-        //step-1
         if (!stripe || !elements) {
-            return
+            return;
         }
 
-        //step-2
-        const card = elements.getElement(CardElement)
+        const card = elements.getElement(CardElement);
         if (card == null) {
-            return
+            return;
         }
 
-        //step-3:
         const { error, paymentMethod } = await stripe.createPaymentMethod({
             type: 'card',
             card
-        })
-        //step-3: then setup server
+        });
+
         if (error) {
-            console.log('payment error:', error)
-            setError(error.message)
+            setError(error.message);
+        } else {
+            setError('');
+            createPaymentIntent();
         }
-        else {
-            console.log('payment method:', paymentMethod)
-            setError('')
+    };
+
+    const confirmPayment = async () => {
+        if (!clientSecret) {
+            return;
         }
 
-
-
-        //step-4.1:
-        axiosPublic.post('http://localhost:5000/create-payment-intent', { amount })
-            .then(res => {
-                // console.log(res.data.clientSecret)
-                setClientSecret(res.data.clientSecret)
-            })
-
-
-        //step-5: confirm payments
+        const card = elements.getElement(CardElement);
         const { paymentIntent, error: cardConfirmError } = await stripe.confirmCardPayment(clientSecret, {
             payment_method: {
                 card: card,
@@ -66,64 +70,67 @@ const CheckOutForm = () => {
                     name: user?.displayName || 'anonymous',
                 }
             }
-        })
+        });
 
         if (cardConfirmError) {
-            console.log('confirm error')
-        }
-        else {
-            console.log('payment intent', paymentIntent)
+            console.log('confirm error:', cardConfirmError);
+        } else {
             if (paymentIntent.status === "succeeded") {
-                console.log('trans id', paymentIntent.id)
-                setTransactionId(paymentIntent.id)
+                setTransactionId(paymentIntent.id);
+                Swal.fire({
+                    title: `Thanks <span style="color: #008000;"> ${user.displayName} </span> for your fundings`,
+                    html: `TransId <span style="color: #FFA500;">: ${transactionId}</span>`,
+                    icon: "success"
+                });
             }
         }
-
-    }
-
+    };
 
     const handleAmount = (e) => {
-        setAmount(e.target.value)
-    }
+        setAmount(e.target.value);
+    };
+
 
     return (
-        <div className="mt-10">
+        <div className="mt-10 w-full md:w-1/2 lg:1/2 mx-auto p-4 bg-gray-100 mb-5 text-center">
             <div>
                 <div className="flex justify-center   font-medium">
                     <button onClick={() => setSelect(1)} className={`${select === 1 ? 'bg-green-600 text-white' : ''} border-2 p-2`}>GIVE ONCE</button>
 
                     <button onClick={() => setSelect(2)} className={`${select === 2 ? 'bg-green-600 text-white' : ''} border-2 p-2`}>MONTHLY</button>
                 </div>
-                <div>
+                <div className="mt-5">
                     <input onChange={handleAmount} type="text" placeholder="amount" className="p-2 bg-gray-200 rounded-lg " />
                 </div>
             </div>
-            <form onSubmit={handleSubmit} className="mt-10">
-                <CardElement
-                    options={{
-                        style: {
-                            base: {
-                                fontSize: '16px',
-                                color: '#424770',
-                                '::placeholder': {
-                                    color: '#aab7c4',
+            <form onSubmit={handleSubmit} className="mt-10 ">
+                <div className="w-full md:w-3/4 lg:w-3/4 mx-auto">
+                    <CardElement
+                        options={{
+                            style: {
+                                base: {
+                                    fontSize: '16px',
+
+                                    color: '#424770',
+                                    '::placeholder': {
+                                        color: '#aab7c4',
+                                    },
+                                },
+                                invalid: {
+                                    color: '#9e2146',
                                 },
                             },
-                            invalid: {
-                                color: '#9e2146',
-                            },
-                        },
-                    }}
-                />
+                        }}
+                    />
+                </div>
+
                 <button className="btn btn-sm btn-primary mt-5" type="submit" disabled={!stripe}>
                     Payment
                 </button>
             </form>
             <p className="text-red-600">{error}</p>
 
-            {
-                transactionId && <p className="text-green-600">Your TransactionId: {transactionId}</p>
-            }
+
         </div>
     );
 };
