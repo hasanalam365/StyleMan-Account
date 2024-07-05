@@ -14,7 +14,7 @@ const CheckOutForm = () => {
     const [amount, setAmount] = useState(0);
     const [clientSecret, setClientSecret] = useState('');
     const { user } = useAuth();
-    const [transactionId, setTransactionId] = useState('');
+
 
     const createPaymentIntent = async () => {
         try {
@@ -75,14 +75,16 @@ const CheckOutForm = () => {
         if (cardConfirmError) {
             console.log('confirm error:', cardConfirmError);
         } else {
-            if (paymentIntent.status === "succeeded") {
-                setTransactionId(paymentIntent.id);
-                Swal.fire({
-                    title: `Thanks <span style="color: #008000;"> ${user.displayName} </span> for your fundings`,
-                    html: `TransId <span style="color: #FFA500;">: ${transactionId}</span>`,
-                    icon: "success"
-                });
-            }
+            const transID = paymentIntent.id;
+            // setTransactionId(id);
+
+            Swal.fire({
+                title: `Thanks <span style="color: #008000;">${user.displayName}</span> for your funding`,
+                html: `TransId <span style="color: #FFA500;">: ${transID}</span>`,
+                icon: "success"
+            });
+
+
         }
     };
 
