@@ -4,7 +4,7 @@ const ServiceCard = () => {
     return (
 
         <div>
-            <SectionHeader heading="Services"></SectionHeader>
+            <SectionHeader heading="Our Services"></SectionHeader>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
                 <div className="border-b-4 rounded-xl border-b-red-600 shadow-xl image-full ">
 
