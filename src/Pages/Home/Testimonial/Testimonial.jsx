@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import TestimonialRight from "../../../Components/TestimonialRight/TestimonialRight";
 
 const Testimonial = () => {
@@ -9,7 +10,9 @@ const Testimonial = () => {
                 <h5 className="font-medium text-red-600">Testimonial</h5>
                 <h3 className="text-3xl font-semibold">Testimonials</h3>
                 <p>Inspirational stories from our donors and recipients. Learn how ordinary people become extraordinary heroes through the simple act of giving blood, and the profound impact it has on countless lives</p>
-                <button className="btn bg-red-500 text-white">View More</button>
+                {/* <button className="btn bg-red-500 text-white">View More</button> */}
+                <Link to="/testimonials" className="btn bg-red-500 text-white">
+                            <a>View More</a></Link>
             </div>
             {/* testimonials rigth  */}
             <div className="w-full lg:w-3/5">

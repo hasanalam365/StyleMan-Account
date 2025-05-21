@@ -23,6 +23,7 @@ import ContentManagement from "../../Pages/Dashboard/ContentManageMent/ContentMa
 import AddBlog from "../../Pages/Dashboard/ContentManageMent/AddBlog";
 import BlogPage from "../../Pages/BlogPage/BlogPage";
 import BlogDetails from "../../Components/BlogDetails";
+import Testimonials from "../../Pages/Home/Testimonial/Testimonials";
 // import AddBlog from "../../Pages/Dashboard/AddBlog/AddBlog";
 // import AdminAndVolunRoute from "../AdminRoute/AdminAndVolun/AdminAndVolunRoute";
 
@@ -77,6 +78,11 @@ export const router = createBrowserRouter([
                 </PrivateRoute>,
                 loader: ({ params }) => fetch(`https://reddrop-bdserver.vercel.app/donation-request/${params.id}`)
             },
+            {
+                path: '/testimonials',
+                element: <Testimonials></Testimonials>
+            },
+
         ]
     },
     {
