@@ -75,11 +75,11 @@ const Login = () => {
                                         <a href="#" className="label-text-alt text-white link link-hover">Forgot password?</a>
                                     </label>
                                 </div>
-                                <div className="form-control mt-6">
-                                    <button className="btn btn-secondary">Login</button>
+                                <div className="form-control mt-3">
+                                    <button className="btn bg-red-600 text-white text-xl">Login</button>
                                 </div>
                                 <div>
-                                    <h1>Don't have an Account? Please <Link to="/register" className="text-white font-bold">Register</Link></h1>
+                                    <h1 className="text-white">Don't have an Account? Please <Link to="/register" className="text-white font-bold">Register</Link></h1>
                                 </div>
                             </form>
                             <ToastContainer />
