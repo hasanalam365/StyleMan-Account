@@ -21,7 +21,7 @@ const Navbar = () => {
         <NavLink to="/dailyExpense" className='hover:text-orange-600 flex items-center  gap-1' onClick={() => setIsOpen(false)}>  <span>  <FiMinus /> </span>  দৈনিক খরচ  </NavLink>
 
         <NavLink to="/monthlyIncome" className='hover:text-orange-600 flex items-center  gap-1' onClick={() => setIsOpen(false)}> <span>   <IoIosTrendingUp /> </span>মাসিক আয়</NavLink>
-        <NavLink to="/" className='hover:text-orange-600 flex items-center  gap-1' onClick={() => setIsOpen(false)}> <span>  <IoIosTrendingDown /> </span>মাসিক খরচ</NavLink>
+        <NavLink to="/monthlyExpense" className='hover:text-orange-600 flex items-center  gap-1' onClick={() => setIsOpen(false)}> <span>  <IoIosTrendingDown /> </span>মাসিক খরচ</NavLink>
 
 
 

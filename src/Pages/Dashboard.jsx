@@ -23,7 +23,7 @@ const Dashboard = () => {
       </div>
 
       {/* Stats Section */}
-      <div className="flex flex-col md:flex-col lg:flex-row gap-5 w-[90%] mx-auto">
+      <div className="flex flex-col md:flex-col lg:flex-row gap-5 w-[95%] mx-auto">
         <div className="flex flex-col md:flex-row gap-5">
           {/* Income */}
           <div className="stat shadow-sm rounded-lg bg-white">
@@ -32,7 +32,7 @@ const Dashboard = () => {
             </div>
             <div className="stat-title">এ মাসের আয়</div>
             <div className="stat-value">
-              <span className="text-sm">৳</span> ৫,০০০
+              <span className="text-sm">৳</span> ৫,০০০00
             </div>
             <div className="stat-desc">জানু ০১ - ফেব্রু ০১</div>
           </div>
@@ -44,7 +44,7 @@ const Dashboard = () => {
             </div>
             <div className="stat-title">এ মাসের খরচ</div>
             <div className="stat-value">
-              <span className="text-sm">৳</span> ৫,০০০
+              <span className="text-sm">৳</span> ৫,০০০25
             </div>
             <div className="stat-desc">জানু ০১ - ফেব্রু ০১</div>
           </div>
@@ -58,7 +58,7 @@ const Dashboard = () => {
             </div>
             <div className="stat-title">ব্যালেন্স</div>
             <div className="stat-value text-red-600">
-              <span className="text-sm">৳ </span>-৫,০০০
+              <span className="text-sm">৳ </span>-৫,০০০00
             </div>
             <div className="stat-desc">জানু ০১ - ফেব্রু ০১</div>
           </div>
@@ -128,7 +128,7 @@ const Dashboard = () => {
 </div>
       </div>
 
-      <div className="mt-5">
+      <div className="mt-5 p-4">
         <div className="bg-white ">
           <h2 className="text-lg font-bold p-3"> সাম্প্রতিক লেনদেন</h2>
            <div className="divider mt-0 pt-0 mb-0"></div>
