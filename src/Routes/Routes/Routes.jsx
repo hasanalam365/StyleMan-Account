@@ -5,6 +5,7 @@ import DailyIncome from "../../Pages/DailyIncome";
 import DailyExpense from "../../Pages/DailyExpense";
 import Dashboard from "../../Pages/Dashboard";
 import ErrorPage from "../../Pages/ErrorPage";
+import MonthlyIncome from "../../Pages/MonthlyIncome";
 
 
 
@@ -28,6 +29,10 @@ export const router = createBrowserRouter([
             {
                 path: '/dailyExpense',
                 element: <DailyExpense></DailyExpense>
+            },
+            {
+                path: '/monthlyIncome',
+                element: <MonthlyIncome></MonthlyIncome>
             }
           
 

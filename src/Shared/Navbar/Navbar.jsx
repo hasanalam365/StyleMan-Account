@@ -20,7 +20,7 @@ const Navbar = () => {
         <NavLink to="/dailyIncome" className='hover:text-orange-600 flex items-center  gap-1' onClick={() => setIsOpen(false)}><span><FaPlus /> </span> দৈনিক আয় </NavLink>
         <NavLink to="/dailyExpense" className='hover:text-orange-600 flex items-center  gap-1' onClick={() => setIsOpen(false)}>  <span>  <FiMinus /> </span>  দৈনিক খরচ  </NavLink>
 
-        <NavLink to="/" className='hover:text-orange-600 flex items-center  gap-1' onClick={() => setIsOpen(false)}> <span>   <IoIosTrendingUp /> </span>মাসিক আয়</NavLink>
+        <NavLink to="/monthlyIncome" className='hover:text-orange-600 flex items-center  gap-1' onClick={() => setIsOpen(false)}> <span>   <IoIosTrendingUp /> </span>মাসিক আয়</NavLink>
         <NavLink to="/" className='hover:text-orange-600 flex items-center  gap-1' onClick={() => setIsOpen(false)}> <span>  <IoIosTrendingDown /> </span>মাসিক খরচ</NavLink>
 
 
