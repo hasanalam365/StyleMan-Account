@@ -12,6 +12,18 @@ const DailyIncome = () => {
   const [customerName, setCustomerName] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
   const [salesmanName, setSalesmanName] = useState("");
+   // সময় ও তারিখ (বাংলায়)
+    const now = new Date();
+    const time = now.toLocaleTimeString("bn-BD", { hour: "2-digit", minute: "2-digit" });
+const date = now.toLocaleDateString("bn-BD", {
+  weekday: "long",   // শনিবার
+  day: "numeric",    // ৯
+  month: "long",     // আগস্ট
+  year: "numeric"    // ২০২৫
+});
+
+console.log(date);
+
 
   const handleAddIncome = async (e) => {
     e.preventDefault();
@@ -23,10 +35,7 @@ const DailyIncome = () => {
     const phoneNumber = e.target.phoneNumber.value;
     const salesmanName = e.target.salesmanName.value;
 
-    // সময় ও তারিখ (বাংলায়)
-    const now = new Date();
-    const time = now.toLocaleTimeString("bn-BD", { hour: "2-digit", minute: "2-digit" });
-    const date = now.toLocaleDateString("bn-BD");
+   
 
    
     // ডাটা অবজেক্ট
@@ -55,6 +64,8 @@ const DailyIncome = () => {
     }
   };
 
+console.log(date)
+
   return (
     <div className='pb-5'>
       <div className="bg-black text-white p-4 my-5">
@@ -63,7 +74,7 @@ const DailyIncome = () => {
 
       <div className="w-[90%] md:w-[75%] lg:w-[60%] mx-auto p-6 bg-white rounded-md shadow-md">
         <h4 className='text-white bg-blue-600 p-2 text-sm mb-2 rounded-lg'>
-          <span className='font-semibold'>আজকের তারিখ:</span> ‍শনিবার, 9 আগস্ট 2025
+          <span className='font-semibold'>আজকের তারিখ:</span> ‍{date}
         </h4>
 
         <form className="space-y-4" onSubmit={handleAddIncome}>

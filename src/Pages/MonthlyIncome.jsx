@@ -3,9 +3,46 @@ import { CiFilter } from "react-icons/ci";
 import { FaEdit } from 'react-icons/fa';
 import { IoIosTrendingUp } from 'react-icons/io';
 import { MdDeleteForever } from 'react-icons/md';
+import useAxiosPublic from '../hooks/useAxiosPublic';
+import {
+ 
+  useQuery,
+} from '@tanstack/react-query'
 
 
 const MonthlyIncome = () => {
+
+  const axiosPublic = useAxiosPublic()
+   const now = new Date();
+const date = now.toLocaleDateString("bn-BD", {
+     
+  month: "long",     
+  year: "numeric"   
+});
+
+  const { data:dailyIncomes } = useQuery({
+    queryKey: ['monthlyIncome'],
+    queryFn: async()=> {
+      const res = await axiosPublic.get('/dailyIncome')
+     return(res.data)
+    }
+  })
+
+ const monthlyIncome = dailyIncomes.reduce((total, dailyIncome) => {
+  const amount = Number(
+    Number(dailyIncome.offerPrice) === 0 
+      ? dailyIncome.price 
+      : dailyIncome.offerPrice
+  );
+  return total + amount;
+}, 0); // এখানে 0 হচ্ছে initial value
+
+const monthlyIncomeBN = monthlyIncome.toLocaleString("bn-BD");
+
+
+console.log(monthlyIncomeBN); 
+
+
     return (
         <div>
              <div className="bg-black text-white p-4 my-5">
@@ -17,7 +54,7 @@ const MonthlyIncome = () => {
                     <h4>মাসিক আয়ের হিসাব</h4>
                     <div>
                          <p className='text-sm'>মোট আয়</p>
-                   <p className='text-green-600 font-semibold'> ৳0.00 </p>
+                   <p className='text-green-600 font-semibold'> ৳{monthlyIncomeBN} </p>
                    </div>
                 </div>
                 <div className='flex items-center gap-3'>
@@ -42,11 +79,11 @@ const MonthlyIncome = () => {
                             <div className="stat-figure text-green-600">
                               <IoIosTrendingUp className="text-4xl" />
                             </div>
-                            <div className="stat-title">আগস্ট ২০২৫</div>
+            <div className="stat-title">{date}</div>
                             <div className="stat-value">
-                              <span className="text-sm">৳</span> ৫,০০০
+                              <span className="text-sm">৳</span> {monthlyIncomeBN}
                             </div>
-                            <div className="stat-desc">3 টি লেনদেন</div>
+                            <div className="stat-desc">{dailyIncomes.length.toLocaleString("bn-BD")} টি লেনদেন</div>
                           </div>
             </div>
 
@@ -63,7 +100,7 @@ const MonthlyIncome = () => {
                       {/* Head */}
                       <thead>
                         <tr>
-                          <th>সেলসম্যান</th>
+                          <th>হিসাবকারীর নাম</th>
                           <th>শিরোনাম</th>
                           <th>টাকার পরিমাণ</th>
                           <th>সময়/তারিখ</th>
@@ -72,67 +109,39 @@ const MonthlyIncome = () => {
                       </thead>
                       <tbody>
                         {/* Row 1 */}
-                        <tr>
-                          <th>01</th>
+                {
+                  dailyIncomes.map(dailyIncome=> <tr key={dailyIncome._id}>
+                          <th>{dailyIncome.salesmanName}</th>
                           <td>
                             <div className="flex items-center gap-3">
                               <div>
-                                <div className="font-bold">Hart Hagerty</div>
-                                <div className="text-sm opacity-50">United States</div>
+                                <div className="font-bold">{dailyIncome.title}</div>
+                          <div className="text-sm opacity-50">কাস্টমারের নাম: {dailyIncome.customerName}</div>
                               </div>
                             </div>
                           </td>
+                          <td className='text-green-600 font-medium'>৳
+  {Number(dailyIncome.offerPrice) === 0 
+    ? Number(dailyIncome.price).toLocaleString("bn-BD") 
+    : Number(dailyIncome.offerPrice).toLocaleString("bn-BD")
+  }
+</td>
+
                           <td>
-                            Zemlak, Daniel and Leannon
-                            <br />
                             <span className="badge badge-ghost badge-sm">
-                              Desktop Support Technician
-                            </span>
-                          </td>
-                          <td>
-                            30/09/2025
-                            <br />
-                            <span className="badge badge-ghost badge-sm">
-                             02:59 pm
-                            </span>
+                             {dailyIncome.time}
+                      </span>
+                      <br />
+                      {dailyIncome.date}
                           </td>
                           <th className="flex gap-3">
                             <button className=" "><FaEdit className="text-lg text-green-600 hover:scale-125"/></button>
                             <button className=" "><MdDeleteForever className="text-lg text-red-600 hover:scale-125"/>
             </button>
                           </th>
-                          </tr>
-                            {/* Row 2 */}
-                        <tr>
-                          <th>01</th>
-                          <td>
-                            <div className="flex items-center gap-3">
-                              <div>
-                                <div className="font-bold">Hart Hagerty</div>
-                                <div className="text-sm opacity-50">United States</div>
-                              </div>
-                            </div>
-                          </td>
-                          <td>
-                            Zemlak, Daniel and Leannon
-                            <br />
-                            <span className="badge badge-ghost badge-sm">
-                              Desktop Support Technician
-                            </span>
-                          </td>
-                          <td>
-                            30/09/2025
-                            <br />
-                            <span className="badge badge-ghost badge-sm">
-                             02:59 pm
-                            </span>
-                          </td>
-                          <th className="flex gap-3">
-                            <button className=" "><FaEdit className="text-lg text-green-600 hover:scale-125"/></button>
-                            <button className=" "><MdDeleteForever className="text-lg text-red-600 hover:scale-125"/>
-            </button>
-                          </th>
-                        </tr>
+                          </tr> )
+                        }
+                         
                       </tbody>
                     </table>
                   </div>

@@ -49,7 +49,7 @@ const MonthlyExpense = () => {
                                  </div>
                    </div>
        
-                   <div className="mt-5 mt-5 w-[95%] mx-auto md:mx-6 lg:mx-[30px]">
+                   <div className="mt-5  w-[95%] mx-auto md:mx-6 lg:mx-[30px]">
                            <div className="bg-white ">
                              <h2 className="text-lg font-bold p-3"> সকল খরচের তালিকা </h2>
                               <div className="divider mt-0 pt-0 mb-0"></div>
@@ -62,7 +62,7 @@ const MonthlyExpense = () => {
                              {/* Head */}
                              <thead>
                                <tr>
-                                 <th>সেলসম্যান</th>
+                                 <th>হিসাবকারীর নাম</th>
                                  <th>শিরোনাম</th>
                                  <th>টাকার পরিমাণ</th>
                                  <th>সময়/তারিখ</th>
