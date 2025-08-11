@@ -20,8 +20,13 @@ const DailyExpense = () => {
 
     // সময় ও তারিখ (বাংলা ফরম্যাট)
     const now = new Date();
-    const time = now.toLocaleTimeString('bn-BD', { hour: '2-digit', minute: '2-digit' });
-    const date = now.toLocaleDateString('bn-BD');
+    const time = now.toLocaleTimeString("bn-BD", { hour: "2-digit", minute: "2-digit" });
+const date = now.toLocaleDateString("en-US", {
+  weekday: "long",   // শনিবার
+  day: "numeric",    // ৯
+  month: "long",     // আগস্ট
+  year: "numeric"    // ২০২৫
+});
 
     // ডাটা অবজেক্ট
     const dailyExpenseData = {

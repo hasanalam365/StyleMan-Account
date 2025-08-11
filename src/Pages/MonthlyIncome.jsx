@@ -31,24 +31,25 @@ const MonthlyIncome = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 5;
 
-  // বছর অপশন (২০২০ থেকে বর্তমান বছর পর্যন্ত)
+  // বছর অপশন (২০২৪ থেকে বর্তমান বছর পর্যন্ত)
   const yearOptions = [];
-  for (let y = 2020; y <= currentYear; y++) {
+  for (let y = 2024; y <= currentYear; y++) {
     yearOptions.push(y);
   }
 
   // API Call with filters in query params
-  const { data: dailyIncomes, isLoading, isError,refetch } = useQuery({
+  const { data: dailyIncomes, isLoading, isError, refetch } = useQuery({
     queryKey: ['monthlyIncome', filterBy, filterMonth, filterYear],
     queryFn: async () => {
       let url = '/dailyIncome';
 
-      if (filterBy === 'month') {
+      if (filterBy === 'today') {
+        url += `?filterBy=today`;
+      } else if (filterBy === 'month') {
         url += `?filterBy=month&month=${filterMonth}&year=${filterYear}`;
       } else if (filterBy === 'year') {
         url += `?filterBy=year&year=${filterYear}`;
-      } 
-      // For "today" or "week" you can add backend logic or filter client side later
+      }
 
       const res = await axiosPublic.get(url);
       return res.data;
@@ -97,36 +98,33 @@ const MonthlyIncome = () => {
     }
   };
 
-
-
-
+  // Delete handler with SweetAlert2 confirmation
   const handleDelete = async (id) => {
-  Swal.fire({
-    title: 'আপনি কি সত্যিই লেনদেনটি মুছে ফেলতে চান?',
-    icon: 'warning',
-    showCancelButton: true,
-    confirmButtonColor: '#d33',
-    cancelButtonColor: '#3085d6',
-    confirmButtonText: 'হ্যাঁ, মুছে ফেলুন!',
-    cancelButtonText: 'বাতিল',
-  }).then(async (result) => {
-    if (result.isConfirmed) {
-      try {
-        const res = await axiosPublic.delete(`/dailyIncome/${id}`)
-    
-    if (res.data.deletedCount === 1) {
-     toast.error('লেনদেনটি মুছে ফেলা হয়েছে');
-      refetch()
-    } else {
-          toast.error('কোনো লেনদেন পাওয়া যায়নি');
-        }
-      } catch (error) {
-        toast.error('ডিলিট করতে সমস্যা হয়েছে');
-      }
-    }
-  });
-};
+    Swal.fire({
+      title: 'আপনি কি সত্যিই লেনদেনটি মুছে ফেলতে চান?',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#d33',
+      cancelButtonColor: '#3085d6',
+      confirmButtonText: 'হ্যাঁ, মুছে ফেলুন!',
+      cancelButtonText: 'বাতিল',
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        try {
+          const res = await axiosPublic.delete(`/dailyIncome/${id}`);
 
+          if (res.data.deletedCount === 1) {
+            toast.error('লেনদেনটি মুছে ফেলা হয়েছে');
+            refetch();
+          } else {
+            toast.error('কোনো লেনদেন পাওয়া যায়নি');
+          }
+        } catch (error) {
+          toast.error('ডিলিট করতে সমস্যা হয়েছে');
+        }
+      }
+    });
+  };
 
   return (
     <div>
@@ -134,27 +132,26 @@ const MonthlyIncome = () => {
         <h2 className="text-lg font-semibold">মাসিক আয়</h2>
       </div>
 
-      <div className='w-[95%] mx-auto md:mx-6 lg:mx-[30px] p-6 bg-white rounded-md shadow-md'>
-        <div className='flex items-center justify-between'>
+      <div className="w-[95%] mx-auto md:mx-6 lg:mx-[30px] p-6 bg-white rounded-md shadow-md">
+        <div className="flex items-center justify-between">
           <h4>মাসিক আয়ের হিসাব</h4>
           <div>
-            <p className='text-sm'>মোট আয়</p>
-            <p className='text-green-600 font-semibold'> ৳{monthlyIncomeBN} </p>
+            <p className="text-sm">মোট আয়</p>
+            <p className="text-green-600 font-semibold"> ৳{monthlyIncomeBN} </p>
           </div>
         </div>
 
-        <div className='flex items-center gap-3 mt-4'>
-          <CiFilter className='text-lg' />
+        <div className="flex items-center gap-3 mt-4">
+          <CiFilter className="text-lg" />
           <select
             className="px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
             value={filterBy}
             onChange={handleFilterChange}
           >
             <option value="">Filter by</option>
-            <option value="today">আজকের</option>
-            <option value="week">এই সপ্তাহের</option>
-            <option value="month">এই মাসের</option>
-            <option value="year">এই বছরের</option>
+            <option value="today">আজকের লেনদেন</option>
+            <option value="month">মাস নির্বাচন করুন</option>
+            <option value="year">বছর নির্বাচন করুন</option>
           </select>
 
           {/* মাস ফিল্টার হলে মাস ও বছর সিলেক্ট দেখাও */}
@@ -197,8 +194,8 @@ const MonthlyIncome = () => {
         </div>
       </div>
 
-      <div className='mt-5 w-[95%] mx-auto md:mx-6 lg:mx-[30px] shadow-sm rounded-lg bg-white p-6'>
-        <h3 className='font-semibold mb-2'>মাসভিত্তিক সারসংক্ষেপ</h3>
+      <div className="mt-5 w-[95%] mx-auto md:mx-6 lg:mx-[30px] shadow-sm rounded-lg bg-white p-6">
+        <h3 className="font-semibold mb-2">মাসভিত্তিক সারসংক্ষেপ</h3>
         <div className="stat shadow-sm rounded-lg bg-gray-100 md:w-1/2 lg:w-1/2">
           <div className="stat-figure text-green-600">
             <IoIosTrendingUp className="text-4xl" />
@@ -272,11 +269,19 @@ const MonthlyIncome = () => {
                   <td>
                     <span className="badge badge-ghost badge-sm">{dailyIncome.time}</span>
                     <br />
-                    {dailyIncome.date}
+                    {new Date(dailyIncome.date).toLocaleDateString("bn-BD", {
+                      weekday: 'long',
+                      year: 'numeric',
+                      month: 'long',
+                      day: 'numeric'
+                    })}
                   </td>
+
                   <th className="flex gap-3">
                     <button><FaEdit className="text-lg text-green-600 hover:scale-125" /></button>
-                    <button onClick={()=> handleDelete(dailyIncome._id)}><MdDeleteForever className="text-lg text-red-600 hover:scale-125" /></button>
+                    <button onClick={() => handleDelete(dailyIncome._id)}>
+                      <MdDeleteForever className="text-lg text-red-600 hover:scale-125" />
+                    </button>
                   </th>
                 </tr>
               ))}
@@ -285,12 +290,12 @@ const MonthlyIncome = () => {
 
           {/* Pagination buttons */}
           {totalPages > 1 && (
-            <div className="flex justify-center mt-4 gap-2">
+            <div className="flex justify-center mt-4 gap-2 mb-4">
               {[...Array(totalPages).keys()].map(number => (
                 <button
                   key={number + 1}
                   onClick={() => handlePageChange(number + 1)}
-                  className={`px-3 py-1 rounded ${currentPage === number + 1 ? 'bg-blue-500 text-white' : 'bg-gray-200'}`}
+                  className={`px-3 py-1 rounded ${currentPage === number + 1 ? 'bg-[#FF8040] text-white' : 'bg-gray-200'}`}
                 >
                   {number + 1}
                 </button>
