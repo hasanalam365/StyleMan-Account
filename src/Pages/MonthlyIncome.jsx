@@ -127,7 +127,7 @@ const MonthlyIncome = () => {
   };
 
   return (
-    <div>
+    <div className='pb-8'>
       <div className="bg-black text-white p-4 my-5">
         <h2 className="text-lg font-semibold">মাসিক আয়</h2>
       </div>
