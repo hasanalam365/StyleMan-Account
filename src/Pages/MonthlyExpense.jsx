@@ -146,7 +146,7 @@ const MonthlyExpense = () => {
             value={filterBy}
             onChange={handleFilterChange}
           >
-            <option value="">Filter by</option>
+            <option value="">ফিল্টার করুন</option>
             <option value="today">আজকের লেনদেন</option>
             <option value="month">মাস নির্বাচন করুন</option>
             <option value="year">বছর নির্বাচন করুন</option>

@@ -7,6 +7,8 @@ import { MdDeleteForever } from "react-icons/md";
 
 import { PieChart } from '@mui/x-charts/PieChart';
 import { LineChart } from "@mui/x-charts";
+import { useQuery } from "@tanstack/react-query";
+import useAxiosPublic from "../hooks/useAxiosPublic";
 
 
 
@@ -16,6 +18,44 @@ import { LineChart } from "@mui/x-charts";
 
 
 const Dashboard = () => {
+
+  const axiosPublic = useAxiosPublic()
+  
+     const now = new Date();
+    const time = now.toLocaleTimeString("bn-BD", { hour: "2-digit", minute: "2-digit" });
+const date = now.toLocaleDateString("bn-BD", {
+  weekday: "long",   
+  day: "numeric",    
+  month: "long",     
+  year: "numeric"    
+});
+
+
+ const { data: todayIncomeData } = useQuery({
+  queryKey: ['today-income'],
+  queryFn: async () => {
+    const res = await axiosPublic.get('/todayIncome');
+    return res.data;
+  }
+});
+ const { data: todayExpenseData } = useQuery({
+  queryKey: ['today-expense'],
+  queryFn: async () => {
+    const res = await axiosPublic.get('/todayExpense');
+    return res.data;
+  }
+});
+
+const totalIncome=todayIncomeData?.totalIncome.toLocaleString("bn-BD")
+const totalExpense=todayExpenseData?.totalExpenses.toLocaleString("bn-BD")
+  
+  
+const balanceValue = todayIncomeData?.totalIncome - todayExpenseData?.totalExpenses
+
+ 
+
+
+
   return (
     <div>
       <div className="bg-black text-white p-4 my-5">
@@ -23,30 +63,31 @@ const Dashboard = () => {
       </div>
 
       {/* Stats Section */}
-      <div className="flex flex-col md:flex-col lg:flex-row gap-5 w-[95%] mx-auto">
+      <div className="flex flex-col md:flex-col lg:flex-row gap-5 w-[90%] mx-auto">
         <div className="flex flex-col md:flex-row gap-5">
           {/* Income */}
-          <div className="stat shadow-sm rounded-lg bg-white">
-            <div className="stat-figure text-green-600">
-              <IoIosTrendingUp className="text-4xl" />
-            </div>
-            <div className="stat-title">এ মাসের আয়</div>
-            <div className="stat-value">
-              <span className="text-sm">৳</span> ৫,০০০00
-            </div>
-            <div className="stat-desc">জানু ০১ - ফেব্রু ০১</div>
-          </div>
+       <div className="stat shadow-sm rounded-lg bg-white">
+  <div className="stat-figure text-green-600">
+    <IoIosTrendingUp className="text-4xl" />
+  </div>
+  <div className="stat-title">আজকের আয়</div> 
+  <div className="stat-value">
+    <span className="text-sm">৳</span> {totalIncome || "০"}
+  </div>
+</div>
 
           {/* Expense */}
           <div className="stat shadow-sm rounded-lg bg-white">
             <div className="stat-figure text-green-600">
               <IoIosTrendingDown className="text-4xl text-red-600" />
             </div>
-            <div className="stat-title">এ মাসের খরচ</div>
+            <div className="stat-title text-red-600">আজকের খরচ</div>
             <div className="stat-value">
-              <span className="text-sm">৳</span> ৫,০০০25
+               <p className="text-red-600">
+                 <span className="text-sm ">৳</span> <span>{totalExpense || "০"}</span>
+             </p>
             </div>
-            <div className="stat-desc">জানু ০১ - ফেব্রু ০১</div>
+            {/* <div className="stat-desc">জানু ০১ - ফেব্রু ০১</div> */}
           </div>
         </div>
 
@@ -54,11 +95,13 @@ const Dashboard = () => {
           {/* Balance */}
           <div className="stat shadow-sm rounded-lg bg-white">
             <div className="stat-figure text-green-600">
-              <RiMoneyDollarCircleLine className="text-4xl text-red-600" />
+              <RiMoneyDollarCircleLine className={balanceValue > 0 ? "text-green-600 text-4xl" : "text-red-600 text-4xl"} />
             </div>
-            <div className="stat-title">ব্যালেন্স</div>
+            <div className={balanceValue >= 0 ? "text-green-600 stat-title" : "text-red-600 stat-title"}> আজকের ব্যালেন্স</div>
             <div className="stat-value text-red-600">
-              <span className="text-sm">৳ </span>-৫,০০০00
+             <p className={balanceValue > 0 ? "text-green-600" : "text-red-600"}>
+  <span className="text-sm">৳</span> <span>{balanceValue.toLocaleString("bn-BD") || "০"}</span>
+</p>
             </div>
             <div className="stat-desc">জানু ০১ - ফেব্রু ০১</div>
           </div>
@@ -68,8 +111,9 @@ const Dashboard = () => {
             <div className="stat-figure text-green-600">
               <IoCalendarOutline className="text-4xl text-blue-600" />
             </div>
-            <div className="stat-title">আজকের তারিখ</div>
-            <div className="stat-value">31/12/2025</div>
+            <div className="stat-title ">আজকের তারিখ</div>
+            <div className="font-medium text-blue-600">{ date} || <span className="font-medium">{ time}</span></div>
+            
           </div>
         </div>
       </div>
