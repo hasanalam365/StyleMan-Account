@@ -21,8 +21,14 @@ const date = now.toLocaleDateString("en-US", {
   month: "long",     // আগস্ট
   year: "numeric"    // ২০২৫
 });
+const dateBD = now.toLocaleDateString("bn-BD", {
+  weekday: "long",   // শনিবার
+  day: "numeric",    // ৯
+  month: "long",     // আগস্ট
+  year: "numeric"    // ২০২৫
+});
 
-console.log(date);
+
 
 
   const handleAddIncome = async (e) => {
@@ -36,9 +42,6 @@ console.log(date);
     const salesmanName = e.target.salesmanName.value;
 
    
-
-   
-    // ডাটা অবজেক্ট
     const dailyIncomeData = {
       title,
       price,
@@ -53,18 +56,24 @@ console.log(date);
     
     try {
       const res = await axiosPublic.post("/dailyIncome", dailyIncomeData);
-      if (res.data.insertedId) {
-       toast("আপনার হিসাবটি সঠিক ভাবে এন্ট্রি হয়েছে")
-     }
+     if (res.data.insertedId) {
+  setTitle("");
+  setPrice("");
+  setOfferPrice("");
+  setCustomerName("");
+  setPhoneNumber("");
+  setSalesmanName("");
+  toast("আপনার হিসাবটি সঠিক ভাবে এন্ট্রি হয়েছে");
+}
       
-      e.target.reset(); 
+     
     } catch (error) {
       console.error("Error adding income:", error);
       alert("কিছু ভুল হয়েছে, আবার চেষ্টা করুন");
     }
   };
 
-console.log(date)
+
 
   return (
     <div className='pb-5'>
@@ -74,7 +83,7 @@ console.log(date)
 
       <div className="w-[90%] md:w-[75%] lg:w-[60%] mx-auto p-6 bg-white rounded-md shadow-md">
         <h4 className='text-white bg-blue-600 p-2 text-sm mb-2 rounded-lg'>
-          <span className='font-semibold'>আজকের তারিখ:</span> ‍{date}
+          <span className='font-semibold'>আজকের তারিখ:</span> ‍{dateBD}
         </h4>
 
         <form className="space-y-4" onSubmit={handleAddIncome}>

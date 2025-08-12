@@ -54,14 +54,58 @@ const date = now.toLocaleDateString("bn-BD", {
     }
   })
   
+
+  
+
 const totalIncome=todayIncomeData?.totalIncome.toLocaleString("bn-BD")
 const totalExpense=todayExpenseData?.totalExpenses.toLocaleString("bn-BD")
   
   
-const balanceValue = todayIncomeData?.totalIncome - todayExpenseData?.totalExpenses
+  const incomeValue = todayIncomeData?.totalIncome ?? 0;
+const expenseValue = todayExpenseData?.totalExpenses ?? 0;
+const balanceValue = incomeValue - expenseValue;
 
- 
 
+const { data: responseIncome, isLoading, error } = useQuery({
+    queryKey: ['monthly-income'],
+    queryFn: async () => {
+      const res = await axiosPublic.get('/monthlyIncome');
+      return res.data;
+    }
+  });
+const { data: responseExpense } = useQuery({
+    queryKey: ['monthly-expense'],
+    queryFn: async () => {
+      const res = await axiosPublic.get('/monthlyExpense');
+      return res.data;
+    }
+  });
+
+  if (isLoading) return <p>Loading...</p>;
+  if (error) return <p>Error loading data</p>;
+
+  // months array যেটা xAxis এ লাগবে, এবং index ধরে ডাটা সাজাবো
+  const months = ["01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"];
+
+  // response থেকে monthlyIncome টা নিয়ে আসছি
+  const monthlyIncome = responseIncome?.monthlyIncome || {};
+
+  const incomeData = months.map(month => {
+    const year = new Date().getFullYear(); // যেমন 2025
+
+    const key = `${year}-${month}`;
+    return monthlyIncome[key] || 0;
+  });
+
+  // responseExpense থেকে monthlyExpense টা নিয়ে আসছি
+  const monthlyExpense = responseExpense?.monthlyExpense || {};
+
+  const expenseData = months.map(month => {
+    const year = new Date().getFullYear(); // যেমন 2025
+
+    const key = `${year}-${month}`;
+    return monthlyExpense[key] || 0;
+  });
 
 
   return (
@@ -71,7 +115,7 @@ const balanceValue = todayIncomeData?.totalIncome - todayExpenseData?.totalExpen
       </div>
 
       {/* Stats Section */}
-      <div className="flex flex-col md:flex-col lg:flex-row gap-5 w-[90%] mx-auto">
+      <div className="flex flex-col md:flex-col lg:flex-row gap-5 w-[95%] mx-auto">
         <div className="flex flex-col md:flex-row gap-5">
           {/* Income */}
        <div className="stat shadow-sm rounded-lg bg-white">
@@ -105,13 +149,15 @@ const balanceValue = todayIncomeData?.totalIncome - todayExpenseData?.totalExpen
             <div className="stat-figure text-green-600">
               <RiMoneyDollarCircleLine className={balanceValue > 0 ? "text-green-600 text-4xl" : "text-red-600 text-4xl"} />
             </div>
-            <div className={balanceValue >= 0 ? "text-green-600 stat-title" : "text-red-600 stat-title"}> আজকের ব্যালেন্স</div>
+            <div className={balanceValue > 0 ? "text-green-600 stat-title" : "text-red-600 stat-title"}> আজকের ব্যালেন্স</div>
             <div className="stat-value text-red-600">
-             <p className={balanceValue > 0 ? "text-green-600" : "text-red-600"}>
-  <span className="text-sm">৳</span> <span>{balanceValue.toLocaleString("bn-BD") || "০"}</span>
+            <p className={balanceValue > 0 ? "text-green-600" : "text-red-600"}>
+  <span className="text-sm">৳</span> 
+  <span>{balanceValue.toLocaleString("bn-BD")}</span>
 </p>
+
             </div>
-            <div className="stat-desc">জানু ০১ - ফেব্রু ০১</div>
+            {/* <div className="stat-desc">জানু ০১ - ফেব্রু ০১</div> */}
           </div>
 
           {/* Today */}
@@ -128,7 +174,7 @@ const balanceValue = todayIncomeData?.totalIncome - todayExpenseData?.totalExpen
 
       {/* Graph */}
 
-      <div className="flex flex-row-reverse  justify-center gap-20 mt-5">
+      <div className="flex flex-col-reverse md:flex-row-reverse lg:flex-row-reverse  justify-center md:gap-5 lg:gap-5 mt-5">
         <div className="mt-5">
           <h2 className="text-lg font-bold text-center mb-4">আয় বনাম ব্যয়</h2>
                <PieChart
@@ -149,34 +195,24 @@ const balanceValue = todayIncomeData?.totalIncome - todayExpenseData?.totalExpen
         {/* Double Line Chart */}
         <div>
              <LineChart
-    xAxis={[
-      {
-        scaleType: "point",
-        data: [
-          "Jan", "Feb", "Mar", "Apr", "May", "Jun",
-          "Jul", "Aug", "Sep", "Oct", "Nov", "Dec",
-        ],
-      },
-    ]}
-    yAxis={[{ min: 0, max: 16000 }]} // y-axis limit
-    series={[
-      {
-        data: [5000, 7200, 8100, 6400, 9500, 10200, 9800, 11500, 12300, 11800, 13500, 0],
-        label: "Monthly Income",
-        color: "green",
-        showMark: true, // data points দেখাবে
-      },
-      {
-        data: [3200, 4100, 5300, 10000, 5700, 6400, 6000, 6900, 7500, 7300, 7800, 8200],
-        label: "Monthly Expense",
-        color: "red",
-        showMark: true,
-      },
-    ]}
-    grid={{ vertical: true, horizontal: true }} // grid line
-    width={600}
-    height={300}
-  />
+  xAxis={[{ scaleType: "point", data: ["জানু", "ফেব্রু", "মার্চ", "এপ্রিল", "মে", "জুন", "জুলাই", "আগস্ট", "সেপ্টে", "অক্টো", "নভে", "ডিসে"] }]}
+   yAxis={[
+    {
+      min: 0,
+      max: 16000,
+      ticks: [0, 2000, 4000, 5000],
+      labelFormatter: (val) => val === 0 ? 'শূন্য' : `${val.toLocaleString("bn-BD")} টাকা`,
+    }
+  ]}
+  series={[
+    { data: incomeData, label: "মাসিক আয়:", color: "green", showMark: true },
+    { data: expenseData, label: "মাসিক খরচ:", color: "red", showMark: true },
+  ]}
+  grid={{ vertical: true, horizontal: true }}
+  width={window.innerWidth < 768 ? 400 : 550}
+  height={window.innerWidth < 768 ? 240 : 300}
+/>
+
 </div>
       </div>
 
