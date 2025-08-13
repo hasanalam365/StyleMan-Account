@@ -9,12 +9,14 @@ import { LineChart } from "@mui/x-charts";
 import { useQuery } from "@tanstack/react-query";
 import useAxiosPublic from "../hooks/useAxiosPublic";
 import { ScaleLoader } from "react-spinners";
+import RecentIncomeData from "../components/RecentIncomeData";
+import RecentExpenseData from "../components/RecentExpenseData";
 
   
 const Dashboard = () => {
 
   const axiosPublic = useAxiosPublic()
-  console.log("API_URL:", import.meta.env.VITE_API_URL);
+ 
 
      const now = new Date();
     const time = now.toLocaleTimeString("bn-BD", { hour: "2-digit", minute: "2-digit" });
@@ -41,14 +43,9 @@ const date = now.toLocaleDateString("bn-BD", {
   }
 });
 
-  const { data: recentData } = useQuery({
-    queryKey: ['recent-data'],
-    queryFn: async () => {
-      const res = await axiosPublic.get('/recentData')
-      return res.data
-    }
-  })
-  
+
+ 
+ 
 
 const totalIncome=todayIncomeData?.totalIncome.toLocaleString("bn-BD")
 const totalExpense=todayExpenseData?.totalExpenses.toLocaleString("bn-BD")
@@ -209,83 +206,15 @@ const { data: responseExpense } = useQuery({
 </div>
       </div>
 
-      <div className="mt-5 p-4">
-        <div className="bg-white ">
-          <h2 className="text-lg font-bold p-3"> সাম্প্রতিক লেনদেন</h2>
-           <div className="divider mt-0 pt-0 mb-0"></div>
-        </div>
-       
-         {/* Recent Transactions */}
-   <div className="overflow-x-auto bg-white">
-  <table className="table">
-    {/* Head */}
-    <thead>
-      <tr>
-        <th>সেলসম্যান</th>
-        <th>শিরোনাম</th>
-        <th>টাকার পরিমাণ</th>
-        <th>সময়/তারিখ</th>
-        <th>অ্যাকশন</th>
-      </tr>
-    </thead>
-    <tbody>
-      {recentData?.map((data) => (
-        <tr key={data?._id}>
-          {/* সেলসম্যান নাম */}
-          <th className="font-normal">{data?.salesmanName || "—"}</th>
+{/* সাম্প্রতিক আয়ের লেনদেন */}
+      <RecentIncomeData></RecentIncomeData>
+      
+{/* সাম্প্রতিক খরচের লেনদেন */}
+      <RecentExpenseData></RecentExpenseData>
+      
 
-          {/* শিরোনাম + কাস্টমার নাম */}
-          <td>
-            <div className="flex items-center gap-3">
-              <div>
-                <div className="">{data?.title || "—"}</div>
-                {data?.customerName && (
-                  <div className="text-sm opacity-50">
-                    কাস্টমারের নাম: {data?.customerName}
-                  </div>
-                )}
-              </div>
-            </div>
-          </td>
+      
 
-          {/* টাকার পরিমাণ */}
-          <td className={data?.phoneNumber ? "text-green-600 font-medium" : "text-red-600 font-medium"}>
-            ৳
-            {data?.offerPrice
-              ? Number(data?.offerPrice).toLocaleString("bn-BD")
-              : Number(data?.price || 0).toLocaleString("bn-BD")}
-          </td>
-
-          {/* সময় ও তারিখ */}
-          <td>
-            {data?.date ? (new Date(data.date).toLocaleDateString("bn-BD", {
-                      weekday: 'long',
-                      year: 'numeric',
-                      month: 'long',
-                      day: 'numeric'
-                    })) : "—"}
-            <br />
-            <span className="badge badge-ghost badge-sm">
-              {data?.time || "—"}
-            </span>
-          </td>
-
-          {/* অ্যাকশন */}
-          <th className="flex gap-3">
-            <button>
-              <FaEdit className="text-lg text-green-600 hover:scale-125" />
-            </button>
-            <button>
-              <MdDeleteForever className="text-lg text-red-600 hover:scale-125" />
-            </button>
-          </th>
-        </tr>
-      ))}
-    </tbody>
-  </table>
-</div>
-
-     </div>
     </div>
   );
 };

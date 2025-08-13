@@ -228,9 +228,9 @@ const MonthlyIncome = () => {
           <table className="table w-full">
             <thead>
               <tr>
-                <th>হিসাবকারীর নাম</th>
-                <th>শিরোনাম</th>
-                <th>টাকার পরিমাণ</th>
+                 <th>হিসাবকারীর নাম</th>
+                <th>কাস্টমারের তথ্য</th>
+                <th>শিরোনাম/টাকা</th>
                 <th>সময়/তারিখ</th>
                 <th>অ্যাকশন</th>
               </tr>
@@ -258,16 +258,26 @@ const MonthlyIncome = () => {
                   <td>
                     <div className="flex items-center gap-3">
                       <div>
-                        <div className="font-bold">{dailyIncome.title}</div>
-                        <div className="text-sm opacity-50">কাস্টমারের নাম: {dailyIncome.customerName}</div>
+                       
+                        <div className=""> {dailyIncome?.customerName}</div>
+                         <div className="opacity-80">{dailyIncome?.phoneNumber}</div>
                       </div>
                     </div>
                   </td>
-                  <td className='text-green-600 font-medium'>৳
-                    {Number(dailyIncome.offerPrice) === 0
+                  <td className=' font-medium'>
+                    
+                    <div className="flex items-center gap-3">
+                      <div>
+                       
+                        <div className=""> {dailyIncome?.title}</div>
+                        <div className='text-green-600'>
+                           ৳  {Number(dailyIncome.offerPrice) === 0
                       ? Number(dailyIncome.price).toLocaleString("bn-BD")
                       : Number(dailyIncome.offerPrice).toLocaleString("bn-BD")
                     }
+                      </div>
+                      </div>
+                    </div>
                   </td>
                   <td>
                     <span className="badge badge-ghost badge-sm">{dailyIncome.time}</span>
