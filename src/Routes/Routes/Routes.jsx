@@ -7,6 +7,7 @@ import Dashboard from "../../Pages/Dashboard";
 import ErrorPage from "../../Pages/ErrorPage";
 import MonthlyIncome from "../../Pages/MonthlyIncome";
 import MonthlyExpense from "../../Pages/MonthlyExpense";
+import UpdatedIncome from "../../components/UpdatedIncome";
 
 
 
@@ -38,6 +39,10 @@ export const router = createBrowserRouter([
             {
                 path: '/monthlyExpense',
                 element: <MonthlyExpense></MonthlyExpense>
+            },
+            {
+                path: '/updatedIncome/:id',
+                element: <UpdatedIncome></UpdatedIncome>
             }
           
 

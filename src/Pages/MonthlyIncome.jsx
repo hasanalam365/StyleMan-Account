@@ -8,9 +8,11 @@ import { useQuery } from '@tanstack/react-query';
 import { toast } from 'react-toastify';
 import Swal from 'sweetalert2';
 import { ScaleLoader } from 'react-spinners';
+import { useNavigate } from 'react-router-dom';
 
 const MonthlyIncome = () => {
   const axiosPublic = useAxiosPublic();
+  const navigate=useNavigate()
 
   // বাংলা মাসের নাম (১ থেকে ১২)
   const banglaMonthNames = [
@@ -127,8 +129,22 @@ const MonthlyIncome = () => {
     });
   };
 
+
+
+  const handleUpdate= async (id) => {
+ 
+    navigate(`/updatedIncome/${id}`)
+
+}
+
+
  if (isLoading) return <p className="flex justify-center items-center h-screen">  <ScaleLoader color="#36d7b7" /></p>;
 
+  
+  
+  
+  
+  
   return (
     <div className='pb-8'>
       <div className="bg-black text-white p-4 my-5">
@@ -291,7 +307,7 @@ const MonthlyIncome = () => {
                   </td>
 
                   <th className="flex gap-3">
-                    <button><FaEdit className="text-lg text-green-600 hover:scale-125" /></button>
+                    <button onClick={()=> handleUpdate(dailyIncome._id)}><FaEdit className="text-lg text-green-600 hover:scale-125" /></button>
                     <button onClick={() => handleDelete(dailyIncome._id)}>
                       <MdDeleteForever className="text-lg text-red-600 hover:scale-125" />
                     </button>

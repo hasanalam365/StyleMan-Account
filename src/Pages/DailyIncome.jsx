@@ -7,12 +7,14 @@ const DailyIncome = () => {
 
   const axiosPublic=useAxiosPublic()
   const [title, setTitle] = useState("");
+  const [category,setCategory]=useState("")
   const [price, setPrice] = useState("");
   const [offerPrice, setOfferPrice] = useState("");
   const [customerName, setCustomerName] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
   const [salesmanName, setSalesmanName] = useState("");
-   // সময় ও তারিখ (বাংলায়)
+
+  //  // সময় ও তারিখ (বাংলায়)
     const now = new Date();
     const time = now.toLocaleTimeString("bn-BD", { hour: "2-digit", minute: "2-digit" });
 const date = now.toLocaleDateString("en-US", {
@@ -53,17 +55,27 @@ const dateBD = now.toLocaleDateString("bn-BD", {
       date,
     };
 
+    const categoryData={categoryName: category, price: offerPrice === 0 ? price : offerPrice}
+
     
     try {
       const res = await axiosPublic.post("/dailyIncome", dailyIncomeData);
+
+      const categoryRes=await axiosPublic.post('/category',categoryData)
+
      if (res.data.insertedId) {
-  setTitle("");
+       setTitle("");
+
+        setCategory("")
   setPrice("");
   setOfferPrice("");
   setCustomerName("");
   setPhoneNumber("");
-  setSalesmanName("");
-  toast("আপনার হিসাবটি সঠিক ভাবে এন্ট্রি হয়েছে");
+       setSalesmanName("");
+   
+       toast("আপনার হিসাবটি সঠিক ভাবে এন্ট্রি হয়েছে");
+    
+
 }
       
      
@@ -88,8 +100,9 @@ const dateBD = now.toLocaleDateString("bn-BD", {
 
         <form className="space-y-4" onSubmit={handleAddIncome}>
           {/* Title */}
-          <div>
-            <label htmlFor="title" className="block text-sm font-medium text-gray-700 mb-1">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+                  <label htmlFor="title" className="block text-sm font-medium text-gray-700 mb-1">
               শিরোনাম <span className="text-red-600">*</span>
             </label>
             <input
@@ -99,9 +112,33 @@ const dateBD = now.toLocaleDateString("bn-BD", {
               onChange={(e) => setTitle(e.target.value)}
               className="w-full px-3 py-2 border border-gray-300 rounded-md"
               placeholder="পণ্যের বা সেবার নাম"
-           required />
-          </div>
+              required />
+            
+        </div>
 
+            <div>
+            <label htmlFor="category" className="block text-sm font-medium text-gray-700 mb-1">
+              ক্যাটাগরি <span className="text-red-600">*</span>
+            </label>
+            <select
+              id="category"
+              value={category}
+              onChange={(e) => setCategory(e.target.value)}
+              className="w-full px-3 py-2 border border-gray-300 rounded-md"
+              required
+            >
+              <option value="">-- ক্যাটাগরি নির্বাচন করুন --</option>
+              <option value="শার্ট">শার্ট</option>
+              <option value="টি-শার্ট">টি-শার্ট</option>
+              <option value="প্যান্ট">প্যান্ট</option>
+              <option value="পাঞ্জাবী">পাঞ্জাবী</option>
+              <option value="শীতবস্ত্র">শীতবস্ত্র</option>
+              <option value="অন্যান্য">অন্যান্য</option>
+            </select>
+          </div>
+          </div>
+{/* Category */}
+          
           {/* Price & Offer Price */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
