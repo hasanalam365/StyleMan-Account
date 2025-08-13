@@ -4,23 +4,18 @@ import { RiMoneyDollarCircleLine } from "react-icons/ri";
 import { IoCalendarOutline } from "react-icons/io5";
 import { FaEdit } from "react-icons/fa";
 import { MdDeleteForever } from "react-icons/md";
-
 import { PieChart } from '@mui/x-charts/PieChart';
 import { LineChart } from "@mui/x-charts";
 import { useQuery } from "@tanstack/react-query";
 import useAxiosPublic from "../hooks/useAxiosPublic";
-
-
+import { ScaleLoader } from "react-spinners";
 
   
-
-
-
-
 const Dashboard = () => {
 
   const axiosPublic = useAxiosPublic()
-  
+  console.log("API_URL:", import.meta.env.VITE_API_URL);
+
      const now = new Date();
     const time = now.toLocaleTimeString("bn-BD", { hour: "2-digit", minute: "2-digit" });
 const date = now.toLocaleDateString("bn-BD", {
@@ -55,13 +50,11 @@ const date = now.toLocaleDateString("bn-BD", {
   })
   
 
-  
-
 const totalIncome=todayIncomeData?.totalIncome.toLocaleString("bn-BD")
 const totalExpense=todayExpenseData?.totalExpenses.toLocaleString("bn-BD")
   
   
-  const incomeValue = todayIncomeData?.totalIncome ?? 0;
+const incomeValue = todayIncomeData?.totalIncome ?? 0;
 const expenseValue = todayExpenseData?.totalExpenses ?? 0;
 const balanceValue = incomeValue - expenseValue;
 
@@ -81,8 +74,8 @@ const { data: responseExpense } = useQuery({
     }
   });
 
-  if (isLoading) return <p>Loading...</p>;
-  if (error) return <p>Error loading data</p>;
+  if (isLoading) return <p className="flex justify-center items-center h-screen">  <ScaleLoader color="#36d7b7" /></p>;
+  if (error) return <p>কোনো সমস্যা হয়েছে!!!</p>;
 
   // months array যেটা xAxis এ লাগবে, এবং index ধরে ডাটা সাজাবো
   const months = ["01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"];

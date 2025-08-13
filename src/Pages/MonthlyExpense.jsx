@@ -7,6 +7,7 @@ import useAxiosPublic from '../hooks/useAxiosPublic';
 import { useQuery } from '@tanstack/react-query';
 import { toast } from 'react-toastify';
 import Swal from 'sweetalert2';
+import { ScaleLoader } from 'react-spinners';
 
 const MonthlyExpense = () => {
   const axiosPublic = useAxiosPublic();
@@ -124,6 +125,8 @@ const MonthlyExpense = () => {
     });
   };
 
+ if (isLoading) return <p className="flex justify-center items-center h-screen">  <ScaleLoader color="#36d7b7" /></p>;
+  
   return (
     <div>
       <div className="bg-black text-white p-4 my-5">
