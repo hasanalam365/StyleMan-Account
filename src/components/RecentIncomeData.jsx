@@ -4,12 +4,14 @@ import { useQuery } from '@tanstack/react-query';
 import { FaEdit } from 'react-icons/fa';
 import { MdDeleteForever } from 'react-icons/md';
 import { IoIosTrendingUp } from 'react-icons/io';
+import { toast } from 'react-toastify';
+import Swal from 'sweetalert2';
 
 const RecentIncomeData = () => {
 
     const axiosPublic=useAxiosPublic()
 
-    const { data: recentIncomeData = [], isError,isLoading } = useQuery({
+    const { data: recentIncomeData = [], isError,isLoading ,refetch} = useQuery({
   queryKey: ['recent-Income-Data'],
   queryFn: async () => {
     const res = await axiosPublic.get('/recentIncomeData');
@@ -17,7 +19,34 @@ const RecentIncomeData = () => {
   }
 });
 
-const currentIncomeItems = recentIncomeData?.length;
+    const currentIncomeItems = recentIncomeData?.length;
+    
+      const handleDelete = async (id) => {
+        Swal.fire({
+          title: 'আপনি কি সত্যিই লেনদেনটি মুছে ফেলতে চান?',
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: '#d33',
+          cancelButtonColor: '#3085d6',
+          confirmButtonText: 'হ্যাঁ, মুছে ফেলুন!',
+          cancelButtonText: 'বাতিল',
+        }).then(async (result) => {
+          if (result.isConfirmed) {
+            try {
+              const res = await axiosPublic.delete(`/dailyIncome/${id}`);
+    
+              if (res.data.deletedCount === 1) {
+                toast.error('লেনদেনটি মুছে ফেলা হয়েছে');
+                refetch();
+              } else {
+                toast.error('কোনো লেনদেন পাওয়া যায়নি');
+              }
+            } catch (error) {
+              toast.error('ডিলিট করতে সমস্যা হয়েছে');
+            }
+          }
+        });
+      };
 
     return (
          <div className="mt-5 p-4">
@@ -110,10 +139,12 @@ const currentIncomeItems = recentIncomeData?.length;
                       {data?.time || "—"}
                     </span>
                   </td>
-                  <th className="flex gap-3">
-                    <button><FaEdit className="text-lg text-green-600 hover:scale-125" /></button>
-                    <button><MdDeleteForever className="text-lg text-red-600 hover:scale-125" /></button>
-                  </th>
+                   <th className="flex gap-3">
+                                      <button><FaEdit className="text-lg text-green-600 hover:scale-125" /></button>
+                                      <button onClick={() => handleDelete(data._id)}>
+                                        <MdDeleteForever className="text-lg text-red-600 hover:scale-125" />
+                                      </button>
+                                    </th>
                 </tr>
               ))}
             </tbody>
