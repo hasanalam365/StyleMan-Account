@@ -6,10 +6,12 @@ import useAxiosPublic from '../hooks/useAxiosPublic';
 import { useQuery } from '@tanstack/react-query';
 import Swal from 'sweetalert2';
 import { toast } from 'react-toastify';
+import { useNavigate } from 'react-router-dom';
 
 const RecentExpenseData = () => {
 
-    const axiosPublic=useAxiosPublic()
+  const axiosPublic = useAxiosPublic()
+  const navigate=useNavigate()
 
      const { data: recentExpenseData=[],isError,isLoading,refetch } = useQuery({
     queryKey: ['recent-Expense-Data'],
@@ -49,6 +51,11 @@ const RecentExpenseData = () => {
         });
       };
 
+  
+  const handleEdit = (id) => {
+    navigate(`/update-expense/${id}`)
+  }
+  
     return (
         <div className=" p-4">
         <div className="bg-white ">
@@ -130,7 +137,7 @@ const RecentExpenseData = () => {
             </span>
           </td>
            <th className="flex gap-3">
-                              <button><FaEdit className="text-lg text-green-600 hover:scale-125" /></button>
+                              <button onClick={()=>handleEdit(data._id)}><FaEdit className="text-lg text-green-600 hover:scale-125" /></button>
                               <button onClick={() => handleDelete(data._id)}>
                                 <MdDeleteForever className="text-lg text-red-600 hover:scale-125" />
                               </button>
