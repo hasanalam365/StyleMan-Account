@@ -142,7 +142,7 @@ const MonthlyIncome = () => {
 
   
   
-  
+ 
   
   
   return (
@@ -295,16 +295,24 @@ const MonthlyIncome = () => {
                       </div>
                     </div>
                   </td>
-                  <td>
-                    <span className="badge badge-ghost badge-sm">{dailyIncome.time}</span>
-                    <br />
-                    {new Date(dailyIncome.date).toLocaleDateString("bn-BD", {
-                      weekday: 'long',
-                      year: 'numeric',
-                      month: 'long',
-                      day: 'numeric'
-                    })}
-                  </td>
+                 <td>
+  <span className="badge badge-ghost badge-sm">
+    {new Date(`${dailyIncome.date} ${dailyIncome.time}`).toLocaleTimeString("bn-BD", {
+      hour: "2-digit",
+      minute: "2-digit",
+      hour12: true
+    })}
+  </span>
+  <br />
+  {new Date(dailyIncome.date).toLocaleDateString("bn-BD", {
+    weekday: 'long',
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric'
+  })}
+</td>
+
+
 
                   <th className="flex gap-3">
                     <button onClick={()=> handleUpdate(dailyIncome._id)}><FaEdit className="text-lg text-green-600 hover:scale-125" /></button>

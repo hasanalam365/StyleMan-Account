@@ -16,7 +16,7 @@ const DailyIncome = () => {
 
   //  // সময় ও তারিখ (বাংলায়)
     const now = new Date();
-    const time = now.toLocaleTimeString("bn-BD", { hour: "2-digit", minute: "2-digit" });
+    const time = now.toLocaleTimeString("en-US", { hour: "2-digit", minute: "2-digit" });
 const date = now.toLocaleDateString("en-US", {
   weekday: "long",   // শনিবার
   day: "numeric",    // ৯
@@ -63,7 +63,8 @@ const dateBD = now.toLocaleDateString("bn-BD", {
       const res = await axiosPublic.post("/dailyIncome", dailyIncomeData);
       const categoryId = res.data.insertedId
 
-      const categoryData = { categoryName: category, price: offerPrice === 0 ? price : offerPrice, categoryId: categoryId }
+      const categoryData = { categoryName: category, price: offerPrice === 0 ? price : offerPrice, categoryId: categoryId,time,
+      date, }
       
       await axiosPublic.post('/category',categoryData)
 

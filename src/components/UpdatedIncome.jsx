@@ -20,7 +20,13 @@ const UpdatedIncome = () => {
   const [salesmanName, setSalesmanName] = useState("");
 
      const now = new Date();
-
+    const time = now.toLocaleTimeString("en-US", { hour: "2-digit", minute: "2-digit" });
+const date = now.toLocaleDateString("en-US", {
+  weekday: "long",   // শনিবার
+  day: "numeric",    // ৯
+  month: "long",     // আগস্ট
+  year: "numeric"    // ২০২৫
+});
     const dateBD = now.toLocaleDateString("bn-BD", {
   weekday: "long", 
   day: "numeric",    
@@ -76,7 +82,7 @@ const UpdatedIncome = () => {
       const res = await axiosPublic.put(`/income-data-update/${id}`, updatedData);
         if (res.data.modifiedCount > 0 || res.data.success) {
           
-            await axiosPublic.put(`/update-category/${id}`,{category, price:offerPrice==0?price: offerPrice});
+            await axiosPublic.put(`/update-category/${id}`,{category, price:offerPrice==0?price: offerPrice,time,date});
 
         toast.success("আয় তথ্য সফলভাবে সংশোধন হয়েছে");
         navigate("/monthlyIncome"); 

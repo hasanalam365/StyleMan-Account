@@ -15,6 +15,8 @@ const CategoryGraph = () => {
     }
   });
 
+    console.log(categories)
+    
   // ক্যাটাগরি অনুযায়ী count এবং total price বের করা
   const categoryStats = categories.reduce((acc, curr) => {
     const name = curr.categoryName;
@@ -39,7 +41,7 @@ const CategoryGraph = () => {
 
   return (
     <div className="mt-5">
-      <h2 className="  text-center mb-4">ক্যাটাগরি অনুযায়ী সেল</h2>
+      <h2 className="  text-center mb-4 bg-orange-600 text-white p-2">ক্যাটাগরি অনুযায়ী সেল</h2>
       <PieChart
         series={[
           {
@@ -47,7 +49,7 @@ const CategoryGraph = () => {
           },
         ]}
         width={400}
-        height={300}
+        height={250}
       />
     </div>
   );

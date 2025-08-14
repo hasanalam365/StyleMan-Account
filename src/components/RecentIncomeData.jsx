@@ -132,20 +132,23 @@ const RecentIncomeData = () => {
                       </div>
                     </div>
                   </td>
-                  <td>
-                    {data?.date
-                      ? new Date(data.date).toLocaleDateString("bn-BD", {
-                          weekday: 'long',
-                          year: 'numeric',
-                          month: 'long',
-                          day: 'numeric'
-                        })
-                      : "—"}
-                    <br />
-                    <span className="badge badge-ghost badge-sm">
-                      {data?.time || "—"}
-                    </span>
-                  </td>
+                 <td>
+  <span className="badge badge-ghost badge-sm">
+    {new Date(`${data.date} ${data.time}`).toLocaleTimeString("bn-BD", {
+      hour: "2-digit",
+      minute: "2-digit",
+      hour12: true
+    })}
+  </span>
+  <br />
+  {new Date(data.date).toLocaleDateString("bn-BD", {
+    weekday: 'long',
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric'
+  })}
+</td>
+
                    <th className="flex gap-3">
                                       <button onClick={()=>handleEdit(data._id)}><FaEdit className="text-lg text-green-600 hover:scale-125" /></button>
                                       <button onClick={() => handleDelete(data._id)}>
