@@ -11,6 +11,7 @@ import useAxiosPublic from "../hooks/useAxiosPublic";
 import { ScaleLoader } from "react-spinners";
 import RecentIncomeData from "../components/RecentIncomeData";
 import RecentExpenseData from "../components/RecentExpenseData";
+import CategoryGraph from "../components/CategoryGraph";
 
   
 const Dashboard = () => {
@@ -163,25 +164,9 @@ const { data: responseExpense } = useQuery({
       </div>
 
       {/* Graph */}
-
       <div className="flex flex-col-reverse md:flex-row-reverse lg:flex-row-reverse  justify-center md:gap-5 lg:gap-5 mt-5">
-        <div className="mt-5">
-          <h2 className="text-lg font-bold text-center mb-4">আয় বনাম ব্যয়</h2>
-               <PieChart
-      series={[
-        {
-          data: [
-            { id: 0, value: 10, label: 'series A' },
-            { id: 1, value: 15, label: 'series B' },
-            { id: 2, value: 20, label: 'series C' },
-          ],
-        },
-      ]}
-      width={200}
-      height={200}
-        />
-     </div>
-        
+<CategoryGraph></CategoryGraph>
+       
         {/* Double Line Chart */}
         <div>
              <LineChart
