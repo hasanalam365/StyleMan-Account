@@ -39,7 +39,7 @@ const MonthlyExpense = () => {
   }
 
   // API Call with filters in query params
-  const { data: dailyExpenses, isLoading, isError, refetch } = useQuery({
+  const { data: dailyExpenses=[], isLoading, isError, refetch } = useQuery({
     queryKey: ['monthlyExpense', filterBy, filterMonth, filterYear],
     queryFn: async () => {
       let url = '/dailyExpense'; // আপনার ব্যাকএন্ড API এন্ডপয়েন্ট এখানে দিন

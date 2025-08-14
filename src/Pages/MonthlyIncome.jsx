@@ -41,7 +41,7 @@ const MonthlyIncome = () => {
   }
 
   // API Call with filters in query params
-  const { data: dailyIncomes, isLoading, isError, refetch } = useQuery({
+  const { data: dailyIncomes=[], isLoading, isError, refetch } = useQuery({
     queryKey: ['monthlyIncome', filterBy, filterMonth, filterYear],
     queryFn: async () => {
       let url = '/dailyIncome';

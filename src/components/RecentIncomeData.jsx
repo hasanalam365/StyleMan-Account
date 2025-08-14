@@ -6,10 +6,12 @@ import { MdDeleteForever } from 'react-icons/md';
 import { IoIosTrendingUp } from 'react-icons/io';
 import { toast } from 'react-toastify';
 import Swal from 'sweetalert2';
+import { useNavigate } from 'react-router-dom';
 
 const RecentIncomeData = () => {
 
-    const axiosPublic=useAxiosPublic()
+  const axiosPublic = useAxiosPublic()
+  const navigate=useNavigate()
 
     const { data: recentIncomeData = [], isError,isLoading ,refetch} = useQuery({
   queryKey: ['recent-Income-Data'],
@@ -21,6 +23,11 @@ const RecentIncomeData = () => {
 
     const currentIncomeItems = recentIncomeData?.length;
     
+  
+  const handleEdit = (id) => {
+    navigate(`/updatedIncome/${id}`)
+  }
+  
       const handleDelete = async (id) => {
         Swal.fire({
           title: 'আপনি কি সত্যিই লেনদেনটি মুছে ফেলতে চান?',
@@ -140,7 +147,7 @@ const RecentIncomeData = () => {
                     </span>
                   </td>
                    <th className="flex gap-3">
-                                      <button><FaEdit className="text-lg text-green-600 hover:scale-125" /></button>
+                                      <button onClick={()=>handleEdit(data._id)}><FaEdit className="text-lg text-green-600 hover:scale-125" /></button>
                                       <button onClick={() => handleDelete(data._id)}>
                                         <MdDeleteForever className="text-lg text-red-600 hover:scale-125" />
                                       </button>

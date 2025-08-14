@@ -48,6 +48,7 @@ const dateBD = now.toLocaleDateString("bn-BD", {
       title,
       price,
       offerPrice,
+      category,
       customerName,
       phoneNumber,
       salesmanName,
@@ -55,13 +56,16 @@ const dateBD = now.toLocaleDateString("bn-BD", {
       date,
     };
 
-    const categoryData={categoryName: category, price: offerPrice === 0 ? price : offerPrice}
+    
 
     
     try {
       const res = await axiosPublic.post("/dailyIncome", dailyIncomeData);
+      const categoryId = res.data.insertedId
 
-      const categoryRes=await axiosPublic.post('/category',categoryData)
+      const categoryData = { categoryName: category, price: offerPrice === 0 ? price : offerPrice, categoryId: categoryId }
+      
+      await axiosPublic.post('/category',categoryData)
 
      if (res.data.insertedId) {
        setTitle("");
