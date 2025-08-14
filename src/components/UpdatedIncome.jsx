@@ -20,13 +20,7 @@ const UpdatedIncome = () => {
   const [salesmanName, setSalesmanName] = useState("");
 
      const now = new Date();
-    const time = now.toLocaleTimeString("bn-BD", { hour: "2-digit", minute: "2-digit" });
-const date = now.toLocaleDateString("en-US", {
-  weekday: "long",   
-  day: "numeric",    
-  month: "long",    
-  year: "numeric"   
-});
+
     const dateBD = now.toLocaleDateString("bn-BD", {
   weekday: "long", 
   day: "numeric",    
@@ -73,8 +67,7 @@ const date = now.toLocaleDateString("en-US", {
       customerName,
       phoneNumber,
       salesmanName,
-        date,
-      time
+       
     };
 
       

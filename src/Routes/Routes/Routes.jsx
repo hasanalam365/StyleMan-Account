@@ -8,6 +8,7 @@ import ErrorPage from "../../Pages/ErrorPage";
 import MonthlyIncome from "../../Pages/MonthlyIncome";
 import MonthlyExpense from "../../Pages/MonthlyExpense";
 import UpdatedIncome from "../../components/UpdatedIncome";
+import UpdatedExpense from "../../components/UpdatedExpense";
 
 
 
@@ -43,6 +44,10 @@ export const router = createBrowserRouter([
             {
                 path: '/updatedIncome/:id',
                 element: <UpdatedIncome></UpdatedIncome>
+            },
+            {
+                path: '/update-expense/:id',
+                element: <UpdatedExpense></UpdatedExpense>
             }
           
 

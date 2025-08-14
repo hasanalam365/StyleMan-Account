@@ -8,9 +8,11 @@ import { useQuery } from '@tanstack/react-query';
 import { toast } from 'react-toastify';
 import Swal from 'sweetalert2';
 import { ScaleLoader } from 'react-spinners';
+import { useNavigate } from 'react-router-dom';
 
 const MonthlyExpense = () => {
   const axiosPublic = useAxiosPublic();
+  const navigate=useNavigate()
 
   // বাংলা মাসের নাম (১ থেকে ১২)
   const banglaMonthNames = [
@@ -124,6 +126,10 @@ const MonthlyExpense = () => {
       }
     });
   };
+
+  const handleEditExpense = (id) => {
+    navigate(`/update-expense/${id}`)
+  }
 
  if (isLoading) return <p className="flex justify-center items-center h-screen">  <ScaleLoader color="#36d7b7" /></p>;
   
@@ -277,7 +283,7 @@ const MonthlyExpense = () => {
                   </td>
 
                   <th className="flex gap-3">
-                    <button><FaEdit className="text-lg text-green-600 hover:scale-125" /></button>
+                    <button onClick={()=>handleEditExpense(expense._id)}><FaEdit className="text-lg text-green-600 hover:scale-125" /></button>
                     <button onClick={() => handleDelete(expense._id)}>
                       <MdDeleteForever className="text-lg text-red-600 hover:scale-125" />
                     </button>
