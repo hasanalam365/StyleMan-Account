@@ -44,6 +44,7 @@ const date = now.toLocaleDateString("en-US", {
  
   });
 
+    
  
     
   // Pre-fill form fields when data is loaded
@@ -76,9 +77,14 @@ const date = now.toLocaleDateString("en-US", {
       time
     };
 
+      
+      
     try {
       const res = await axiosPublic.put(`/income-data-update/${id}`, updatedData);
-      if (res.data.modifiedCount > 0 || res.data.success) {
+        if (res.data.modifiedCount > 0 || res.data.success) {
+          
+            await axiosPublic.put(`/update-category/${id}`,{category, price:offerPrice==0?price: offerPrice});
+
         toast.success("আয় তথ্য সফলভাবে সংশোধন হয়েছে");
         navigate("/monthlyIncome"); 
       } else {
