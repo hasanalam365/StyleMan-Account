@@ -7,6 +7,7 @@ import { FaPlus } from "react-icons/fa6";
 import { FiMinus } from "react-icons/fi";
 import { IoIosTrendingUp } from "react-icons/io";
 import { IoIosTrendingDown } from "react-icons/io";
+import { FaHandHoldingUsd } from "react-icons/fa";
 
 
 
@@ -22,7 +23,7 @@ const Navbar = () => {
 
         <NavLink to="/monthlyIncome" className='hover:text-orange-600 flex items-center  gap-1' onClick={() => setIsOpen(false)}> <span>   <IoIosTrendingUp /> </span>মাসিক আয়</NavLink>
         <NavLink to="/monthlyExpense" className='hover:text-orange-600 flex items-center  gap-1' onClick={() => setIsOpen(false)}> <span>  <IoIosTrendingDown /> </span>মাসিক খরচ</NavLink>
-        <NavLink to="/un-paid-income" className='hover:text-orange-600 flex items-center  gap-1' onClick={() => setIsOpen(false)}> <span>  <IoIosTrendingDown /> </span>বকেয়া হিসাব</NavLink>
+        <NavLink to="/un-paid-income" className='hover:text-orange-600 flex items-center  gap-1' onClick={() => setIsOpen(false)}> <span>  <FaHandHoldingUsd /> </span>বকেয়া হিসাব</NavLink>
 
 
 
