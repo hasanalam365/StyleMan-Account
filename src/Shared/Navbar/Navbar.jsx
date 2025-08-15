@@ -22,6 +22,7 @@ const Navbar = () => {
 
         <NavLink to="/monthlyIncome" className='hover:text-orange-600 flex items-center  gap-1' onClick={() => setIsOpen(false)}> <span>   <IoIosTrendingUp /> </span>মাসিক আয়</NavLink>
         <NavLink to="/monthlyExpense" className='hover:text-orange-600 flex items-center  gap-1' onClick={() => setIsOpen(false)}> <span>  <IoIosTrendingDown /> </span>মাসিক খরচ</NavLink>
+        <NavLink to="/un-paid-income" className='hover:text-orange-600 flex items-center  gap-1' onClick={() => setIsOpen(false)}> <span>  <IoIosTrendingDown /> </span>বকেয়া হিসাব</NavLink>
 
 
 

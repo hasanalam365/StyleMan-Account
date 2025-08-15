@@ -9,6 +9,7 @@ import { toast } from 'react-toastify';
 import Swal from 'sweetalert2';
 import { ScaleLoader } from 'react-spinners';
 import { useNavigate } from 'react-router-dom';
+import { Helmet } from "react-helmet-async";
 
 const MonthlyIncome = () => {
   const axiosPublic = useAxiosPublic();
@@ -147,6 +148,9 @@ const MonthlyIncome = () => {
   
   return (
     <div className='pb-8'>
+      <Helmet>
+                    <title>স্টাইলম্যান | মাসিক আয়</title>
+                </Helmet>
       <div className="bg-black text-white p-4 my-5">
         <h2 className="text-lg font-semibold">মাসিক আয়</h2>
       </div>

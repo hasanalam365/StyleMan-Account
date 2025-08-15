@@ -4,6 +4,7 @@ import useAxiosPublic from '../hooks/useAxiosPublic';
 import { toast } from 'react-toastify';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
+import { Helmet } from "react-helmet-async";
 
 const DailyExpense = () => {
   const axiosPublic = useAxiosPublic();
@@ -74,6 +75,9 @@ const { id } = useParams();
 
   return (
     <div className='pb-5'>
+      <Helmet>
+                    <title>স্টাইলম্যান | সংশোধন দৈনিক খরচ</title>
+                </Helmet>
       <div className="bg-black text-white p-4 my-5">
         <h2 className="text-lg font-semibold">দৈনিক খরচ এন্ট্রি</h2>
       </div>

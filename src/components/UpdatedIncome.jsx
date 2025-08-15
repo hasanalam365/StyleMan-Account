@@ -4,6 +4,8 @@ import { useParams, useNavigate } from 'react-router-dom';
 import useAxiosPublic from '../hooks/useAxiosPublic';
 import { FaPlus } from 'react-icons/fa';
 import { toast } from 'react-toastify';
+import { Helmet } from "react-helmet-async";
+
 
 const UpdatedIncome = () => {
   const { id } = useParams();
@@ -97,6 +99,9 @@ const date = now.toLocaleDateString("en-US", {
 
   return (
     <div className='pb-5'>
+      <Helmet>
+                    <title>স্টাইলম্যান | সংশোধন দৈনিক আয়</title>
+                </Helmet>
       <div className="bg-black text-white p-4 my-5">
         <h2 className="text-lg font-semibold">দৈনিক আয় সংশোধন</h2>
       </div>

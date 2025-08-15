@@ -9,6 +9,8 @@ import MonthlyIncome from "../../Pages/MonthlyIncome";
 import MonthlyExpense from "../../Pages/MonthlyExpense";
 import UpdatedIncome from "../../components/UpdatedIncome";
 import UpdatedExpense from "../../components/UpdatedExpense";
+import UnpaidIncome from "../../Pages/UnpaidIncome";
+import AllUnpaidIncome from "../../Pages/AllUnpaidIncome";
 
 
 
@@ -48,6 +50,14 @@ export const router = createBrowserRouter([
             {
                 path: '/update-expense/:id',
                 element: <UpdatedExpense></UpdatedExpense>
+            },
+            {
+                path: "/un-paid-income",
+                element: <UnpaidIncome></UnpaidIncome>
+            },
+            {
+                path: "/all-unpaid-income",
+                element: <AllUnpaidIncome></AllUnpaidIncome>
             }
           
 

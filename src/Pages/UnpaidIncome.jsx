@@ -3,14 +3,15 @@ import { FaPlus } from 'react-icons/fa';
 import useAxiosPublic from '../hooks/useAxiosPublic';
 import { toast } from 'react-toastify';
 import { Helmet } from "react-helmet-async";
+import { NavLink } from 'react-router-dom';
 
-const DailyIncome = () => {
+const UnpaidIncome = () => {
 
   const axiosPublic=useAxiosPublic()
   const [title, setTitle] = useState("");
   const [category,setCategory]=useState("")
-  const [price, setPrice] = useState("");
-  const [offerPrice, setOfferPrice] = useState("");
+  const [paidTK, setPaidTK] = useState("");
+  const [unPaidTK, setUnpaidTK] = useState("");
   const [customerName, setCustomerName] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
   const [salesmanName, setSalesmanName] = useState("");
@@ -19,36 +20,36 @@ const DailyIncome = () => {
     const now = new Date();
     const time = now.toLocaleTimeString("en-US", { hour: "2-digit", minute: "2-digit" });
 const date = now.toLocaleDateString("en-US", {
-  weekday: "long",   // শনিবার
-  day: "numeric",    // ৯
-  month: "long",     // আগস্ট
-  year: "numeric"    // ২০২৫
+  weekday: "long",  
+  day: "numeric",    
+  month: "long",     
+  year: "numeric"    
 });
 const dateBD = now.toLocaleDateString("bn-BD", {
-  weekday: "long",   // শনিবার
-  day: "numeric",    // ৯
-  month: "long",     // আগস্ট
-  year: "numeric"    // ২০২৫
+  weekday: "long",   
+  day: "numeric",   
+  month: "long",     
+  year: "numeric"    
 });
 
 
 
 
-  const handleAddIncome = async (e) => {
+  const handleUnpaidIncome = async (e) => {
     e.preventDefault();
 
     const title = e.target.title.value;
-    const price = e.target.price.value;
-    const offerPrice = e.target.offerPrice.value;
+    const paidTK = e.target.paidTK.value;
+    const unPaidTK = e.target.unPaidTK.value;
     const customerName = e.target.customerName.value;
     const phoneNumber = e.target.phoneNumber.value;
     const salesmanName = e.target.salesmanName.value;
 
    
-    const dailyIncomeData = {
+    const unpaidIncomeData = {
       title,
-      price,
-      offerPrice,
+      paidTK,
+      unPaidTK,
       category,
       customerName,
       phoneNumber,
@@ -61,20 +62,20 @@ const dateBD = now.toLocaleDateString("bn-BD", {
 
     
     try {
-      const res = await axiosPublic.post("/dailyIncome", dailyIncomeData);
-      const categoryId = res.data.insertedId
+      const res = await axiosPublic.post("/unPaidIncome", unpaidIncomeData);
+    //   const categoryId = res.data.insertedId
 
-      const categoryData = { categoryName: category, price: offerPrice === 0 ? price : offerPrice, categoryId: categoryId,time,
-      date, }
+    //   const categoryData = { categoryName: category, price: offerPrice === 0 ? price : offerPrice, categoryId: categoryId,time,
+    //   date, }
       
-      await axiosPublic.post('/category',categoryData)
+    //   await axiosPublic.post('/category',categoryData)
 
      if (res.data.insertedId) {
        setTitle("");
 
         setCategory("")
-  setPrice("");
-  setOfferPrice("");
+  setPaidTK("");
+  setUnpaidTK("");
   setCustomerName("");
   setPhoneNumber("");
        setSalesmanName("");
@@ -96,18 +97,24 @@ const dateBD = now.toLocaleDateString("bn-BD", {
   return (
     <div className='pb-5'>
       <Helmet>
-                    <title>স্টাইলম্যান | দৈনিক আয়</title>
+                    <title>স্টাইলম্যান | বকেয়া হিসাব</title>
                 </Helmet>
-      <div className="bg-black text-white p-4 my-5">
-        <h2 className="text-lg font-semibold">দৈনিক আয় এন্ট্রি</h2>
-      </div>
+      <div className="bg-black text-white p-4 my-5 flex items-center justify-between">
+              <h2 className="text-lg font-semibold">বকেয়া হিসাব</h2>
+              <NavLink to={'/all-unpaid-income'}>
+                  <button className='text-sm md:text-lg lg:text-lg text-red-600 underline hover: scale-110 '  >
+                       বকেয়া হিসাবগুলো দেখুন
 
+                  </button>
+                 </NavLink>
+      </div>
+         
       <div className="w-[90%] md:w-[75%] lg:w-[60%] mx-auto p-6 bg-white rounded-md shadow-md">
-        <h4 className='text-white bg-blue-600 p-2 text-sm mb-2 rounded-lg'>
+        <h4 className='text-white bg-red-600 p-2 text-sm mb-2 rounded-lg'>
           <span className='font-semibold'>আজকের তারিখ:</span> ‍{dateBD}
         </h4>
 
-        <form className="space-y-4" onSubmit={handleAddIncome}>
+        <form className="space-y-4" onSubmit={handleUnpaidIncome}>
           {/* Title */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
@@ -151,27 +158,27 @@ const dateBD = now.toLocaleDateString("bn-BD", {
           {/* Price & Offer Price */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
-              <label htmlFor="price" className="block text-sm font-medium text-gray-700 mb-1">
-                দাম (৳) <span className="text-red-600">*</span>
+              <label htmlFor="paidTK" className="block text-sm font-medium text-gray-700 mb-1">
+                নগদ (৳)  <span className="text-red-600">*</span>
               </label>
               <input
                 type="number"
-                id="price"
-                value={price}
-                onChange={(e) => setPrice(e.target.value)}
+                id="paidTK"
+                value={paidTK}
+                onChange={(e) => setPaidTK(e.target.value)}
                 className="w-full px-3 py-2 border border-gray-300 rounded-md"
                 placeholder="0.00 ৳"
               required/>
             </div>
             <div>
-              <label htmlFor="offerPrice" className="block text-sm font-medium text-gray-700 mb-1">
-                ছাড়ের দাম (৳) [ঐচ্ছিক]
+              <label htmlFor="unPaidTK" className="block text-sm font-medium text-gray-700 mb-1">
+                বকেয়া (৳)   <span className="text-red-600">*</span>
               </label>
               <input
                 type="number"
-                id="offerPrice"
-                value={offerPrice}
-                onChange={(e) => setOfferPrice(e.target.value)}
+                id="unPaidTK"
+                value={unPaidTK}
+                onChange={(e) => setUnpaidTK(e.target.value)}
                 className="w-full px-3 py-2 border border-gray-300 rounded-md"
                 placeholder="0.00 ৳"
               />
@@ -227,7 +234,7 @@ const dateBD = now.toLocaleDateString("bn-BD", {
             type="submit"
             className="w-full bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700 transition flex items-center justify-center gap-1"
           >
-            <FaPlus className='text-sm' /> আয় যোগ করুন
+            <FaPlus className='text-sm' /> বকেয়া যোগ করুন
           </button>
         </form>
       </div>
@@ -235,4 +242,4 @@ const dateBD = now.toLocaleDateString("bn-BD", {
   );
 };
 
-export default DailyIncome;
+export default UnpaidIncome;
