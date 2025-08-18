@@ -15,7 +15,7 @@ const CategoryGraph = () => {
     }
   });
 
-    console.log(categories)
+    
     
   // ক্যাটাগরি অনুযায়ী count এবং total price বের করা
   const categoryStats = categories.reduce((acc, curr) => {

@@ -11,6 +11,9 @@ import UpdatedIncome from "../../components/UpdatedIncome";
 import UpdatedExpense from "../../components/UpdatedExpense";
 import UnpaidIncome from "../../Pages/UnpaidIncome";
 import AllUnpaidIncome from "../../Pages/AllUnpaidIncome";
+import PrivateRoute from "../PrivateRoute";
+import Register from "../../Pages/Register";
+import Login from "../../Pages/Login";
 
 
 
@@ -20,45 +23,55 @@ import AllUnpaidIncome from "../../Pages/AllUnpaidIncome";
 export const router = createBrowserRouter([
     {
         path: "/",
-        element: <MainLayout></MainLayout>,
+        element:
+            <MainLayout></MainLayout>
+      ,
         errorElement: <ErrorPage></ErrorPage>,
         children: [
             {
                 path: '/',
-                element: <Dashboard></Dashboard>
+                element: <PrivateRoute><Dashboard></Dashboard></PrivateRoute> 
             },
             {
                 path: '/dailyIncome',
-                element: <DailyIncome></DailyIncome>
+                element:  <PrivateRoute><DailyIncome></DailyIncome></PrivateRoute> 
             },
             {
                 path: '/dailyExpense',
-                element: <DailyExpense></DailyExpense>
+                element:     <PrivateRoute> <DailyExpense></DailyExpense> </PrivateRoute> 
             },
             {
                 path: '/monthlyIncome',
-                element: <MonthlyIncome></MonthlyIncome>
+                element: <PrivateRoute> <MonthlyIncome></MonthlyIncome> </PrivateRoute>
             },
             {
                 path: '/monthlyExpense',
-                element: <MonthlyExpense></MonthlyExpense>
+                element: <PrivateRoute><MonthlyExpense></MonthlyExpense> </PrivateRoute>
             },
             {
                 path: '/updatedIncome/:id',
-                element: <UpdatedIncome></UpdatedIncome>
+                element: <PrivateRoute><UpdatedIncome></UpdatedIncome></PrivateRoute> 
             },
             {
                 path: '/update-expense/:id',
-                element: <UpdatedExpense></UpdatedExpense>
+                element: <PrivateRoute><UpdatedExpense></UpdatedExpense></PrivateRoute> 
             },
             {
                 path: "/un-paid-income",
-                element: <UnpaidIncome></UnpaidIncome>
+                element:<PrivateRoute><UnpaidIncome></UnpaidIncome></PrivateRoute> 
             },
             {
                 path: "/all-unpaid-income",
-                element: <AllUnpaidIncome></AllUnpaidIncome>
-            }
+                element:<PrivateRoute> <AllUnpaidIncome></AllUnpaidIncome></PrivateRoute>
+            },
+            {
+                path: "/login",
+                element: <Login></Login>
+            },
+            // {
+            //     path: "/register",
+            //     element: <Register></Register>
+            // },
           
 
         ]

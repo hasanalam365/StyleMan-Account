@@ -9,10 +9,14 @@ import { ScaleLoader } from "react-spinners";
 import RecentIncomeData from "../components/RecentIncomeData";
 import RecentExpenseData from "../components/RecentExpenseData";
 import CategoryGraph from "../components/CategoryGraph";
+import useAuth from "../hooks/useAuth";
 
 const Dashboard = () => {
   const axiosPublic = useAxiosPublic();
+   const { user } = useAuth()
 
+
+  
   // ⏳ Time & Date real-time update state
   const [time, setTime] = useState("");
   const [date, setDate] = useState("");
@@ -86,6 +90,8 @@ const Dashboard = () => {
     refetchInterval: 60 * 1000,
   });
 
+  
+
   if (isLoading)
     return (
       <p className="flex justify-center items-center h-screen">
@@ -125,6 +131,8 @@ const Dashboard = () => {
     const key = `${year}-${month}`;
     return monthlyExpense[key] || 0;
   });
+
+  console.log(expenseData)
 
   return (
     <div>
