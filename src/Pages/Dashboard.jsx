@@ -89,6 +89,7 @@ const Dashboard = () => {
     },
     refetchInterval: 60 * 1000,
   });
+//  const expenseAmount = Object.values(responseExpense?.monthlyExpense || {})[0];
 
   
 
@@ -124,15 +125,17 @@ const Dashboard = () => {
     return monthlyIncome[key] || 0;
   });
 
-  // monthlyExpense থেকে ডেটা সাজানো
-  const monthlyExpense = responseExpense?.monthlyExpense || {};
-  const expenseData = months.map((month) => {
-    const year = new Date().getFullYear();
-    const key = `${year}-${month}`;
-    return monthlyExpense[key] || 0;
-  });
+ const monthlyExpense = responseExpense?.monthlyExpense || {};
 
-  console.log(expenseData)
+const expenseData = months.map((month) => {
+  const year = new Date().getFullYear();
+  const key = `${year}-${month}`;
+  return monthlyExpense[key] || 0;
+});
+
+
+
+ 
 
   return (
     <div>
