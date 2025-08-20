@@ -14,6 +14,7 @@ import AllUnpaidIncome from "../../Pages/AllUnpaidIncome";
 import PrivateRoute from "../PrivateRoute";
 import Register from "../../Pages/Register";
 import Login from "../../Pages/Login";
+import UpdateUnpaid from "../../components/UpdateUnpaid";
 
 
 
@@ -72,6 +73,10 @@ export const router = createBrowserRouter([
             //     path: "/register",
             //     element: <Register></Register>
             // },
+            {
+                path: '/unPaid-Update/:id',
+                element: <UpdateUnpaid></UpdateUnpaid>
+            }
           
 
         ]

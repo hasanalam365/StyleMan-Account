@@ -65,7 +65,7 @@ const dateBD = now.toLocaleDateString("bn-BD", {
       const categoryId = res.data.insertedId
 
       const categoryData = { categoryName: category, price: offerPrice === 0 ? price : offerPrice, categoryId: categoryId,time,
-      date, }
+      date }
       
       await axiosPublic.post('/category',categoryData)
 
