@@ -9,22 +9,16 @@ const DailyIncome = () => {
 
   // form states
   const [title, setTitle] = useState("");
-  const [categories, setCategories] = useState([]); // multiple categories
-  const [price, setPrice] = useState("");
-  const [offerPrice, setOfferPrice] = useState("");
+  const [categories, setCategories] = useState([]); // {name, price}
+  const [currentPrice, setCurrentPrice] = useState("");
+  const [selectedCategory, setSelectedCategory] = useState("");
   const [customerName, setCustomerName] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
   const [salesmanName, setSalesmanName] = useState("");
+  const [totalPrice, setTotalPrice] = useState(0);
 
   // সময় ও তারিখ
   const now = new Date();
-  const time = now.toLocaleTimeString("en-US", { hour: "2-digit", minute: "2-digit" });
-  const date = now.toLocaleDateString("en-US", {
-    weekday: "long",
-    day: "numeric",
-    month: "long",
-    year: "numeric"
-  });
   const dateBD = now.toLocaleDateString("bn-BD", {
     weekday: "long",
     day: "numeric",
@@ -33,51 +27,69 @@ const DailyIncome = () => {
   });
 
   // category add
-  const handleCategoryChange = (e) => {
-    const value = e.target.value;
-    if (value && !categories.includes(value)) {
-      setCategories([...categories, value]);
+  const handleAddCategory = () => {
+    if (!selectedCategory) return;
+    if (!currentPrice) {
+      toast.error("প্রথমে প্রাইস লিখুন");
+      return;
     }
+
+    const newCategory = { name: selectedCategory, price: Number(currentPrice) };
+    setCategories([...categories, newCategory]);
+
+    // update total price
+    setTotalPrice(prev => prev + Number(currentPrice));
+
+    // reset
+    setSelectedCategory("");
+    setCurrentPrice("");
   };
 
   // category remove
-  const removeCategory = (cat) => {
-    setCategories(categories.filter((c) => c !== cat));
+  const removeCategory = (index) => {
+    const removed = categories[index];
+    setTotalPrice(prev => prev - removed.price);
+    setCategories(categories.filter((_, i) => i !== index));
   };
 
   // submit
   const handleAddIncome = async (e) => {
     e.preventDefault();
 
+    if (categories.length === 0) {
+      toast.error("কমপক্ষে একটি category যোগ করুন");
+      return;
+    }
+
     const dailyIncomeData = {
       title,
-      price,
-      offerPrice,
-      categories, // multiple category array
+      categories, // [{name, price}]
+      totalPrice,
       customerName,
       phoneNumber,
       salesmanName,
-      time,
-      date,
+      date: dateBD,
     };
 
     try {
       const res = await axiosPublic.post("/dailyIncome", dailyIncomeData);
 
       if (res.data.insertedId) {
+        // reset all
         setTitle("");
         setCategories([]);
-        setPrice("");
-        setOfferPrice("");
+        setCurrentPrice("");
+        setSelectedCategory("");
         setCustomerName("");
         setPhoneNumber("");
         setSalesmanName("");
+        setTotalPrice(0);
 
-        toast("আপনার হিসাবটি সঠিকভাবে এন্ট্রি হয়েছে ✅");
+        toast.success("আপনার হিসাবটি সঠিকভাবে এন্ট্রি হয়েছে ✅");
       }
     } catch (error) {
       console.error("Error adding income:", error);
-      alert("কিছু ভুল হয়েছে, আবার চেষ্টা করুন");
+      toast.error("কিছু ভুল হয়েছে, আবার চেষ্টা করুন");
     }
   };
 
@@ -86,6 +98,7 @@ const DailyIncome = () => {
       <Helmet>
         <title>স্টাইলম্যান | দৈনিক আয়</title>
       </Helmet>
+
       <div className="bg-black text-white p-4 my-5">
         <h2 className="text-lg font-semibold">দৈনিক আয় এন্ট্রি</h2>
       </div>
@@ -112,36 +125,61 @@ const DailyIncome = () => {
             />
           </div>
 
-          {/* Category Multiple */}
+          {/* Price input */}
+          <div>
+            <label htmlFor="price" className="block text-sm font-medium text-gray-700 mb-1">
+              দাম (৳) <span className="text-red-600">*</span>
+            </label>
+            <input
+              type="number"
+              id="price"
+              value={currentPrice}
+              onChange={(e) => setCurrentPrice(e.target.value)}
+              className="w-full px-3 py-2 border border-gray-300 rounded-md"
+              placeholder="প্রতিটি category এর দাম"
+            />
+          </div>
+
+          {/* Category select */}
           <div>
             <label htmlFor="category" className="block text-sm font-medium text-gray-700 mb-1">
               ক্যাটাগরি (একাধিক যোগ করতে পারবেন) <span className="text-red-600">*</span>
             </label>
-            <select
-              id="category"
-              onChange={handleCategoryChange}
-              className="w-full px-3 py-2 border border-gray-300 rounded-md"
-            >
-              <option value="">-- ক্যাটাগরি নির্বাচন করুন --</option>
-              <option value="শার্ট">শার্ট</option>
-              <option value="টি-শার্ট">টি-শার্ট</option>
-              <option value="প্যান্ট">প্যান্ট</option>
-              <option value="পাঞ্জাবী">পাঞ্জাবী</option>
-              <option value="শীতবস্ত্র">শীতবস্ত্র</option>
-              <option value="অন্যান্য">অন্যান্য</option>
-            </select>
+            <div className="flex gap-2">
+              <select
+                id="category"
+                value={selectedCategory}
+                onChange={(e) => setSelectedCategory(e.target.value)}
+                className="w-full px-3 py-2 border border-gray-300 rounded-md"
+              >
+                <option value="">-- ক্যাটাগরি নির্বাচন করুন --</option>
+                <option value="শার্ট">শার্ট</option>
+                <option value="টি-শার্ট">টি-শার্ট</option>
+                <option value="প্যান্ট">প্যান্ট</option>
+                <option value="পাঞ্জাবী">পাঞ্জাবী</option>
+                <option value="শীতবস্ত্র">শীতবস্ত্র</option>
+                <option value="অন্যান্য">অন্যান্য</option>
+              </select>
+              <button
+                type="button"
+                onClick={handleAddCategory}
+                className="bg-green-500 text-white px-3 rounded-md"
+              >
+                যোগ করুন
+              </button>
+            </div>
 
-            {/* Selected category list */}
+            {/* Selected categories with price */}
             <div className="flex flex-wrap gap-2 mt-2">
               {categories.map((cat, idx) => (
                 <span
                   key={idx}
                   className="bg-blue-100 text-blue-700 px-2 py-1 rounded flex items-center gap-1"
                 >
-                  {cat}
+                  {cat.name}: {cat.price}
                   <button
                     type="button"
-                    onClick={() => removeCategory(cat)}
+                    onClick={() => removeCategory(idx)}
                     className="text-red-500 font-bold"
                   >
                     ×
@@ -151,38 +189,7 @@ const DailyIncome = () => {
             </div>
           </div>
 
-          {/* Price & Offer Price */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div>
-              <label htmlFor="price" className="block text-sm font-medium text-gray-700 mb-1">
-                দাম (৳) <span className="text-red-600">*</span>
-              </label>
-              <input
-                type="number"
-                id="price"
-                value={price}
-                onChange={(e) => setPrice(e.target.value)}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md"
-                placeholder="0.00 ৳"
-                required
-              />
-            </div>
-            <div>
-              <label htmlFor="offerPrice" className="block text-sm font-medium text-gray-700 mb-1">
-                ছাড়ের দাম (৳) [ঐচ্ছিক]
-              </label>
-              <input
-                type="number"
-                id="offerPrice"
-                value={offerPrice}
-                onChange={(e) => setOfferPrice(e.target.value)}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md"
-                placeholder="0.00 ৳"
-              />
-            </div>
-          </div>
-
-          {/* Customer Name & Phone Number */}
+          {/* Customer Name & Phone */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
               <label htmlFor="customerName" className="block text-sm font-medium text-gray-700 mb-1">
@@ -229,6 +236,8 @@ const DailyIncome = () => {
               required
             />
           </div>
+
+          <div className="text-right font-semibold">মোট দাম: {totalPrice} ৳</div>
 
           <button
             type="submit"
