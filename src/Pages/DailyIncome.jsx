@@ -5,51 +5,55 @@ import { toast } from 'react-toastify';
 import { Helmet } from "react-helmet-async";
 
 const DailyIncome = () => {
+  const axiosPublic = useAxiosPublic();
 
-  const axiosPublic=useAxiosPublic()
+  // form states
   const [title, setTitle] = useState("");
-  const [category,setCategory]=useState("")
+  const [categories, setCategories] = useState([]); // multiple categories
   const [price, setPrice] = useState("");
   const [offerPrice, setOfferPrice] = useState("");
   const [customerName, setCustomerName] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
   const [salesmanName, setSalesmanName] = useState("");
 
-  //  // সময় ও তারিখ (বাংলায়)
-    const now = new Date();
-    const time = now.toLocaleTimeString("en-US", { hour: "2-digit", minute: "2-digit" });
-const date = now.toLocaleDateString("en-US", {
-  weekday: "long",   // শনিবার
-  day: "numeric",    // ৯
-  month: "long",     // আগস্ট
-  year: "numeric"    // ২০২৫
-});
-const dateBD = now.toLocaleDateString("bn-BD", {
-  weekday: "long",   // শনিবার
-  day: "numeric",    // ৯
-  month: "long",     // আগস্ট
-  year: "numeric"    // ২০২৫
-});
+  // সময় ও তারিখ
+  const now = new Date();
+  const time = now.toLocaleTimeString("en-US", { hour: "2-digit", minute: "2-digit" });
+  const date = now.toLocaleDateString("en-US", {
+    weekday: "long",
+    day: "numeric",
+    month: "long",
+    year: "numeric"
+  });
+  const dateBD = now.toLocaleDateString("bn-BD", {
+    weekday: "long",
+    day: "numeric",
+    month: "long",
+    year: "numeric"
+  });
 
+  // category add
+  const handleCategoryChange = (e) => {
+    const value = e.target.value;
+    if (value && !categories.includes(value)) {
+      setCategories([...categories, value]);
+    }
+  };
 
+  // category remove
+  const removeCategory = (cat) => {
+    setCategories(categories.filter((c) => c !== cat));
+  };
 
-
+  // submit
   const handleAddIncome = async (e) => {
     e.preventDefault();
 
-    const title = e.target.title.value;
-    const price = e.target.price.value;
-    const offerPrice = e.target.offerPrice.value;
-    const customerName = e.target.customerName.value;
-    const phoneNumber = e.target.phoneNumber.value;
-    const salesmanName = e.target.salesmanName.value;
-
-   
     const dailyIncomeData = {
       title,
       price,
       offerPrice,
-      category,
+      categories, // multiple category array
       customerName,
       phoneNumber,
       salesmanName,
@@ -57,61 +61,44 @@ const dateBD = now.toLocaleDateString("bn-BD", {
       date,
     };
 
-    
-
-    
     try {
       const res = await axiosPublic.post("/dailyIncome", dailyIncomeData);
-      const categoryId = res.data.insertedId
 
-      const categoryData = { categoryName: category, price: offerPrice === 0 ? price : offerPrice, categoryId: categoryId,time,
-      date }
-      
-      await axiosPublic.post('/category',categoryData)
+      if (res.data.insertedId) {
+        setTitle("");
+        setCategories([]);
+        setPrice("");
+        setOfferPrice("");
+        setCustomerName("");
+        setPhoneNumber("");
+        setSalesmanName("");
 
-     if (res.data.insertedId) {
-       setTitle("");
-
-        setCategory("")
-  setPrice("");
-  setOfferPrice("");
-  setCustomerName("");
-  setPhoneNumber("");
-       setSalesmanName("");
-   
-       toast("আপনার হিসাবটি সঠিক ভাবে এন্ট্রি হয়েছে");
-    
-
-}
-      
-     
+        toast("আপনার হিসাবটি সঠিকভাবে এন্ট্রি হয়েছে ✅");
+      }
     } catch (error) {
       console.error("Error adding income:", error);
       alert("কিছু ভুল হয়েছে, আবার চেষ্টা করুন");
     }
   };
 
-
-
   return (
-    <div className='pb-5'>
+    <div className="pb-5">
       <Helmet>
-                    <title>স্টাইলম্যান | দৈনিক আয়</title>
-                </Helmet>
+        <title>স্টাইলম্যান | দৈনিক আয়</title>
+      </Helmet>
       <div className="bg-black text-white p-4 my-5">
         <h2 className="text-lg font-semibold">দৈনিক আয় এন্ট্রি</h2>
       </div>
 
       <div className="w-[90%] md:w-[75%] lg:w-[60%] mx-auto p-6 bg-white rounded-md shadow-md">
-        <h4 className='text-white bg-blue-600 p-2 text-sm mb-2 rounded-lg'>
-          <span className='font-semibold'>আজকের তারিখ:</span> ‍{dateBD}
+        <h4 className="text-white bg-blue-600 p-2 text-sm mb-2 rounded-lg">
+          <span className="font-semibold">আজকের তারিখ:</span> ‍{dateBD}
         </h4>
 
         <form className="space-y-4" onSubmit={handleAddIncome}>
           {/* Title */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div>
-                  <label htmlFor="title" className="block text-sm font-medium text-gray-700 mb-1">
+          <div>
+            <label htmlFor="title" className="block text-sm font-medium text-gray-700 mb-1">
               শিরোনাম <span className="text-red-600">*</span>
             </label>
             <input
@@ -121,20 +108,19 @@ const dateBD = now.toLocaleDateString("bn-BD", {
               onChange={(e) => setTitle(e.target.value)}
               className="w-full px-3 py-2 border border-gray-300 rounded-md"
               placeholder="পণ্যের বা সেবার নাম"
-              required />
-            
-        </div>
+              required
+            />
+          </div>
 
-            <div>
+          {/* Category Multiple */}
+          <div>
             <label htmlFor="category" className="block text-sm font-medium text-gray-700 mb-1">
-              ক্যাটাগরি <span className="text-red-600">*</span>
+              ক্যাটাগরি (একাধিক যোগ করতে পারবেন) <span className="text-red-600">*</span>
             </label>
             <select
               id="category"
-              value={category}
-              onChange={(e) => setCategory(e.target.value)}
+              onChange={handleCategoryChange}
               className="w-full px-3 py-2 border border-gray-300 rounded-md"
-              required
             >
               <option value="">-- ক্যাটাগরি নির্বাচন করুন --</option>
               <option value="শার্ট">শার্ট</option>
@@ -144,10 +130,27 @@ const dateBD = now.toLocaleDateString("bn-BD", {
               <option value="শীতবস্ত্র">শীতবস্ত্র</option>
               <option value="অন্যান্য">অন্যান্য</option>
             </select>
+
+            {/* Selected category list */}
+            <div className="flex flex-wrap gap-2 mt-2">
+              {categories.map((cat, idx) => (
+                <span
+                  key={idx}
+                  className="bg-blue-100 text-blue-700 px-2 py-1 rounded flex items-center gap-1"
+                >
+                  {cat}
+                  <button
+                    type="button"
+                    onClick={() => removeCategory(cat)}
+                    className="text-red-500 font-bold"
+                  >
+                    ×
+                  </button>
+                </span>
+              ))}
+            </div>
           </div>
-          </div>
-{/* Category */}
-          
+
           {/* Price & Offer Price */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
@@ -161,7 +164,8 @@ const dateBD = now.toLocaleDateString("bn-BD", {
                 onChange={(e) => setPrice(e.target.value)}
                 className="w-full px-3 py-2 border border-gray-300 rounded-md"
                 placeholder="0.00 ৳"
-              required/>
+                required
+              />
             </div>
             <div>
               <label htmlFor="offerPrice" className="block text-sm font-medium text-gray-700 mb-1">
@@ -191,7 +195,8 @@ const dateBD = now.toLocaleDateString("bn-BD", {
                 onChange={(e) => setCustomerName(e.target.value)}
                 className="w-full px-3 py-2 border border-gray-300 rounded-md"
                 placeholder="ক্রেতার নাম"
-              required/>
+                required
+              />
             </div>
             <div>
               <label htmlFor="phoneNumber" className="block text-sm font-medium text-gray-700 mb-1">
@@ -204,7 +209,8 @@ const dateBD = now.toLocaleDateString("bn-BD", {
                 onChange={(e) => setPhoneNumber(e.target.value)}
                 className="w-full px-3 py-2 border border-gray-300 rounded-md"
                 placeholder="+৮৮ ০১২ ৩৪৫৬ ৭৮৯০"
-              required/>
+                required
+              />
             </div>
           </div>
 
@@ -220,14 +226,15 @@ const dateBD = now.toLocaleDateString("bn-BD", {
               onChange={(e) => setSalesmanName(e.target.value)}
               className="w-full px-3 py-2 border border-gray-300 rounded-md"
               placeholder="হিসাবকারীর নাম"
-            required/>
+              required
+            />
           </div>
 
           <button
             type="submit"
             className="w-full bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700 transition flex items-center justify-center gap-1"
           >
-            <FaPlus className='text-sm' /> আয় যোগ করুন
+            <FaPlus className="text-sm" /> আয় যোগ করুন
           </button>
         </form>
       </div>
