@@ -71,10 +71,19 @@ const DailyIncome = () => {
       time:time
     };
 
+
+   
+
     try {
       const res = await axiosPublic.post("/dailyIncome", dailyIncomeData);
 
+      
+
       if (res.data.insertedId) {
+        const catData = { categories, date, time, catId: res.data.insertedId }
+        await axiosPublic.post("/categories", catData);
+        
+        
         // reset all
         setTitle("");
         setCategories([]);
