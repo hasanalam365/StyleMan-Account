@@ -123,12 +123,9 @@ const RecentIncomeData = () => {
                       <div>
                        
                         <div className=""> {data?.title}</div>
-                        <div className='text-green-600'>
-                           ৳  {Number(data.offerPrice) === 0
-                      ? Number(data.price).toLocaleString("bn-BD")
-                      : Number(data.offerPrice).toLocaleString("bn-BD")
-                    }
-                      </div>
+                       <div className='text-green-600'>
+  ৳ {data?.totalPrice?.toLocaleString("bn-BD")}
+</div>
                       </div>
                     </div>
                   </td>

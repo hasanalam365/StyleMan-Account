@@ -1,43 +1,33 @@
-import { useQuery } from '@tanstack/react-query';
-import React, { useEffect, useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import useAxiosPublic from '../hooks/useAxiosPublic';
 import { FaPlus } from 'react-icons/fa';
 import { toast } from 'react-toastify';
 import { Helmet } from "react-helmet-async";
+import { useQuery } from '@tanstack/react-query';
 
 const UpdatedIncome = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const axiosPublic = useAxiosPublic();
 
-  // States for form inputs
+  // form states
   const [title, setTitle] = useState("");
-  const [categories, setCategories] = useState([]);
+  const [categories, setCategories] = useState([]); // {name, price}
+  const [currentPrice, setCurrentPrice] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("");
-  const [price, setPrice] = useState("");
-  const [offerPrice, setOfferPrice] = useState("");
   const [customerName, setCustomerName] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
   const [salesmanName, setSalesmanName] = useState("");
+  const [totalPrice, setTotalPrice] = useState(0);
 
   const now = new Date();
+  const dateBD = now.toLocaleDateString("bn-BD", { weekday: "long", day: "numeric", month: "long", year: "numeric" });
+  const date = now.toLocaleDateString("en-US", { weekday: "long", day: "numeric", month: "long", year: "numeric" });
   const time = now.toLocaleTimeString("en-US", { hour: "2-digit", minute: "2-digit" });
-  const date = now.toLocaleDateString("en-US", {
-    weekday: "long",
-    day: "numeric",
-    month: "long",
-    year: "numeric"
-  });
-  const dateBD = now.toLocaleDateString("bn-BD", {
-    weekday: "long",
-    day: "numeric",
-    month: "long",
-    year: "numeric"
-  });
 
-  // Fetch existing income data
-  const { data: incomeData = [] } = useQuery({
+  // fetch existing income
+  const { data: incomeData = {} } = useQuery({
     queryKey: ['updated-income', id],
     queryFn: async () => {
       const res = await axiosPublic.get(`/income-data/${id}`);
@@ -45,49 +35,63 @@ const UpdatedIncome = () => {
     },
   });
 
-  // Pre-fill form fields when data is loaded
+  // pre-fill form when data loaded
   useEffect(() => {
-    if (incomeData) {
+    if (incomeData && Object.keys(incomeData).length > 0) {
       setTitle(incomeData.title || "");
-      setCategories(incomeData.categories || []); // multiple category
-      setPrice(incomeData.price || "");
-      setOfferPrice(incomeData.offerPrice || "");
+      setCategories(incomeData.categories || []);
+      setTotalPrice(incomeData.totalPrice || 0);
       setCustomerName(incomeData.customerName || "");
       setPhoneNumber(incomeData.phoneNumber || "");
       setSalesmanName(incomeData.salesmanName || "");
     }
   }, [incomeData]);
 
-  // Add & Remove category
+  // Add category with price
   const handleAddCategory = () => {
-    if (selectedCategory && !categories.includes(selectedCategory)) {
-      setCategories([...categories, selectedCategory]);
-      setSelectedCategory("");
+    if (!selectedCategory) return;
+    if (!currentPrice) {
+      toast.error("প্রথমে প্রাইস লিখুন");
+      return;
     }
+
+    const newCategory = { name: selectedCategory, price: Number(currentPrice) };
+    setCategories([...categories, newCategory]);
+    setTotalPrice(prev => prev + Number(currentPrice));
+
+    setSelectedCategory("");
+    setCurrentPrice("");
   };
 
-  const handleRemoveCategory = (cat) => {
-    setCategories(categories.filter(c => c !== cat));
+  // remove category
+  const removeCategory = (index) => {
+    const removed = categories[index];
+    setTotalPrice(prev => prev - removed.price);
+    setCategories(categories.filter((_, i) => i !== index));
   };
 
-  // Update function
+  // Update income
   const handleUpdateIncome = async (e) => {
     e.preventDefault();
+    if (categories.length === 0) {
+      toast.error("কমপক্ষে একটি category যোগ করুন");
+      return;
+    }
 
     const updatedData = {
       title,
-      categories, 
-      price,
-      offerPrice,
+      categories,
+      totalPrice,
       customerName,
       phoneNumber,
       salesmanName,
+      date,
+      time,
     };
 
     try {
       const res = await axiosPublic.put(`/income-data-update/${id}`, updatedData);
       if (res.data.modifiedCount > 0 || res.data.success) {
-        await axiosPublic.put(`/update-category/${id}`, { categories, price: offerPrice == 0 ? price : offerPrice, time, date });
         toast.success("আয় তথ্য সফলভাবে সংশোধন হয়েছে");
         navigate("/monthlyIncome");
       } else {
@@ -100,7 +104,7 @@ const UpdatedIncome = () => {
   };
 
   return (
-    <div className='pb-5'>
+    <div className="pb-5">
       <Helmet>
         <title>স্টাইলম্যান | সংশোধন দৈনিক আয়</title>
       </Helmet>
@@ -110,8 +114,8 @@ const UpdatedIncome = () => {
       </div>
 
       <div className="w-[90%] md:w-[75%] lg:w-[60%] mx-auto p-6 bg-white rounded-md shadow-md">
-        <h4 className='text-white bg-blue-600 p-2 text-sm mb-2 rounded-lg'>
-          <span className='font-semibold'>আজকের তারিখ:</span> ‍{dateBD}
+        <h4 className="text-white bg-blue-600 p-2 text-sm mb-2 rounded-lg">
+          <span className="font-semibold">আজকের তারিখ:</span> ‍{dateBD}
         </h4>
 
         <form className="space-y-4" onSubmit={handleUpdateIncome}>
@@ -131,10 +135,25 @@ const UpdatedIncome = () => {
             />
           </div>
 
-          {/* Category */}
+          {/* Price input */}
+          <div>
+            <label htmlFor="price" className="block text-sm font-medium text-gray-700 mb-1">
+              দাম (৳) <span className="text-red-600">*</span>
+            </label>
+            <input
+              type="number"
+              id="price"
+              value={currentPrice}
+              onChange={(e) => setCurrentPrice(e.target.value)}
+              className="w-full px-3 py-2 border border-gray-300 rounded-md"
+              placeholder="প্রতিটি ক্যাটাগরি এর দাম"
+            />
+          </div>
+
+          {/* Category select */}
           <div>
             <label htmlFor="category" className="block text-sm font-medium text-gray-700 mb-1">
-              ক্যাটাগরি <span className="text-red-600">*</span>
+              ক্যাটাগরি (একাধিক যোগ করতে পারবেন) <span className="text-red-600">*</span>
             </label>
             <div className="flex gap-2">
               <select
@@ -151,58 +170,32 @@ const UpdatedIncome = () => {
                 <option value="শীতবস্ত্র">শীতবস্ত্র</option>
                 <option value="অন্যান্য">অন্যান্য</option>
               </select>
-              <button type="button" onClick={handleAddCategory} className="bg-green-500 text-white px-3 rounded-md">
+              <button
+                type="button"
+                onClick={handleAddCategory}
+                className="bg-green-500 text-white px-3 rounded-md text-sm"
+              >
                 যোগ করুন
               </button>
             </div>
 
+            {/* Selected categories with price */}
             <div className="flex flex-wrap gap-2 mt-2">
-              {categories.map((cat, index) => (
+              {categories.map((cat, idx) => (
                 <span
-                  key={index}
-                  className="bg-blue-100 text-blue-700 px-3 py-1 rounded-full flex items-center gap-2"
+                  key={idx}
+                  className="bg-blue-100 text-blue-700 px-2 py-1 rounded flex items-center gap-1"
                 >
-                  {cat}
+                  {cat.name}: {cat.price}
                   <button
                     type="button"
-                    onClick={() => handleRemoveCategory(cat)}
-                    className="text-red-500 hover:text-red-700"
+                    onClick={() => removeCategory(idx)}
+                    className="text-red-500 font-bold"
                   >
-                    ✕
+                    ×
                   </button>
                 </span>
               ))}
-            </div>
-          </div>
-
-          {/* Price & Offer Price */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div>
-              <label htmlFor="price" className="block text-sm font-medium text-gray-700 mb-1">
-                দাম (৳) <span className="text-red-600">*</span>
-              </label>
-              <input
-                type="number"
-                id="price"
-                value={price}
-                onChange={(e) => setPrice(e.target.value)}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md"
-                placeholder="0.00 ৳"
-                required
-              />
-            </div>
-            <div>
-              <label htmlFor="offerPrice" className="block text-sm font-medium text-gray-700 mb-1">
-                ছাড়ের দাম (৳) [ঐচ্ছিক]
-              </label>
-              <input
-                type="number"
-                id="offerPrice"
-                value={offerPrice}
-                onChange={(e) => setOfferPrice(e.target.value)}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md"
-                placeholder="0.00 ৳"
-              />
             </div>
           </div>
 
@@ -253,6 +246,8 @@ const UpdatedIncome = () => {
               required
             />
           </div>
+
+          <div className="text-right font-semibold">মোট দাম: {totalPrice} ৳</div>
 
           <button
             type="submit"

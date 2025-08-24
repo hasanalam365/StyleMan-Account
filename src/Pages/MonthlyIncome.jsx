@@ -63,10 +63,7 @@ const MonthlyIncome = () => {
 
   // Calculate total monthly income safely
   const monthlyIncome = (dailyIncomes || []).reduce((total, dailyIncome) => {
-    const amount = Number(
-      Number(dailyIncome.offerPrice) === 0
-        ? dailyIncome.price
-        : dailyIncome.offerPrice
+    const amount = Number(dailyIncome.totalPrice
     );
     return total + amount;
   }, 0);
@@ -290,12 +287,10 @@ const MonthlyIncome = () => {
                       <div>
                        
                         <div className=""> {dailyIncome?.title}</div>
-                        <div className='text-green-600'>
-                           ৳  {Number(dailyIncome.offerPrice) === 0
-                      ? Number(dailyIncome.price).toLocaleString("bn-BD")
-                      : Number(dailyIncome.offerPrice).toLocaleString("bn-BD")
-                    }
-                      </div>
+                       <div className='text-green-600'>
+  ৳ {dailyIncome?.totalPrice?.toLocaleString("bn-BD")}
+</div>
+
                       </div>
                     </div>
                   </td>

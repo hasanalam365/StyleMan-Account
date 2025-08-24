@@ -17,14 +17,13 @@ const DailyIncome = () => {
   const [salesmanName, setSalesmanName] = useState("");
   const [totalPrice, setTotalPrice] = useState(0);
 
-  // সময় ও তারিখ
+  
+// সময় ও তারিখ 
   const now = new Date();
-  const dateBD = now.toLocaleDateString("bn-BD", {
-    weekday: "long",
-    day: "numeric",
-    month: "long",
-    year: "numeric"
-  });
+  const time = now.toLocaleTimeString("en-US", { hour: "2-digit", minute: "2-digit" });
+  const date = now.toLocaleDateString("en-US", { weekday: "long", day: "numeric", month: "long", year: "numeric" });
+  
+  const dateBD = now.toLocaleDateString("bn-BD", { weekday: "long", day: "numeric", month: "long", year: "numeric" });
 
   // category add
   const handleAddCategory = () => {
@@ -63,12 +62,13 @@ const DailyIncome = () => {
 
     const dailyIncomeData = {
       title,
-      categories, // [{name, price}]
+      categories, 
       totalPrice,
       customerName,
       phoneNumber,
       salesmanName,
-      date: dateBD,
+      date: date,
+      time:time
     };
 
     try {
@@ -136,7 +136,7 @@ const DailyIncome = () => {
               value={currentPrice}
               onChange={(e) => setCurrentPrice(e.target.value)}
               className="w-full px-3 py-2 border border-gray-300 rounded-md"
-              placeholder="প্রতিটি category এর দাম"
+              placeholder="প্রতিটি ক্যাটাগরি এর দাম"
             />
           </div>
 
@@ -163,7 +163,7 @@ const DailyIncome = () => {
               <button
                 type="button"
                 onClick={handleAddCategory}
-                className="bg-green-500 text-white px-3 rounded-md"
+                className="bg-green-500 text-white px-3 rounded-md text-sm"
               >
                 যোগ করুন
               </button>
