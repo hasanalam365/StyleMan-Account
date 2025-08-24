@@ -61,14 +61,20 @@ const MonthlyIncome = () => {
     keepPreviousData: true,
   });
 
-  // Calculate total monthly income safely
-  const monthlyIncome = (dailyIncomes || []).reduce((total, dailyIncome) => {
-    const amount = Number(dailyIncome.totalPrice
-    );
-    return total + amount;
-  }, 0);
+console.log(dailyIncomes)
 
-  const monthlyIncomeBN = monthlyIncome.toLocaleString("bn-BD");
+ // Calculate total monthly income safely
+const monthlyIncome = (dailyIncomes || []).reduce((total, dailyIncome) => {
+  // ensure totalPrice number হিসেবে আছে
+  const amount = Number(dailyIncome.totalPrice) || 0;
+  return total + amount;
+}, 0);
+
+// Convert to Bangla locale string
+const monthlyIncomeBN = monthlyIncome.toLocaleString('bn-BD');
+
+console.log("মোট মাসিক আয়:", monthlyIncomeBN);
+
 
   // Pagination calculation
   const indexOfLastItem = currentPage * itemsPerPage;
