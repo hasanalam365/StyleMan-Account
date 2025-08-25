@@ -25,6 +25,17 @@ const AllUnpaidIncome = () => {
   const handleUpdate = (id) => {
     navigate(`/unPaid-Update/${id}`)
   }
+
+  // const handleDelete = async (id) => {
+  //   const res = await axiosPublic.delete(`/unpaid-income/${id}`)
+  //   if (res.data.deletedCount === 1) {
+  //     toast.success('delete done')
+  //     refetch()
+  //   } else {
+  //     alert('error')
+  //   }
+  // }
+
 const handleDelete = async (id, data) => {
   Swal.fire({
     title: 'আপনি কি বকেয়ার সম্পূর্ণ টাকা পেয়েছেন?',
@@ -45,27 +56,26 @@ const handleDelete = async (id, data) => {
     if (result.isConfirmed) {
       try {
         const enteredAmount = Number(result.value);
+toast(`delete amount: ${enteredAmount}`)
+      //   // dailyIncome এ পাঠানোর ডাটা
+      //   const dailyIncomeData = {
+      //     title: data.title,
+      //     price: enteredAmount, 
+      //     category: data.category,
+      //     customerName: data.customerName,
+      //     phoneNumber: data.phoneNumber,
+      //     salesmanName: data.salesmanName,
+      //     time: data.time,
+      //     date: data.date,
+      //   };
 
-        // dailyIncome এ পাঠানোর ডাটা
-        const dailyIncomeData = {
-          title: data.title,
-          price: enteredAmount, // ইউজারের দেওয়া ইনপুট
-          offerPrice: 0, // চাইলে 0 রাখা হচ্ছে
-          category: data.category,
-          customerName: data.customerName,
-          phoneNumber: data.phoneNumber,
-          salesmanName: data.salesmanName,
-          time: data.time,
-          date: data.date,
-        };
+      //   // প্রথমে dailyIncome DB তে সেভ
+      //   await axiosPublic.post("/dailyIncome", dailyIncomeData);
 
-        // প্রথমে dailyIncome DB তে সেভ
-        await axiosPublic.post("/dailyIncome", dailyIncomeData);
-
-      const categoryData = { categoryName: data.category, price: enteredAmount, categoryId: data.time,
-      date: data.date }
+      // const categoryData = { categoryName: data.category, price: enteredAmount, categoryId: data.time,
+      // date: data.date }
       
-      await axiosPublic.post('/category',categoryData)
+      // await axiosPublic.post('/category',categoryData)
         // এরপর unpaid থেকে ডিলিট
         const res = await axiosPublic.delete(`/unpaid-income/${id}`);
 
@@ -116,7 +126,7 @@ const handleDelete = async (id, data) => {
                                 <th>{ data.salesmanName}</th>
                                 <td>{ data.customerName}</td>
                                 <td>{ data.title}</td>
-                                <td className='font-medium'>নগদ: <span className='text-green-600'>{data.paidTK}</span> , বকেয়া: <span className='text-red-600'>{ data.unPaidTK}</span></td>
+                                <td className='font-medium'>নগদ: <span className='text-green-600'>{data.paidTk}</span> , বকেয়া: <span className='text-red-600'>{ data.totalUnpaid}</span></td>
                                 <td>{ data.date}</td>
                                 <td>{ data.phoneNumber}</td>
        <th className="flex gap-3">

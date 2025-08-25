@@ -8,79 +8,105 @@ import { useQuery } from "@tanstack/react-query";
 import { ScaleLoader } from "react-spinners";
 
 const UpdateUnpaid = () => {
-  const { id } = useParams(); // এখানে শুধু string id আসবে
+  const { id } = useParams();
   const navigate = useNavigate();
   const axiosPublic = useAxiosPublic();
 
-  const [title, setTitle] = useState("");
-  const [category, setCategory] = useState("");
-  const [paidTK, setPaidTK] = useState("");
-  const [unPaidTK, setUnpaidTK] = useState("");
+  // states
+  const [categories, setCategories] = useState([]);
+  const [selectedCategory, setSelectedCategory] = useState("");
+  const [currentPrice, setCurrentPrice] = useState("");
+  const [paidTk, setPaidTk] = useState("");
   const [customerName, setCustomerName] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
   const [salesmanName, setSalesmanName] = useState("");
+  const [unPaid, setUnPaid] = useState(0);
 
-  // ডেটা ফেচ করা হচ্ছে
+  // fetch unpaid data
   const { data: unpaidData, isLoading } = useQuery({
     queryKey: ["unpaid-income-get", id],
     queryFn: async () => {
       const res = await axiosPublic.get(`/unpaid-Income-Paid/${id}`);
       return res.data;
     },
-    enabled: !!id, // id না থাকলে query চলবে না
+    enabled: !!id,
   });
 
-  // unpaidData আসলে form এ সেট করে দিচ্ছি
+  // set fetched data into form
   useEffect(() => {
     if (unpaidData) {
-      setTitle(unpaidData.title || "");
-      setCategory(unpaidData.category || "");
-      setPaidTK(unpaidData.paidTK || "");
-      setUnpaidTK(unpaidData.unPaidTK || "");
+      setCategories(unpaidData.categories || []);
+      setPaidTk(unpaidData.paidTk || "");
       setCustomerName(unpaidData.customerName || "");
       setPhoneNumber(unpaidData.phoneNumber || "");
       setSalesmanName(unpaidData.salesmanName || "");
+
+      // total price of all categories
+      const totalCat = (unpaidData.categories || []).reduce(
+        (sum, c) => sum + Number(c.price || 0),
+        0
+      );
+      setUnPaid(totalCat);
     }
   }, [unpaidData]);
 
-  // সময় ও তারিখ (বাংলায়)
-  const now = new Date();
-  const time = now.toLocaleTimeString("en-US", {
-    hour: "2-digit",
-    minute: "2-digit",
-  });
-  const date = now.toLocaleDateString("en-US", {
-    weekday: "long",
-    day: "numeric",
-    month: "long",
-    year: "numeric",
-  });
-  const dateBD = now.toLocaleDateString("bn-BD", {
-    weekday: "long",
-    day: "numeric",
-    month: "long",
-    year: "numeric",
-  });
+  // calculate total unpaid
+  const totalUnpaid = unPaid - Number(paidTk || 0);
 
-  // Update handler
+  // add category
+  const handleAddCategory = () => {
+    if (!selectedCategory) {
+      toast.error("প্রথমে ক্যাটাগরি নির্বাচন করুন");
+      return;
+    }
+    if (!currentPrice) {
+      toast.error("প্রথমে প্রাইস লিখুন");
+      return;
+    }
+
+    const newCat = { name: selectedCategory, price: Number(currentPrice) };
+    setCategories([...categories, newCat]);
+    setUnPaid((prev) => prev + Number(currentPrice));
+
+    setSelectedCategory("");
+    setCurrentPrice("");
+  };
+
+  // remove category
+  const removeCategory = (index) => {
+    const removed = categories[index];
+    setCategories(categories.filter((_, i) => i !== index));
+    setUnPaid((prev) => prev - removed.price);
+  };
+
+  // update handler
   const handleUpdateUnpaidIncome = async (e) => {
     e.preventDefault();
 
     const updatedData = {
-      title,
-      category,
-      paidTK,
-      unPaidTK,
+      paidTk,
+      categories,
+      totalUnpaid,
       customerName,
       phoneNumber,
       salesmanName,
-      time,
-      date,
+      time: new Date().toLocaleTimeString("en-US", {
+        hour: "2-digit",
+        minute: "2-digit",
+      }),
+      date: new Date().toLocaleDateString("bn-BD", {
+        weekday: "long",
+        day: "numeric",
+        month: "long",
+        year: "numeric",
+      }),
     };
 
     try {
-      const res = await axiosPublic.put(`/unpaid-Income-Paid/${id}`, updatedData);
-
+      const res = await axiosPublic.put(
+        `/unpaid-Income-Paid/${id}`,
+        updatedData
+      );
       if (res.data.modifiedCount > 0) {
         toast.success("বকেয়া হিসাব সফলভাবে আপডেট হয়েছে 🎉");
         navigate("/all-unpaid-income");
@@ -94,62 +120,39 @@ const UpdateUnpaid = () => {
   };
 
   if (isLoading) {
-    return <p className="flex justify-center items-center h-screen">  <ScaleLoader color="#36d7b7" /></p>;
+    return (
+      <p className="flex justify-center items-center h-screen">
+        <ScaleLoader color="#36d7b7" />
+      </p>
+    );
   }
 
   return (
     <div className="pb-5">
       <Helmet>
-        <title>স্টাইলম্যান | আপডেট বকেয়া হিসাব </title>
+        <title>স্টাইলম্যান | আপডেট বকেয়া হিসাব</title>
       </Helmet>
       <div className="bg-black text-white p-4 my-5 flex items-center justify-between">
         <h2 className="text-lg font-semibold">বকেয়া হিসাব আপডেট</h2>
         <NavLink to={"/all-unpaid-income"}>
-          <button className="text-sm md:text-lg lg:text-lg text-red-600 underline hover: scale-110 ">
+          <button className="text-sm md:text-lg lg:text-lg text-red-600 underline hover:scale-110">
             বকেয়া হিসাবগুলো দেখুন
           </button>
         </NavLink>
       </div>
 
       <div className="w-[90%] md:w-[75%] lg:w-[60%] mx-auto p-6 bg-white rounded-md shadow-md">
-        <h4 className="text-white bg-red-600 p-2 text-sm mb-2 rounded-lg">
-          <span className="font-semibold">আজকের তারিখ:</span> ‍{dateBD}
-        </h4>
-
         <form className="space-y-4" onSubmit={handleUpdateUnpaidIncome}>
-          {/* Title & Category */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div>
-              <label
-                htmlFor="title"
-                className="block text-sm font-medium text-gray-700 mb-1"
-              >
-                শিরোনাম <span className="text-red-600">*</span>
-              </label>
-              <input
-                type="text"
-                id="title"
-                value={title}
-                onChange={(e) => setTitle(e.target.value)}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md"
-                placeholder="পণ্যের বা সেবার নাম"
-                required
-              />
-            </div>
-
-            <div>
-              <label
-                htmlFor="category"
-                className="block text-sm font-medium text-gray-700 mb-1"
-              >
-                ক্যাটাগরি <span className="text-red-600">*</span>
-              </label>
+          {/* categories */}
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">
+              ক্যাটাগরি ও টাকা (একাধিক যোগ করতে পারবেন)
+            </label>
+            <div className="flex gap-2 mb-2">
               <select
-                id="category"
-                value={category}
-                onChange={(e) => setCategory(e.target.value)}
+                value={selectedCategory}
+                onChange={(e) => setSelectedCategory(e.target.value)}
                 className="w-full px-3 py-2 border border-gray-300 rounded-md"
-                required
               >
                 <option value="">-- ক্যাটাগরি নির্বাচন করুন --</option>
                 <option value="শার্ট">শার্ট</option>
@@ -159,101 +162,102 @@ const UpdateUnpaid = () => {
                 <option value="শীতবস্ত্র">শীতবস্ত্র</option>
                 <option value="অন্যান্য">অন্যান্য</option>
               </select>
+
+              <input
+                type="number"
+                value={currentPrice}
+                onChange={(e) => setCurrentPrice(e.target.value)}
+                placeholder="৳"
+                className="px-3 py-2 border border-gray-300 rounded-md w-28"
+              />
+              <button
+                type="button"
+                onClick={handleAddCategory}
+                className="bg-green-500 text-white px-3 rounded-md text-sm"
+              >
+                যোগ করুন
+              </button>
+            </div>
+
+            {/* selected categories */}
+            <div className="flex flex-wrap gap-2 mt-2">
+              {categories.map((cat, idx) => (
+                <span
+                  key={idx}
+                  className="bg-blue-100 text-blue-700 px-2 py-1 rounded flex items-center gap-1"
+                >
+                  {cat.name}: {cat.price.toLocaleString("bn-BD")} ৳
+                  <button
+                    type="button"
+                    onClick={() => removeCategory(idx)}
+                    className="text-red-500 font-bold"
+                  >
+                    ×
+                  </button>
+                </span>
+              ))}
             </div>
           </div>
 
-          {/* Paid & Unpaid */}
+          {/* customer info */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
-              <label
-                htmlFor="paidTK"
-                className="block text-sm font-medium text-gray-700 mb-1"
-              >
-                নগদ (৳) <span className="text-red-600">*</span>
-              </label>
-              <input
-                type="number"
-                id="paidTK"
-                value={paidTK}
-                onChange={(e) => setPaidTK(e.target.value)}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md"
-                placeholder="0.00 ৳"
-                required
-              />
-            </div>
-            <div>
-              <label
-                htmlFor="unPaidTK"
-                className="block text-sm font-medium text-gray-700 mb-1"
-              >
-                বকেয়া (৳) <span className="text-red-600">*</span>
-              </label>
-              <input
-                type="number"
-                id="unPaidTK"
-                value={unPaidTK}
-                onChange={(e) => setUnpaidTK(e.target.value)}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md"
-                placeholder="0.00 ৳"
-              />
-            </div>
-          </div>
-
-          {/* Customer & Phone */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div>
-              <label
-                htmlFor="customerName"
-                className="block text-sm font-medium text-gray-700 mb-1"
-              >
-                ক্রেতার নাম <span className="text-red-600">*</span>
+              <label className="block text-sm font-medium text-gray-700 mb-1">
+                ক্রেতার নাম
               </label>
               <input
                 type="text"
-                id="customerName"
                 value={customerName}
                 onChange={(e) => setCustomerName(e.target.value)}
                 className="w-full px-3 py-2 border border-gray-300 rounded-md"
-                placeholder="ক্রেতার নাম"
                 required
               />
             </div>
             <div>
-              <label
-                htmlFor="phoneNumber"
-                className="block text-sm font-medium text-gray-700 mb-1"
-              >
-                ফোন নাম্বার <span className="text-red-600">*</span>
+              <label className="block text-sm font-medium text-gray-700 mb-1">
+                ফোন নাম্বার
               </label>
               <input
                 type="number"
-                id="phoneNumber"
                 value={phoneNumber}
                 onChange={(e) => setPhoneNumber(e.target.value)}
                 className="w-full px-3 py-2 border border-gray-300 rounded-md"
-                placeholder="+৮৮ ০১২ ৩৪৫৬ ৭৮৯০"
                 required
               />
             </div>
           </div>
 
-          {/* Salesman */}
-          <div>
-            <label
-              htmlFor="salesmanName"
-              className="block text-sm font-medium text-gray-700 mb-1"
-            >
-              হিসাবকারীর নাম <span className="text-red-600">*</span>
-            </label>
-            <input
-              type="text"
-              id="salesmanName"
-              value={salesmanName}
-              onChange={(e) => setSalesmanName(e.target.value)}
-              className="w-full px-3 py-2 border border-gray-300 rounded-md"
-              placeholder="হিসাবকারীর নাম"
-              required
-            />
+          {/* salesman & paidTk */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">
+                হিসাবকারীর নাম
+              </label>
+              <input
+                type="text"
+                value={salesmanName}
+                onChange={(e) => setSalesmanName(e.target.value)}
+                className="w-full px-3 py-2 border border-gray-300 rounded-md"
+                required
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">
+                নগদ (৳)
+              </label>
+              <input
+                type="number"
+                value={paidTk}
+                onChange={(e) => setPaidTk(e.target.value)}
+                className="w-full px-3 py-2 border border-gray-300 rounded-md"
+                required
+              />
+            </div>
+          </div>
+
+          {/* total unpaid */}
+          <div className="text-right font-semibold">
+            মোট বকেয়া: {totalUnpaid.toLocaleString("bn-BD")} ৳
           </div>
 
           <button
