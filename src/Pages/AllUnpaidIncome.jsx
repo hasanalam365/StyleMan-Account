@@ -103,46 +103,60 @@ toast(`delete amount: ${enteredAmount}`)
                           <h2 className=" font-semibold"> বকেয়া লেনদেনগুলো</h2>
                           
                   </div>
-            <div className="overflow-x-auto">
+           <div className="overflow-x-auto">
   <table className="table table-xs">
     <thead>
       <tr>
         <th>নং</th>
         <th>হিসাবকারীর নাম</th>
         <th>কাস্টমারের নাম</th>
-        <th>শিরোনাম</th>
+        <th>ক্যাটাগরি</th>
         <th>টাকার পরিমাণ (৳)</th>
-    
         <th>তারিখ</th>
         <th>ফোন নাম্বার</th>
-        <th>অ্যাকশন </th>
+        <th>অ্যাকশন</th>
       </tr>
-                    </thead>
-                    
-    <tbody className='divide-y'>
-                        {
-                            unpaidIncomes?.map((data,idx)=><tr key={data._id}>
-                                <th>{ idx + 1}</th>
-                                <th>{ data.salesmanName}</th>
-                                <td>{ data.customerName}</td>
-                                <td>{ data.title}</td>
-                                <td className='font-medium'>নগদ: <span className='text-green-600'>{data.paidTk}</span> , বকেয়া: <span className='text-red-600'>{ data.totalUnpaid}</span></td>
-                                <td>{ data.date}</td>
-                                <td>{ data.phoneNumber}</td>
-       <th className="flex gap-3">
-                           <button onClick={()=> handleUpdate(data._id)}><FaEdit className="text-lg text-green-600 hover:scale-125" /></button>
-                           <button onClick={() => handleDelete(data._id,data)}>
-                             <MdDeleteForever className="text-lg text-red-600 hover:scale-125" />
-                           </button>
-                         </th>
-      </tr>)
-      }
-      
-      
+    </thead>
+
+    <tbody className="divide-y">
+      {unpaidIncomes?.map((data, idx) => (
+        <tr key={data._id}>
+          <th>{idx + 1}</th>
+          <td>{data.salesmanName}</td>
+          <td>{data.customerName}</td>
+
+          {/* ✅ Category গুলোকে join করে দেখানো */}
+          <td>
+            {data.categories?.map((category, i) => (
+              <span key={i} className="px-1">
+                {category.name}
+                {i < data.categories.length - 1 && ","}
+              </span>
+            ))}
+          </td>
+
+          <td className="font-medium">
+            নগদ: <span className="text-green-600">{data.paidTk}</span> , বকেয়া:{" "}
+            <span className="text-red-600">{data.totalUnpaid}</span>
+          </td>
+
+          <td>{data.date}</td>
+          <td>{data.phoneNumber}</td>
+
+          <td className="flex gap-3">
+            <button onClick={() => handleUpdate(data._id)}>
+              <FaEdit className="text-lg text-green-600 hover:scale-125" />
+            </button>
+            <button onClick={() => handleDelete(data._id, data)}>
+              <MdDeleteForever className="text-lg text-red-600 hover:scale-125" />
+            </button>
+          </td>
+        </tr>
+      ))}
     </tbody>
-  
   </table>
 </div>
+
         </div>
     );
 };

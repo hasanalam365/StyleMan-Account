@@ -32,6 +32,9 @@ const UpdateUnpaid = () => {
     enabled: !!id,
   });
 
+
+  console.log('unpaidData :',unpaidData)
+
   // set fetched data into form
   useEffect(() => {
     if (unpaidData) {
@@ -90,17 +93,10 @@ const UpdateUnpaid = () => {
       customerName,
       phoneNumber,
       salesmanName,
-      time: new Date().toLocaleTimeString("en-US", {
-        hour: "2-digit",
-        minute: "2-digit",
-      }),
-      date: new Date().toLocaleDateString("bn-BD", {
-        weekday: "long",
-        day: "numeric",
-        month: "long",
-        year: "numeric",
-      }),
+     
     };
+
+  
 
     try {
       const res = await axiosPublic.put(
