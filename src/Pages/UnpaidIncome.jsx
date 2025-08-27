@@ -21,6 +21,12 @@ const UnpaidIncome = () => {
   // সময় ও তারিখ
   const now = new Date();
   const time = now.toLocaleTimeString("en-US", { hour: "2-digit", minute: "2-digit" });
+  const date = now.toLocaleDateString("en-US", {
+    weekday: "long",
+    day: "numeric",
+    month: "long",
+    year: "numeric"
+  });
   const dateBD = now.toLocaleDateString("bn-BD", {
     weekday: "long",
     day: "numeric",
@@ -78,7 +84,11 @@ const UnpaidIncome = () => {
       salesmanName,
       time,
       date: dateBD,
+    
     };
+
+  
+
 
 
 
@@ -86,6 +96,9 @@ const UnpaidIncome = () => {
       const res = await axiosPublic.post("/unPaidIncome", unpaidIncomeData);
 
       if (res.data.insertedId) {
+         const catData = { categories, date, time, catId: res.data.insertedId }
+        await axiosPublic.post("/categories", catData);
+      
         // Reset form
         setPaidTk("");
         setCategories([]);

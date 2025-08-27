@@ -7,13 +7,14 @@ import { MdDeleteForever } from 'react-icons/md';
 import { useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import { toast } from 'react-toastify';
+import { ScaleLoader } from 'react-spinners';
 
 const AllUnpaidIncome = () => {
 
   const axiosPublic = useAxiosPublic()
   const navigate = useNavigate()
 
-    const { data: unpaidIncomes = [],refetch } = useQuery({
+    const { data: unpaidIncomes = [],refetch,isLoading } = useQuery({
         queryKey: ['all-unpaid-incomes'],
         queryFn: async () => {
             const res = await axiosPublic.get('/unPaidIncome')
@@ -22,61 +23,30 @@ const AllUnpaidIncome = () => {
 })
 
     
+  
+const totalUnpaid = unpaidIncomes.reduce((sum, item) => sum + item.totalUnpaid, 0);
+
+
+  
   const handleUpdate = (id) => {
     navigate(`/unPaid-Update/${id}`)
   }
 
-  // const handleDelete = async (id) => {
-  //   const res = await axiosPublic.delete(`/unpaid-income/${id}`)
-  //   if (res.data.deletedCount === 1) {
-  //     toast.success('delete done')
-  //     refetch()
-  //   } else {
-  //     alert('error')
-  //   }
-  // }
 
-const handleDelete = async (id, data) => {
+
+const handleDelete = async (id) => {
   Swal.fire({
     title: 'আপনি কি বকেয়ার সম্পূর্ণ টাকা পেয়েছেন?',
-    text: 'প্রাপ্ত টাকার পরিমাণ লিখুন',
-    input: 'number', // custom input
-    inputPlaceholder: 'টাকার পরিমাণ লিখুন',
     showCancelButton: true,
     confirmButtonColor: '#d33',
     cancelButtonColor: '#3085d6',
     confirmButtonText: 'হ্যাঁ, নিশ্চিত',
     cancelButtonText: 'বাতিল',
-    inputValidator: (value) => {
-      if (!value) {
-        return 'অনুগ্রহ করে একটি পরিমাণ লিখুন';
-      }
-    }
+   
   }).then(async (result) => {
     if (result.isConfirmed) {
       try {
-        const enteredAmount = Number(result.value);
-toast(`delete amount: ${enteredAmount}`)
-      //   // dailyIncome এ পাঠানোর ডাটা
-      //   const dailyIncomeData = {
-      //     title: data.title,
-      //     price: enteredAmount, 
-      //     category: data.category,
-      //     customerName: data.customerName,
-      //     phoneNumber: data.phoneNumber,
-      //     salesmanName: data.salesmanName,
-      //     time: data.time,
-      //     date: data.date,
-      //   };
 
-      //   // প্রথমে dailyIncome DB তে সেভ
-      //   await axiosPublic.post("/dailyIncome", dailyIncomeData);
-
-      // const categoryData = { categoryName: data.category, price: enteredAmount, categoryId: data.time,
-      // date: data.date }
-      
-      // await axiosPublic.post('/category',categoryData)
-        // এরপর unpaid থেকে ডিলিট
         const res = await axiosPublic.delete(`/unpaid-income/${id}`);
 
         if (res.data.deletedCount === 1) {
@@ -92,15 +62,22 @@ toast(`delete amount: ${enteredAmount}`)
   });
 };
 
-
+ if (isLoading) {
+    return (
+      <p className="flex justify-center items-center h-screen">
+        <ScaleLoader color="#36d7b7" />
+      </p>
+    );
+  }
   
     return (
         <div>
             <Helmet>
                                 <title>স্টাইলম্যান | বকেয়া লেনদেনগুলো</title>
                             </Helmet>
-                  <div className="bg-red-600 text-white p-4 my-5 text-center ">
+                  <div className="bg-red-600 text-white p-4 my-5  flex items-center justify-between">
                           <h2 className=" font-semibold"> বকেয়া লেনদেনগুলো</h2>
+          <h2 className=" "> মোট বকেয়া: ৳ { totalUnpaid.toLocaleString("bn-BD")} </h2>
                           
                   </div>
            <div className="overflow-x-auto">
@@ -136,8 +113,8 @@ toast(`delete amount: ${enteredAmount}`)
           </td>
 
           <td className="font-medium">
-            নগদ: <span className="text-green-600">{data.paidTk}</span> , বকেয়া:{" "}
-            <span className="text-red-600">{data.totalUnpaid}</span>
+            নগদ: <span className="text-green-600"> {Number(data.paidTk).toLocaleString("bn-BD")}</span> , বকেয়া:{" "}
+            <span className="text-red-600">{data.totalUnpaid.toLocaleString("bn-BD")}</span>
           </td>
 
           <td>{data.date}</td>
@@ -147,7 +124,7 @@ toast(`delete amount: ${enteredAmount}`)
             <button onClick={() => handleUpdate(data._id)}>
               <FaEdit className="text-lg text-green-600 hover:scale-125" />
             </button>
-            <button onClick={() => handleDelete(data._id, data)}>
+            <button onClick={() => handleDelete(data._id)}>
               <MdDeleteForever className="text-lg text-red-600 hover:scale-125" />
             </button>
           </td>

@@ -73,7 +73,7 @@ const monthlyIncome = (dailyIncomes || []).reduce((total, dailyIncome) => {
 // Convert to Bangla locale string
 const monthlyIncomeBN = monthlyIncome.toLocaleString('bn-BD');
 
-console.log("মোট মাসিক আয়:", monthlyIncomeBN);
+
 
 
   // Pagination calculation
